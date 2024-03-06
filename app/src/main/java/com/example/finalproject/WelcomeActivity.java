@@ -2,6 +2,7 @@ package com.example.finalproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,7 +26,10 @@ public class WelcomeActivity extends AppCompatActivity {
         btnLogin.setAnimation(animation_btn_bottom);
 
         btnSignup = findViewById(R.id.btnSignup);
-        btnSignup.setAnimation(animation_btn_bottom);
+        btnSignup.setOnClickListener(v -> {
+            Intent intent = new Intent(WelcomeActivity.this, SignUpActivity.class);
+            startActivity(intent);
+        });
 
         btnForgotPassword = findViewById(R.id.btnForgot);
         btnForgotPassword.setAnimation(animation_btn_bottom);
