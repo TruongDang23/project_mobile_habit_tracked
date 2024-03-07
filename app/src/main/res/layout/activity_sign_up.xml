@@ -63,6 +63,7 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/edittext_background"
             android:drawableStart="@drawable/wel_password"
+            android:drawableEnd="@drawable/wel_eyes"
             android:drawablePadding="50dp"
             android:ems="10"
             android:hint="Your password"
@@ -71,6 +72,7 @@
             android:textColor="#187BCE"
             android:textSize="20dp"
             android:textStyle="bold" />
+
 
         <EditText
             android:id="@+id/edtRepassword"
@@ -81,9 +83,10 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/edittext_background"
             android:drawableStart="@drawable/wel_password"
+            android:drawableEnd="@drawable/wel_eyes"
             android:drawablePadding="50dp"
             android:ems="10"
-            android:hint="Re-enter your password"
+            android:hint="Re-enter pass"
             android:inputType="textPassword"
             android:padding="15dp"
             android:textColor="#187BCE"
