@@ -32,7 +32,10 @@ public class WelcomeActivity extends AppCompatActivity {
         });
 
         btnForgotPassword = findViewById(R.id.btnForgot);
-        btnForgotPassword.setAnimation(animation_btn_bottom);
+        btnForgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(WelcomeActivity.this, ForgotActivity.class);
+            startActivity(intent);
+        });
 
         etUsername = findViewById(R.id.et_username);
         animation_et_right = AnimationUtils.loadAnimation(this, R.anim.anime_et_right);
