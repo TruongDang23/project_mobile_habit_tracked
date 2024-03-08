@@ -48,7 +48,7 @@
             android:ems="10"
             android:hint="Enter your username"
             android:inputType="textPersonName"
-            android:padding="8dp"
+            android:padding="10dp"
             android:textColor="#187BCE"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -76,8 +76,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="125dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_weight="1"
             android:backgroundTint="#187BCE"
             android:gravity="center"
@@ -91,8 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
             android:background="@drawable/edittext_background"
             android:drawableStart="@drawable/wel_password"
             android:drawablePadding="50dp"
@@ -102,6 +102,16 @@
             android:textColor="#187BCE"
             android:textSize="20dp"
             android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/imgLogin_Forgot"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/forgot_back"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"/>
 
     </LinearLayout>
 
