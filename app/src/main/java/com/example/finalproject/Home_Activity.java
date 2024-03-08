@@ -53,6 +53,10 @@ public class Home_Activity extends AppCompatActivity {
         arrayListHome.add(new ListviewHomeTest("Running", "11:00", "200/500"));
         arrayListHome.add(new ListviewHomeTest("Swimming", "12:00", "300/500"));
         arrayListHome.add(new ListviewHomeTest("Cycling", "13:00", "400/500"));
+        arrayListHome.add(new ListviewHomeTest("Reading", "10:00", "100/500"));
+        arrayListHome.add(new ListviewHomeTest("Running", "11:00", "200/500"));
+        arrayListHome.add(new ListviewHomeTest("Swimming", "12:00", "300/500"));
+
 
         adapterHome = new LisviewHomeTestAdapter(arrayListHome, Home_Activity.this);
         listHome.setAdapter(adapterHome);
