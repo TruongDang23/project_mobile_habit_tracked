@@ -71,10 +71,10 @@
             android:layout_height="wrap_content">
             <Button
                 android:layout_margin="10dp"
-                android:id="@+id/button7"
+                android:id="@+id/btnHomeMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button 3" />
+                android:text="Home Main" />
             <Button
                 android:layout_margin="10dp"
                 android:id="@+id/button8"

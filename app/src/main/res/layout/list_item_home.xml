@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_marginTop="20dp"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="113dp">
+
+        <TextView
+            android:id="@+id/tvHomeListTitle"
+            android:layout_width="139dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:text="Reading"
+            android:textColor="#187BCE"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/home_list_clock"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvHomeListTime"
+            android:layout_width="100dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="52dp"
+            android:text="10:00AM"
+            android:textColor="#868e96"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/tvDoneProgress"
+            android:layout_width="100dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="92dp"
+            android:text="500/1000"
+            android:textColor="#868e96"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextSizeCheck" />
+
+        <!--        THêm các nút tăng-->
+
+        <ProgressBar
+            android:id="@+id/pbHomeListProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="4dp"
+            android:progress="50"
+            android:progressTint="#187BCE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/ibHomeListPlus"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:background="@null"
+            android:contentDescription="NULL"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/home_list_plus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#187BCE"
+            tools:ignore="SizeUsage" />
+
+        <ImageButton
+            android:id="@+id/ibHomeListMinus"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="4dp"
+            android:background="@null"
+            android:contentDescription="NULL"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/home_list_minus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#187BCE" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
