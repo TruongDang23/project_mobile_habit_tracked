@@ -12,16 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProject"
         tools:targetApi="31">
-        <activity
-            android:name=".InformationActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".InformationActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ForgotActivity"
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
-            android:name=".Home_Activity"
             android:exported="false" />
+        <activity 
+            android:name=".Home_Activity"
+            android:exported="false"/>
         <activity
             android:name=".WelcomeActivity"
             android:exported="false" />
