@@ -2,32 +2,30 @@ package com.example.finalproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-Button test,test2;
-    @SuppressLint("MissingInflatedId")
+    Button btnWelcome, btnHomeMain;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        test=findViewById(R.id.button);
-        test2=findViewById(R.id.button2);
-        test.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        setContentView(R.layout.activity_setting);
-    }
-});
-        test2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setContentView(R.layout.edit_infor);
-            }
+
+        btnWelcome = findViewById(R.id.btnWelcome);
+        btnWelcome.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+            startActivity(intent);
         });
-        // This is a comment
+
+        btnHomeMain = findViewById(R.id.btnHomeMain);
+        btnHomeMain.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Home_Activity.class);
+            startActivity(intent);
+        });
+
     }
 }
