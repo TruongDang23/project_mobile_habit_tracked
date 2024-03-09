@@ -3,7 +3,9 @@ package com.example.finalproject;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ public class Home_Activity extends AppCompatActivity {
     ListView listHome;
     ArrayList<ListviewHomeTest> arrayListHome;
     LisviewHomeTestAdapter adapterHome;
+    Button btnNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,5 +63,11 @@ public class Home_Activity extends AppCompatActivity {
 
         adapterHome = new LisviewHomeTestAdapter(arrayListHome, Home_Activity.this);
         listHome.setAdapter(adapterHome);
+
+        btnNew = findViewById(R.id.btnNew);
+        btnNew.setOnClickListener(v -> {
+            Intent intent = new Intent(Home_Activity.this, Create_habit.class);
+            startActivity(intent);
+        });
     }
 }

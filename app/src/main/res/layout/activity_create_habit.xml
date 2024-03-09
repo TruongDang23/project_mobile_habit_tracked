@@ -61,7 +61,7 @@
             android:layout_marginTop="2dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Name"
+            android:hint="Name"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toTopOf="parent" />

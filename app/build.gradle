@@ -43,6 +43,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    // https://mvnrepository.com/artifact/com.github.gastricspark/scrolldatepicker
+    //https://mvnrepository.com/artifact/com.github.gastricspark/scrolldatepicker
     implementation group: 'com.github.gastricspark', name: 'scrolldatepicker', version: '0.0.1'
 }
