@@ -2,15 +2,18 @@ package com.example.finalproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ForgotActivity extends AppCompatActivity {
     Button btnGetpass;
+    ImageButton imgLogin;
     EditText edt_username, edt_email, edt_yourpassword;
     TextView tvWelcomeTitle;
     Animation animation_et_right, animation_et_left, animation_tvHomeTitle;
@@ -18,6 +21,12 @@ public class ForgotActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot);
+
+        imgLogin = findViewById(R.id.imgLogin_Forgot);
+        imgLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(ForgotActivity.this, WelcomeActivity.class);
+            startActivity(intent);
+        });
 
         tvWelcomeTitle = findViewById(R.id.tvWelcomeTitle);
         animation_tvHomeTitle = AnimationUtils.loadAnimation(this, R.anim.anime_tv);
