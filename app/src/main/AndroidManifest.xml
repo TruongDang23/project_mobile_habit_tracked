@@ -28,6 +28,12 @@
             android:name=".WelcomeActivity"
             android:exported="false" />
         <activity
+            android:name=".Create_habit"
+            android:exported="false" />
+        <activity
+            android:name=".Setting"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
