@@ -6,27 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".Setting">
-
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="47dp"
-        android:layout_height="46dp"
-        android:background="@color/white"
-        android:contentDescription="FinalProject"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/set_back" />
-
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
         android:text="Setting"
-        android:textColor="@color/black"
-        android:textSize="20dp"
+        android:gravity="center"
+        android:textColor="@color/Blue"
+        android:textSize="40dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,7 +78,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
-            android:id="@+id/txtName"
+            android:id="@+id/txtgender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -106,7 +97,7 @@
             android:text="23/09/1709"
             android:textSize="18dp"
             app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/txtName" />
+            app:layout_constraintTop_toBottomOf="@+id/txtgender" />
 
         <TextView
             android:id="@+id/txtPhone"
@@ -125,14 +116,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="272dp"
             android:layout_marginTop="252dp"
-            android:background="@drawable/btn_background"
             android:text="Edit"
             android:textStyle="bold"
+            android:backgroundTint="@color/Blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/imvAvatar"
             android:src="@drawable/ic_launcher_background"
             android:layout_width="125dp"
             android:layout_height="125dp"
@@ -206,7 +197,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/swSound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
@@ -217,27 +208,27 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner2" />
 
     <Switch
-        android:id="@+id/switch2"
+        android:id="@+id/swSatety"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch3" />
+        app:layout_constraintTop_toBottomOf="@+id/swNotification" />
 
     <Switch
-        android:id="@+id/switch3"
+        android:id="@+id/swNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch1" />
+        app:layout_constraintTop_toBottomOf="@+id/swSound" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spnLanguage"
         android:layout_width="52dp"
         android:layout_height="48dp"
         android:layout_marginStart="245dp"
@@ -255,7 +246,100 @@
         android:layout_marginEnd="36dp"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/spnLanguage" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/ib_home"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="NULL"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/home_home"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.044"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:tint="#495057" />
+
+        <ImageButton
+            android:id="@+id/ib_graph"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="NULL"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/home_graph"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.268"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:tint="#495057" />
+
+        <ImageButton
+            android:id="@+id/ib_music"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="NULL"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/home_music"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:tint="#495057" />
+
+        <ImageButton
+            android:id="@+id/ib_clock"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="NULL"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/home_clock"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.731"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:tint="#495057" />
+
+        <ImageButton
+            android:id="@+id/ib_settings"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="NULL"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/home_setting"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.955"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:tint="@color/Blue" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
