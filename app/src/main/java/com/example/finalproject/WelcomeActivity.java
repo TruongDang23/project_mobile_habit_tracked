@@ -26,6 +26,10 @@ public class WelcomeActivity extends AppCompatActivity {
         btnLogin.setAnimation(animation_btn_bottom);
 
         btnSignup = findViewById(R.id.btnSignup);
+        animation_btn_bottom = AnimationUtils.loadAnimation(this, R.anim.anime_btn_bottom);
+        btnSignup.setAnimation(animation_btn_bottom);
+
+        btnSignup = findViewById(R.id.btnSignup);
         btnSignup.setOnClickListener(v -> {
             Intent intent = new Intent(WelcomeActivity.this, SignUpActivity.class);
             startActivity(intent);
