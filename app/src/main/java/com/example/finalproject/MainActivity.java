@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnWelcome, btnHomeMain;
+    Button btnWelcome, btnHomeMain, btnProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,5 +27,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btnProgress=findViewById(R.id.button2);
+        btnProgress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.activity_progress_total);
+            }
+        });
     }
 }
