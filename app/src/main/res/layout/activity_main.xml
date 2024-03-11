@@ -33,26 +33,26 @@
                 android:text="Welcome" />
             <Button
                 android:layout_margin="10dp"
-                android:id="@+id/button2"
+                android:id="@+id/btnSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button 2" />
+                android:text="Settings" />
             <Button
                 android:layout_margin="10dp"
-                android:id="@+id/button3"
+                android:id="@+id/btnCreateHabit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button 2" />
+                android:text="Create Habit" />
         </TableRow>
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
                 android:layout_margin="10dp"
-                android:id="@+id/button4"
+                android:id="@+id/btnProgress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button 3" />
+                android:text="Progress" />
             <Button
                 android:layout_margin="10dp"
                 android:id="@+id/button5"
