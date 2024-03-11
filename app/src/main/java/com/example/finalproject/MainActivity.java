@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnWelcome, btnHomeMain, btnSettings, btnCreateHabit, btnProgress;
+    Button btnWelcome, btnHomeMain, btnSettings, btnCreateHabit, btnProgress, btnSong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
         btnProgress = findViewById(R.id.btnProgress);
         btnProgress.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ProgressActivity.class);
+            startActivity(intent);
+        });
+
+        btnSong = findViewById(R.id.btnSong);
+        btnSong.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SongsActivity.class);
             startActivity(intent);
         });
     }
