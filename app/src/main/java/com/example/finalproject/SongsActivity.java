@@ -33,8 +33,6 @@ public class SongsActivity extends AppCompatActivity {
         songTestGridViews.add(new SongTestGridView("Song 9", R.drawable.song_sample, "https://www.youtube.com/"));
         songTestGridViews.add(new SongTestGridView("Song 10", R.drawable.song_sample, "https://www.youtube.com/"));
 
-        // Create an SongTestAdapter, whose data source is a list of SongTestGridViews. The
-        // adapter knows how to create list items for each item in the list.
         SongTestAdapter SongAdapter = new SongTestAdapter(this, songTestGridViews);
         gridView.setAdapter(SongAdapter);
     }
