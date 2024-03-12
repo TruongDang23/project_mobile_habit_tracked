@@ -1,9 +1,13 @@
 package com.example.finalproject;
 
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.GridView;
+import android.widget.VideoView;
 
 import com.example.finalproject.modal.SongTestGridView;
 import com.example.finalproject.ui.SongTestAdapter;
@@ -12,6 +16,7 @@ import java.util.ArrayList;
 
 public class SongsActivity extends AppCompatActivity {
     GridView gridView;
+    public static boolean PLAY = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +40,6 @@ public class SongsActivity extends AppCompatActivity {
 
         SongTestAdapter SongAdapter = new SongTestAdapter(this, songTestGridViews);
         gridView.setAdapter(SongAdapter);
+
     }
 }
