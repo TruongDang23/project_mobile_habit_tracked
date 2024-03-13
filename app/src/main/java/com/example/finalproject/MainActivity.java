@@ -5,10 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnWelcome, btnHomeMain, btnProgress;
+    Button btnWelcome, btnHomeMain, btnSettings, btnCreateHabit, btnProgress, btnSong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +26,28 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnProgress=findViewById(R.id.button2);
-        btnProgress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setContentView(R.layout.activity_progress_total);
-            }
+        btnSettings = findViewById(R.id.btnSettings);
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Setting.class);
+            startActivity(intent);
+        });
+
+        btnCreateHabit = findViewById(R.id.btnCreateHabit);
+        btnCreateHabit.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Create_habit.class);
+            startActivity(intent);
+        });
+
+        btnProgress = findViewById(R.id.btnProgress);
+        btnProgress.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ProgressActivity.class);
+            startActivity(intent);
+        });
+
+        btnSong = findViewById(R.id.btnSong);
+        btnSong.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SongsActivity.class);
+            startActivity(intent);
         });
     }
 }

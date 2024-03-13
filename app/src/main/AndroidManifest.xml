@@ -16,6 +16,11 @@
             android:name=".Progress_total"
             android:exported="false" />
         <!-- <activity -->
+            android:name=".SongsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProgressActivity"
+            android:exported="false" /> <!-- <activity -->
         <!-- android:name=".InformationActivity" -->
         <!-- android:exported="false" /> -->
         <activity

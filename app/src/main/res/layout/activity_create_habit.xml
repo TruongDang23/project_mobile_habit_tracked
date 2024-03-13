@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Name "
             android:textColor="@color/black"
             android:textSize="20dp"
@@ -60,8 +60,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="2dp"
             android:ems="10"
-            android:inputType="text"
             android:hint="Name"
+            android:inputType="text"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toTopOf="parent" />
@@ -71,13 +71,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="50dp"
             android:text="Description"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/editTextTextMultiLine"
@@ -93,77 +93,29 @@
             app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
         <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="12dp"
-            android:text="Icon"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintStart_toEndOf="@+id/textView16"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="4dp"
-            android:text="Color"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="112dp"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="180dp"
             android:text="Unit increase"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/editTextNumber"
             android:layout_width="45dp"
             android:layout_height="38dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="20dp"
             android:ems="10"
             android:inputType="number"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/textView18"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
 
         <TextView
             android:id="@+id/textView19"
@@ -199,7 +151,7 @@
             android:layout_marginTop="7dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Reminder Message"
+            android:hint="Message"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView21" />
@@ -221,7 +173,7 @@
             android:id="@+id/textView22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Goal-Goal Period"
             android:textColor="@color/black"
@@ -234,8 +186,8 @@
             android:id="@+id/editTextNumberDecimal"
             android:layout_width="35dp"
             android:layout_height="37dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="3dp"
             android:ems="10"
             android:inputType="numberDecimal"
             app:layout_constraintStart_toStartOf="parent"
@@ -243,9 +195,10 @@
 
         <Button
             android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_width="66dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
             android:backgroundTint="@color/Blue"
             android:text="Km"
             android:textColor="@color/black"
@@ -363,7 +316,7 @@
             android:layout_width="80dp"
             android:layout_height="26dp"
             android:layout_marginStart="168dp"
-            android:layout_marginTop="504dp"
+            android:layout_marginTop="470dp"
             android:text="-------->"
             android:textSize="20dp"
             android:textStyle="bold"
