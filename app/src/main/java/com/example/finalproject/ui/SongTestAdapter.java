@@ -71,8 +71,13 @@ public class SongTestAdapter extends ArrayAdapter<SongTestGridView> {
         MediaController mediaController = new MediaController(this.getContext());
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
-        Uri uri = Uri.parse("https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1");
-        videoView.setVideoURI(uri);
+//        Uri uri = Uri.parse("https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1");
+//        videoView.setVideoURI(uri);
+
+
+        // Dùng resource trong app
+        videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t);
+
         videoView.start();
 
         btnClose.setOnClickListener(new View.OnClickListener() {
