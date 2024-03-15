@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -14,8 +15,20 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.finalproject.modal.Account;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Date;
 
 public class SignUpActivity extends AppCompatActivity {
+    FirebaseDatabase database;
+    DatabaseReference ref;
     TextView tvWelcomeTitle,tvHaveAccount;
     Button btnSignup, btnLogin;
     EditText edtUsername, edtPassword, edtRepassword;
@@ -27,10 +40,9 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        btnLogin = findViewById(R.id.btnLogin_SignUp);
-        btnLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(SignUpActivity.this, WelcomeActivity.class);
-            startActivity(intent);
+        btnSignup = findViewById(R.id.btnSignup);
+        btnSignup.setOnClickListener(v -> {
+            SignUp();
         });
 
         tvWelcomeTitle = findViewById(R.id.tvWelcomeTitle);
@@ -76,5 +88,53 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public void SignUp() {
+
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("Habit_Tracker").child("Tai_Khoan");
+
+        String desiredUsername = edtUsername.getText().toString();
+        String password = edtPassword.getText().toString();
+        String rePassword = edtRepassword.getText().toString();
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    long count = dataSnapshot.getChildrenCount() + 1;
+                    for (DataSnapshot taiKhoanSnapshot : dataSnapshot.getChildren()) {
+                        String currentUsername = taiKhoanSnapshot.child("TenDangNhap").getValue(String.class);
+                        if (desiredUsername.equals(currentUsername)) {
+                            Toast.makeText(SignUpActivity.this, "Tên Đăng Nhập Đã Tồn Tại", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    if (password.equals(rePassword)) {
+
+                        String newId = null;
+                        if(count >= 100)
+                            newId = "User" + count;
+                        else if(count >= 10)
+                            newId = "User0" + count;
+                        else if(count >= 0)
+                            newId = "User00" + count;
+                        Account newAccount = new Account(desiredUsername,password);
+                        ref.child(newId).setValue(newAccount);
+                        Toast.makeText(SignUpActivity.this, "Đăng kí tài khoản thành công", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignUpActivity.this, WelcomeActivity.class);
+                        startActivity(intent);
+                    } else {
+                        // Mật khẩu và repassword không khớp
+                        Toast.makeText(SignUpActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(SignUpActivity.this, "Không thể kết nối FireBase", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
