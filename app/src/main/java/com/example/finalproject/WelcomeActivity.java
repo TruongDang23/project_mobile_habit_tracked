@@ -1,16 +1,44 @@
 package com.example.finalproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.finalproject.databinding.ActivityMainBinding;
+import com.example.finalproject.modal.Account;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class WelcomeActivity extends AppCompatActivity {
+    private FirebaseDatabase database;
+    private DatabaseReference ref;
+    private String idTaiKhoan;
+    ActivityMainBinding binding;
+    Handler mainHandler = new Handler();
+    ProgressDialog progressDialog;
+    private String avatarTaiKhoan;
+
     Button btnLogin, btnSignup, btnForgotPassword;
     EditText etUsername, etPassword;
     TextView tvWelcomeTitle;
@@ -19,7 +47,6 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
         // Set up Animation
         btnLogin = findViewById(R.id.btnLogin);
         animation_btn_bottom = AnimationUtils.loadAnimation(this, R.anim.anime_btn_bottom);
@@ -52,5 +79,87 @@ public class WelcomeActivity extends AppCompatActivity {
         tvWelcomeTitle = findViewById(R.id.tvWelcomeTitle);
         animation_tvHomeTitle = AnimationUtils.loadAnimation(this, R.anim.anime_tv);
         tvWelcomeTitle.setAnimation(animation_tvHomeTitle);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                connectionFirebase();
+                loginUser();
+            }
+        });
+    }
+    private void connectionFirebase(){
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("Habit_Tracker").child("Tai_Khoan");
+    }
+    private void loginUser() {
+        final String username = etUsername.getText().toString();
+        final String password = etPassword.getText().toString();
+
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Vui lòng nhập tên đăng nhập và mật khẩu", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot taiKhoanSnapshot : dataSnapshot.getChildren()) {
+                        String currentUsername = taiKhoanSnapshot.child("TenDangNhap").getValue(String.class);
+                        String currentPassword = taiKhoanSnapshot.child("MatKhau").getValue(String.class);
+                        if (username.equals(currentUsername) && password.equals(currentPassword)) {
+                            // Tên đăng nhập và mật khẩu đúng
+                            String avatar = taiKhoanSnapshot.child("Avatar").getValue(String.class);
+                            String sex = taiKhoanSnapshot.child("GioiTinh").getValue(String.class);
+                            String gmail = taiKhoanSnapshot.child("Gmail").getValue(String.class);
+                            String name = taiKhoanSnapshot.child("HoTen").getValue(String.class);
+                            String bornStr = taiKhoanSnapshot.child("NgaySinh").getValue(String.class);
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                            Date bornDate = null;
+                            try {
+                                bornDate = dateFormat.parse(bornStr);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            Long phone = taiKhoanSnapshot.child("SDT").getValue(Long.class);
+                            idTaiKhoan = (String) taiKhoanSnapshot.getKey();
+                            // ... Lấy thêm thông tin khác từ Firebase
+
+                            Account account = new Account();
+                            account.setAvatar(avatar);
+                            account.setName(name);
+                            account.setSex(sex);
+                            account.setBorn(bornDate);
+                            account.setGmail(gmail);
+                            account.setPhone(phone);
+
+
+                            // Tạo Bundle và đặt đối tượng Account vào Bundle
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("user_account", account);
+                            // Tạo Intent và đặt Bundle vào Intent
+                            Intent intent = new Intent(WelcomeActivity.this, Setting.class);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                            return;
+
+                        }
+                    }
+
+                    // Xử lý trường hợp không tìm thấy tài khoản
+                    Toast.makeText(WelcomeActivity.this, "Tài khoản không tồn tại hoặc sai mật khẩu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi khi đọc dữ liệu từ Firebase
+                Toast.makeText(WelcomeActivity.this, "Lỗi khi đọc dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
