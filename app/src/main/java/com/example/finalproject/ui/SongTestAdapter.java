@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,10 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -51,33 +54,37 @@ public class SongTestAdapter extends ArrayAdapter<SongTestGridView> {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Dialog dialog = new Dialog(getContext());
-//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//                dialog.setContentView(R.layout.dialogue_video);
-//
-//                Window window = dialog.getWindow();
-//                if (window != null) {
-//                    return;
-//                }
-//                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-//                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//
-//                WindowManager.LayoutParams layoutParams = window.getAttributes();
-//                layoutParams.dimAmount = 0.6f;
-//                window.setAttributes(layoutParams);
-//
-//                Button btnClose = dialog.findViewById(R.id.btnClose);
-//                btnClose.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//                dialog.show();
+                playSong();
                 Toast.makeText(getContext(), "ImageButton clicked", Toast.LENGTH_SHORT).show();
             }
         });
         return listItemView;
+    }
+
+    public void playSong() {
+        Dialog dialog = new Dialog(this.getContext());
+        dialog.setContentView(R.layout.dialogue_video);
+
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+        dialog.show();
+        VideoView videoView = dialog.findViewById(R.id.videoView);
+        MediaController mediaController = new MediaController(this.getContext());
+        mediaController.setAnchorView(videoView);
+        videoView.setMediaController(mediaController);
+//        Uri uri = Uri.parse("https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1");
+//        videoView.setVideoURI(uri);
+
+
+        // Dùng resource trong app
+        videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t);
+
+        videoView.start();
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 }
