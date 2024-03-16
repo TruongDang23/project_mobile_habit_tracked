@@ -8,12 +8,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ProgressWeekFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ProgressWeekFragment extends Fragment {
+    private BarChart barChart;
+    private List<String> x_values = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +72,52 @@ public class ProgressWeekFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_progress_week, container, false);
+        barChart = view.findViewById(R.id.barChart);
+        setUpBarChart();
+        loadBarChartData();
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_progress_week, container, false);
+        return view;
+    }
+    private void setUpBarChart() {
+        barChart.getAxisRight().setDrawLabels(false);
+        barChart.setDrawBarShadow(false);
+        barChart.setDrawValueAboveBar(true);
+        barChart.setMaxVisibleValueCount(50);
+        barChart.setPinchZoom(false);
+        barChart.setDrawGridBackground(true);
+        barChart.setDrawBorders(true);
+        barChart.setBorderColor(getResources().getColor(R.color.Blue));
+    }
+    private void loadBarChartData() {
+        ArrayList<BarEntry> barEntriesArrayList = new ArrayList<>();
+        barEntriesArrayList.add(new BarEntry(0f, 4));
+        barEntriesArrayList.add(new BarEntry(1f, 6));
+        barEntriesArrayList.add(new BarEntry(2f, 8));
+        barEntriesArrayList.add(new BarEntry(3f, 2));
+        barEntriesArrayList.add(new BarEntry(4f, 4));
+        barEntriesArrayList.add(new BarEntry(5f, 1));
+        barEntriesArrayList.add(new BarEntry(6f, 3));
+
+        YAxis yAxis = barChart.getAxisLeft();
+        yAxis.setAxisMinimum(0);
+        yAxis.setAxisMaximum(10);
+        yAxis.setGranularity(1f);
+        yAxis.setLabelCount(10);
+
+        BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, "Weekly Progress");
+        int color = getResources().getColor(R.color.Blue);
+        barDataSet.setColor(color);
+
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+        barChart.getDescription().setEnabled(false);
+        barChart.invalidate();
+
+        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(x_values));
+        barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        barChart.getXAxis().setGranularity(1f);
+        barChart.getXAxis().setGranularityEnabled(true);
     }
 }
