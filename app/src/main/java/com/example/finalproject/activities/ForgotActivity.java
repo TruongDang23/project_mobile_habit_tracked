@@ -1,4 +1,4 @@
-package com.example.finalproject;
+package com.example.finalproject.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,20 +15,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.finalproject.modal.Account;
-import com.example.finalproject.modal.GmailSender;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.finalproject.R;
+import com.example.finalproject.model.GmailSender;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class ForgotActivity extends AppCompatActivity {
 
@@ -38,10 +30,10 @@ public class ForgotActivity extends AppCompatActivity {
     Button btnGetPass;
     ImageButton imgLogin;
     GmailSender Gmail = new GmailSender();
-    EditText edt_username, edt_email, edt_yourpassword;
+    EditText edt_username, edt_email;
 
     TextView tvWelcomeTitle;
-    Animation animation_et_right, animation_et_left, animation_tvHomeTitle;
+    Animation animation_et_left, animation_tvHomeTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +56,6 @@ public class ForgotActivity extends AppCompatActivity {
         edt_email = findViewById(R.id.edt_email);
         animation_et_left = AnimationUtils.loadAnimation(this,R.anim.anime_et_left);
         edt_email.setAnimation(animation_et_left);
-
-        edt_yourpassword = findViewById(R.id.edtYourpassword);
-        animation_et_right = AnimationUtils.loadAnimation(this,R.anim.anime_et_right);
-        edt_yourpassword.setAnimation(animation_et_right);
 
         btnGetPass = findViewById(R.id.btnGetpass);
         btnGetPass.setOnClickListener(new View.OnClickListener() {

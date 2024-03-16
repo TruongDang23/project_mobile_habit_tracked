@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".ForgotActivity">
+    tools:context=".activities.ForgotActivity">
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
@@ -85,23 +85,6 @@
             android:text="Get Password"
             android:textColor="#FFFFFF"
             android:textSize="20dp" />
-
-        <EditText
-            android:id="@+id/edtYourpassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/edittext_background"
-            android:drawableStart="@drawable/wel_password"
-            android:drawablePadding="50dp"
-            android:hint="Your password"
-            android:enabled="false"
-            android:padding="15dp"
-            android:textColor="#187BCE"
-            android:textSize="20dp"
-            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/imgLogin_Forgot"

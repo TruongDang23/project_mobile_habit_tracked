@@ -1,4 +1,4 @@
-package com.example.finalproject;
+package com.example.finalproject.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,15 +16,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.finalproject.R;
 import com.example.finalproject.databinding.ActivityMainBinding;
-import com.example.finalproject.modal.Account;
+import com.example.finalproject.model.Account;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,9 +89,6 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
     private void connectionFirebase(){
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
         database = FirebaseDatabase.getInstance();
         ref = database.getReference("Habit_Tracker").child("Tai_Khoan");
     }
@@ -137,19 +134,16 @@ public class WelcomeActivity extends AppCompatActivity {
                             account.setGmail(gmail);
                             account.setPhone(phone);
 
-
+                            // Tạo Intent và đặt Bundle vào Intent
+                            Intent intent = new Intent(WelcomeActivity.this, Create_habit.class);
                             // Tạo Bundle và đặt đối tượng Account vào Bundle
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("user_account", account);
-                            // Tạo Intent và đặt Bundle vào Intent
-                            Intent intent = new Intent(WelcomeActivity.this, Setting.class);
                             intent.putExtras(bundle);
                             startActivity(intent);
                             return;
-
                         }
                     }
-
                     // Xử lý trường hợp không tìm thấy tài khoản
                     Toast.makeText(WelcomeActivity.this, "Tài khoản không tồn tại hoặc sai mật khẩu", Toast.LENGTH_SHORT).show();
                 }

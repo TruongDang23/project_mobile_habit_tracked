@@ -2,14 +2,9 @@ package com.example.finalproject.ui;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,11 +14,9 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 
 import com.example.finalproject.R;
-import com.example.finalproject.SongsActivity;
-import com.example.finalproject.modal.SongTestGridView;
+import com.example.finalproject.model.SongTestGridView;
 
 import java.util.ArrayList;
 

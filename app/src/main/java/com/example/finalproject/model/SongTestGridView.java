@@ -1,4 +1,4 @@
-package com.example.finalproject.modal;
+package com.example.finalproject.model;
 
 public class SongTestGridView {
     private String title;

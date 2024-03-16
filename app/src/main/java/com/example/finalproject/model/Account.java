@@ -1,8 +1,7 @@
-package com.example.finalproject.modal;
+package com.example.finalproject.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Locale;
 
 public class Account implements Serializable {
     private String Avatar;

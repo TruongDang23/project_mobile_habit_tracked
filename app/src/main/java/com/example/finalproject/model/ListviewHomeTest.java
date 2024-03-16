@@ -1,4 +1,4 @@
-package com.example.finalproject.modal;
+package com.example.finalproject.model;
 
 import java.io.Serializable;
 

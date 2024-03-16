@@ -1,4 +1,4 @@
-package com.example.finalproject;
+package com.example.finalproject.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.finalproject.ui.Pomorodo;
+import com.example.finalproject.R;
 
 public class MainActivity extends AppCompatActivity {
     Button btnWelcome, btnHomeMain, btnSettings, btnCreateHabit, btnProgress, btnSong, btnPomorodo;

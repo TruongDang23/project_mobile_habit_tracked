@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.finalproject.R;
-import com.example.finalproject.modal.ListviewHomeTest;
+import com.example.finalproject.model.ListviewHomeTest;
 
 import java.util.ArrayList;
 

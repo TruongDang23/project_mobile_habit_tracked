@@ -1,15 +1,12 @@
-package com.example.finalproject;
+package com.example.finalproject.activities;
 
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.GridView;
-import android.widget.VideoView;
 
-import com.example.finalproject.modal.SongTestGridView;
+import com.example.finalproject.R;
+import com.example.finalproject.model.SongTestGridView;
 import com.example.finalproject.ui.SongTestAdapter;
 
 import java.util.ArrayList;

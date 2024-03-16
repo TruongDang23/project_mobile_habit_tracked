@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.finalproject.ProgressDayFragment;
-import com.example.finalproject.ProgressMonthFragment;
-import com.example.finalproject.ProgressWeekFragment;
+import com.example.finalproject.activities.ProgressDayFragment;
+import com.example.finalproject.activities.ProgressMonthFragment;
+import com.example.finalproject.activities.ProgressWeekFragment;
 
 public class MyPagerProgressAdapter extends FragmentPagerAdapter {
     private int numOfTabs;
