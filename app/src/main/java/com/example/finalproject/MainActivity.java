@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.finalproject.ui.Pomorodo;
+
 public class MainActivity extends AppCompatActivity {
-    Button btnWelcome, btnHomeMain, btnSettings, btnCreateHabit, btnProgress, btnSong;
+    Button btnWelcome, btnHomeMain, btnSettings, btnCreateHabit, btnProgress, btnSong, btnPomorodo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
         btnSong = findViewById(R.id.btnSong);
         btnSong.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SongsActivity.class);
+            startActivity(intent);
+        });
+
+        btnPomorodo=findViewById(R.id.btnPomorodo);
+        btnPomorodo.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Pomorodo.class);
             startActivity(intent);
         });
     }

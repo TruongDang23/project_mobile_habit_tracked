@@ -31,14 +31,16 @@
 
         <TextView
             android:id="@+id/txtname"
-            android:layout_width="wrap_content"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
-            android:layout_marginEnd="88dp"
             android:text="Gia Cát Lượng"
             android:textSize="20dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingLeft="10dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            app:layout_constraintStart_toEndOf="@+id/imvAvatar"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -114,11 +116,11 @@
             android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="272dp"
-            android:layout_marginTop="252dp"
+            android:layout_marginStart="268dp"
+            android:layout_marginTop="204dp"
+            android:backgroundTint="@color/Blue"
             android:text="Edit"
             android:textStyle="bold"
-            android:backgroundTint="@color/Blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,6 +134,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="16dp"
+            android:text="Email: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/txtgmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="56dp"
+            android:layout_marginBottom="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Vuhoanggiabao@gmail.com"
+            android:textSize="18sp"
+            android:paddingLeft="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView17" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -245,7 +273,6 @@
         android:layout_height="48dp"
         android:layout_marginEnd="36dp"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintTop_toBottomOf="@+id/spnLanguage" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
