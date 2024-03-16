@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="350dp"
     android:background="#ffffff"
     tools:context=".ProgressMonthFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Month" />
+        android:layout_height="match_parent">
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:mcv_selectionColor="#187BCE"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/calendarView"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

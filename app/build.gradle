@@ -49,4 +49,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     //https://mvnrepository.com/artifact/com.github.gastricspark/scrolldatepicker
     implementation group: 'com.github.gastricspark', name: 'scrolldatepicker', version: '0.0.1'
+    // Graph
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    // https://mvnrepository.com/artifact/com.github.prolificinteractive/material-calendarview
+    implementation group: 'com.github.prolificinteractive', name: 'material-calendarview', version: '2.0.1'
+
+
 }

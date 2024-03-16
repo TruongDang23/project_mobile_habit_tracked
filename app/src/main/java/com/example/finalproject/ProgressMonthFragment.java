@@ -7,6 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +20,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ProgressMonthFragment extends Fragment {
+    private MaterialCalendarView calendar;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +65,19 @@ public class ProgressMonthFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_progress_month, container, false);
+        calendar = view.findViewById(R.id.calendarView);
+        setupCalendar();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_progress_month, container, false);
+        return view;
+    }
+
+    private void setupCalendar() {
+        calendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_MULTIPLE);
+        calendar.setDateSelected(CalendarDay.today(), true);
+        calendar.setDateSelected(CalendarDay.from(2024, 3, 20), true);
+        calendar.setDateSelected(CalendarDay.from(2024, 3, 21), true);
+
+
     }
 }
