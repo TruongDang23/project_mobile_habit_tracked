@@ -27,6 +27,7 @@ public class Account implements Serializable {
         Username = username;
     }
 
+
     public Account(String password, String username) {
         Password = password;
         Username = username;
