@@ -25,6 +25,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class SignUpActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference ref;
@@ -118,7 +124,39 @@ public class SignUpActivity extends AppCompatActivity {
                             newId = "User0" + count;
                         else if(count >= 0)
                             newId = "User00" + count;
-                        Account newAccount = new Account(desiredUsername,password);
+
+
+
+                        Account newAccount = new Account();
+
+                        newAccount.setUsername(desiredUsername);
+                        newAccount.setPassword(password);
+                        newAccount.setAvatar("https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=1380&t=st=1710666815~exp=1710667415~hmac=8310b40214501960fa50ce9c3e26a3e3f58e1eac65d592f5235ec1b744b92044");
+                        newAccount.setName("Chưa thiết lập");
+                        newAccount.setSex("Nam");
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                        Date ngaySinhDate = null;
+                        try {
+                            // Chuyển đổi chuỗi thành đối tượng Date
+                            ngaySinhDate = dateFormat.parse("01-01-1900");
+
+                            // Cắt bỏ thông tin giờ, phút và giây từ đối tượng Date
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(ngaySinhDate);
+                            calendar.set(Calendar.HOUR_OF_DAY, 0);
+                            calendar.set(Calendar.MINUTE, 0);
+                            calendar.set(Calendar.SECOND, 0);
+                            calendar.set(Calendar.MILLISECOND, 0);
+                            ngaySinhDate = calendar.getTime();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        newAccount.setBorn(ngaySinhDate);
+                        newAccount.setGmail("Chưa thiết lập");
+
+                        newAccount.setPhone("Chưa thiết lập");
+
                         ref.child(newId).setValue(newAccount);
                         Toast.makeText(SignUpActivity.this, "Đăng kí tài khoản thành công", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SignUpActivity.this, WelcomeActivity.class);

@@ -10,13 +10,13 @@ public class Account implements Serializable {
     private String Name;
     private String Password;
     private Date Born;
-    private Long Phone;
+    private String Phone;
     private String Username;
 
     public Account() {
     }
 
-    public Account(String avatar, String sex, String gmail, String name, String password, Date born, Long phone, String username) {
+    public Account(String avatar, String sex, String gmail, String name, String password, Date born, String phone, String username) {
         Avatar = avatar;
         Sex = sex;
         Gmail = gmail;
@@ -81,11 +81,11 @@ public class Account implements Serializable {
         Born = born;
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return Phone;
     }
 
-    public void setPhone(Long phone) {
+    public void setPhone(String phone) {
         Phone = phone;
     }
 

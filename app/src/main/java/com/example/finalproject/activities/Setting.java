@@ -66,7 +66,6 @@ public class Setting extends AppCompatActivity {
             startActivity(intent);
         });
 
-
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +91,7 @@ public class Setting extends AppCompatActivity {
                 txtName.setText(account.getName());
                 txtGender.setText(account.getSex());
                 txtPhone.setText(Long.toString(account.getPhone()));
+                txtPhone.setText(account.getPhone());
                 txtGmail.setText(account.getGmail());
                 Date born = account.getBorn();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());

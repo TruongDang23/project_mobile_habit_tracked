@@ -134,13 +134,10 @@ public class WelcomeActivity extends AppCompatActivity {
                             if (bornSnapshot.exists()) {
                                 // Lấy các giá trị con của born: date, month, year
                                 int date = bornSnapshot.child("date").getValue(Integer.class);
-                                int day = bornSnapshot.child("day").getValue(Integer.class);
                                 int hours = bornSnapshot.child("hours").getValue(Integer.class);
                                 int minutes = bornSnapshot.child("minutes").getValue(Integer.class);
                                 int month = bornSnapshot.child("month").getValue(Integer.class);
                                 int seconds = bornSnapshot.child("seconds").getValue(Integer.class);
-                                long time = bornSnapshot.child("time").getValue(Long.class);
-                                int timezoneOffset = bornSnapshot.child("timezoneOffset").getValue(Integer.class);
                                 int year = bornSnapshot.child("year").getValue(Integer.class) + 1900;
 
                                 // Tạo một đối tượng Calendar và đặt các giá trị date, month, year vào
@@ -163,7 +160,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             }
 
 
-                            Long phone = taiKhoanSnapshot.child("phone").getValue(Long.class);
+                            String phone = taiKhoanSnapshot.child("phone").getValue(String.class);
                             // ... Lấy thêm thông tin khác từ Firebase
 
                             Account account = new Account();

@@ -102,7 +102,7 @@ public class SettingEditInfor extends AppCompatActivity {
                 String strBorn = dateFormat.format(born);
                 edtDate.setText(strBorn);
 
-                edtPhone.setText(Long.toString(account.getPhone()));
+                edtPhone.setText(account.getPhone());
                 edtEmailAddress.setText(account.getGmail());
                 Glide.with(this).load(account.getAvatar()).into(Avatar);
             }
@@ -117,7 +117,7 @@ public class SettingEditInfor extends AppCompatActivity {
     private void getData(){
         connectionFirebase();
         String currentGender = null;
-        Long phone = Long.parseLong(edtPhone.getText().toString());
+        String phone = edtPhone.getText().toString();
 
         if (maleRadioButton.isChecked()) {
             currentGender = "Nam";
