@@ -74,19 +74,19 @@ public class SongTestAdapter extends ArrayAdapter<SongTestGridView> {
         } else if (url.equalsIgnoreCase("1")) {
             videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t1);
         } else if (url.equalsIgnoreCase("2")) {
-            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t);
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t2);
         } else if (url.equalsIgnoreCase("3")) {
-            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t1);
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t3);
         } else if (url.equalsIgnoreCase("4")) {
-            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t);
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t4);
         } else if (url.equalsIgnoreCase("5")) {
-            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t1);
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t5);
         } else if (url.equalsIgnoreCase("6")) {
-            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t);
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t6);
         } else if (url.equalsIgnoreCase("7")) {
-            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t1);
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t7);
         } else if (url.equalsIgnoreCase("8")) {
-            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t);
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t8);
         }
 
         videoView.start();
