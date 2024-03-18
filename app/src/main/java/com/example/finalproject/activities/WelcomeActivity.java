@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -106,27 +107,65 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot taiKhoanSnapshot : dataSnapshot.getChildren()) {
-                        String currentUsername = taiKhoanSnapshot.child("TenDangNhap").getValue(String.class);
-                        String currentPassword = taiKhoanSnapshot.child("MatKhau").getValue(String.class);
+                        String currentUsername = taiKhoanSnapshot.child("username").getValue(String.class);
+                        String currentPassword = taiKhoanSnapshot.child("password").getValue(String.class);
                         if (username.equals(currentUsername) && password.equals(currentPassword)) {
+                            idTaiKhoan = (String) taiKhoanSnapshot.getKey();
                             // Tên đăng nhập và mật khẩu đúng
-                            String avatar = taiKhoanSnapshot.child("Avatar").getValue(String.class);
-                            String sex = taiKhoanSnapshot.child("GioiTinh").getValue(String.class);
-                            String gmail = taiKhoanSnapshot.child("Gmail").getValue(String.class);
-                            String name = taiKhoanSnapshot.child("HoTen").getValue(String.class);
-                            String bornStr = taiKhoanSnapshot.child("NgaySinh").getValue(String.class);
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                            String avatar = taiKhoanSnapshot.child("avatar").getValue(String.class);
+                            String sex = taiKhoanSnapshot.child("sex").getValue(String.class);
+                            String gmail = taiKhoanSnapshot.child("gmail").getValue(String.class);
+                            String name = taiKhoanSnapshot.child("name").getValue(String.class);
                             Date bornDate = null;
+                           /* String bornStr = taiKhoanSnapshot.child("born").getValue(String.class);
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+
                             try {
                                 bornDate = dateFormat.parse(bornStr);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            Long phone = taiKhoanSnapshot.child("SDT").getValue(Long.class);
-                            idTaiKhoan = (String) taiKhoanSnapshot.getKey();
+                            */
+
+                            // Lấy đối tượng born từ taiKhoanSnapshot
+                            DataSnapshot bornSnapshot = taiKhoanSnapshot.child("born");
+
+                            // Kiểm tra xem born có tồn tại hay không
+                            if (bornSnapshot.exists()) {
+                                // Lấy các giá trị con của born: date, month, year
+                                int date = bornSnapshot.child("date").getValue(Integer.class);
+                                int hours = bornSnapshot.child("hours").getValue(Integer.class);
+                                int minutes = bornSnapshot.child("minutes").getValue(Integer.class);
+                                int month = bornSnapshot.child("month").getValue(Integer.class);
+                                int seconds = bornSnapshot.child("seconds").getValue(Integer.class);
+                                int year = bornSnapshot.child("year").getValue(Integer.class) + 1900;
+
+                                // Tạo một đối tượng Calendar và đặt các giá trị date, month, year vào
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(Calendar.YEAR, year);
+                                calendar.set(Calendar.MONTH, month);
+                                calendar.set(Calendar.DATE, date);
+                                calendar.set(Calendar.HOUR_OF_DAY, hours);
+                                calendar.set(Calendar.MINUTE, minutes);
+                                calendar.set(Calendar.SECOND, seconds);
+                                calendar.set(Calendar.MILLISECOND, 0);
+
+                                // Lấy đối tượng Date từ Calendar
+                                bornDate = calendar.getTime();
+
+                                // In ra ngày sinh đã được chuyển đổi
+                            } else {
+                                // Xử lý trường hợp born không tồn tại trong dữ liệu
+                                System.out.println("Không tìm thấy thông tin về ngày sinh.");
+                            }
+
+
+                            String phone = taiKhoanSnapshot.child("phone").getValue(String.class);
                             // ... Lấy thêm thông tin khác từ Firebase
 
                             Account account = new Account();
+                            account.setUsername(currentUsername);
+                            account.setPassword(currentPassword);
                             account.setAvatar(avatar);
                             account.setName(name);
                             account.setSex(sex);
@@ -135,10 +174,11 @@ public class WelcomeActivity extends AppCompatActivity {
                             account.setPhone(phone);
 
                             // Tạo Intent và đặt Bundle vào Intent
-                            Intent intent = new Intent(WelcomeActivity.this, Create_habit.class);
+                            Intent intent = new Intent(WelcomeActivity.this, Setting.class);
                             // Tạo Bundle và đặt đối tượng Account vào Bundle
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("user_account", account);
+                            intent.putExtra("idTaiKhoan", idTaiKhoan);
                             intent.putExtras(bundle);
                             startActivity(intent);
                             return;
