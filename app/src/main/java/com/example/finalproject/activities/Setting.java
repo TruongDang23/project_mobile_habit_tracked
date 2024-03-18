@@ -90,7 +90,6 @@ public class Setting extends AppCompatActivity {
             if (account != null) {
                 txtName.setText(account.getName());
                 txtGender.setText(account.getSex());
-                txtPhone.setText(Long.toString(account.getPhone()));
                 txtPhone.setText(account.getPhone());
                 txtGmail.setText(account.getGmail());
                 Date born = account.getBorn();
