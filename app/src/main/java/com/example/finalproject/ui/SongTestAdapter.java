@@ -27,7 +27,7 @@ public class SongTestAdapter extends ArrayAdapter<SongTestGridView> {
 
     @NonNull
     @Override
-    public View getView(int position,@NonNull View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, @NonNull View convertView, @NonNull ViewGroup parent) {
         View listItemView = convertView;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.grid_song_card_item, parent, false);
@@ -47,14 +47,16 @@ public class SongTestAdapter extends ArrayAdapter<SongTestGridView> {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSong();
-                Toast.makeText(getContext(), "ImageButton clicked", Toast.LENGTH_SHORT).show();
+                playSong(songUrl);
+                // Thông báo
+                Toast.makeText(getContext(), "Playing song " + songTitle.getText(), Toast.LENGTH_SHORT).show();
             }
         });
         return listItemView;
     }
 
-    public void playSong() {
+
+    public void playSong(TextView songUrl) {
         Dialog dialog = new Dialog(this.getContext());
         dialog.setContentView(R.layout.dialogue_video);
 
@@ -64,12 +66,28 @@ public class SongTestAdapter extends ArrayAdapter<SongTestGridView> {
         MediaController mediaController = new MediaController(this.getContext());
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
-//        Uri uri = Uri.parse("https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1");
-//        videoView.setVideoURI(uri);
 
-
-        // Dùng resource trong app
-        videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t);
+        String url = songUrl.getText().toString();
+        if (url.isEmpty()) {
+            // Dùng resource trong app
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t);
+        } else if (url.equalsIgnoreCase("1")) {
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t1);
+        } else if (url.equalsIgnoreCase("2")) {
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t2);
+        } else if (url.equalsIgnoreCase("3")) {
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t3);
+        } else if (url.equalsIgnoreCase("4")) {
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t4);
+        } else if (url.equalsIgnoreCase("5")) {
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t5);
+        } else if (url.equalsIgnoreCase("6")) {
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t6);
+        } else if (url.equalsIgnoreCase("7")) {
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t7);
+        } else if (url.equalsIgnoreCase("8")) {
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t8);
+        }
 
         videoView.start();
 

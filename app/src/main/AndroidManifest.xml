@@ -20,16 +20,13 @@
         <activity
             android:name=".activities.Progress_total"
             android:exported="false" />
-        <activity
-            android:name=".activities.SongsActivity"
-            android:exported="false" />
+
         <activity
             android:name=".activities.Pomorodo"
             android:exported="false" />
         <activity
             android:name=".activities.ProgressActivity"
-            android:exported="false" /> <!-- android:name=".InformationActivity" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
         <activity
             android:name=".activities.ForgotActivity"
             android:exported="false" />
@@ -38,9 +35,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.Home_Activity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".activities.WelcomeActivity" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
         <activity
             android:name=".activities.Create_habit"
             android:exported="false" />
@@ -49,6 +44,12 @@
             android:exported="false" />
         <activity
             android:name=".activities.WelcomeActivity"
+            android:exported="false" />
+        <!--        <activity-->
+        <!--            android:name=".activities.SongsActivity"-->
+        <!--            android:exported="false" />-->
+        <activity
+            android:name=".activities.SongsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
