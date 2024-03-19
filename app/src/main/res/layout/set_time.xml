@@ -8,16 +8,16 @@
 
     <Button
         android:id="@+id/setTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/done_button"
+        android:layout_width="114dp"
+        android:layout_height="54dp"
         android:backgroundTint="#187BCE"
         android:text="@string/done_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintVertical_bias="0.803" />
 
     <EditText
         android:textColorHint="#000000"
