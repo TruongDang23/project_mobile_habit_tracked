@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,6 +18,9 @@
         android:theme="@style/Theme.FinalProject"
         tools:targetApi="31">
         <activity
+            android:name=".activities.SetTimeActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SettingEditInfor"
             android:exported="false" />
         <activity
@@ -22,7 +28,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".activities.Pomorodo"
+            android:name=".activities.SongsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.ProgressActivity"
@@ -49,7 +55,8 @@
         <!--            android:name=".activities.SongsActivity"-->
         <!--            android:exported="false" />-->
         <activity
-            android:name=".activities.SongsActivity"
+            android:name=".activities.Pomorodo"
+            android:theme="@style/AppTheme"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
