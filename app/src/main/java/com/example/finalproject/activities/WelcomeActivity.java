@@ -174,7 +174,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             account.setPhone(phone);
 
                             // Tạo Intent và đặt Bundle vào Intent
-                            Intent intent = new Intent(WelcomeActivity.this, Setting.class);
+                            Intent intent = new Intent(WelcomeActivity.this, Home_Activity.class);
                             // Tạo Bundle và đặt đối tượng Account vào Bundle
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("user_account", account);

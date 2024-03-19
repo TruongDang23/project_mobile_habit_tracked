@@ -43,13 +43,10 @@
             android:name=".activities.Setting"
             android:exported="false" />
         <activity
-            android:name=".activities.WelcomeActivity"
-            android:exported="false" />
-        <!--        <activity-->
-        <!--            android:name=".activities.SongsActivity"-->
-        <!--            android:exported="false" />-->
-        <activity
             android:name=".activities.SongsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
