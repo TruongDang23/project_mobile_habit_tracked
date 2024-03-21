@@ -29,8 +29,7 @@
         <com.harrywhewell.scrolldatepicker.DayScrollDatePicker
             android:id="@+id/day_date_picker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#187BCE" />
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
     <ListView

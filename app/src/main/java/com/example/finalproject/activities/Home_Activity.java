@@ -4,8 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -16,6 +23,7 @@ import android.widget.Toast;
 import com.example.finalproject.R;
 import com.example.finalproject.model.Account;
 import com.example.finalproject.model.ListviewHomeTest;
+import com.example.finalproject.model.MyBroadcastReceiver;
 import com.example.finalproject.ui.LisviewHomeTestAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,11 +33,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.harrywhewell.scrolldatepicker.DayScrollDatePicker;
 import com.harrywhewell.scrolldatepicker.OnDateSelectedListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.SimpleTimeZone;
 
 public class Home_Activity extends AppCompatActivity {
     private FirebaseDatabase dataBase;
@@ -38,6 +51,7 @@ public class Home_Activity extends AppCompatActivity {
     private DayScrollDatePicker mPicker;
     ListView listHome;
     ArrayList<ListviewHomeTest> arrayListHome;
+
     LisviewHomeTestAdapter adapterHome;
     Button btnNew;
     ImageButton ibGraph, ibMusic, ibClock, ibSettings;
@@ -49,7 +63,7 @@ public class Home_Activity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         acc = (Account) b.getSerializable("user_account");
-
+        Calendar calendar = Calendar.getInstance();
         mPicker = findViewById(R.id.day_date_picker);
         mPicker.setStartDate(1, 3, 2024);
         mPicker.setEndDate(1, 3, 2025);
@@ -111,6 +125,8 @@ public class Home_Activity extends AppCompatActivity {
 //            }
 //        }); Chưa xử lý sự kiện click vào item của listView
         getListHabit();
+        getReminder();
+        notification();
     }
     public void getConnection(String id)
     {
@@ -134,12 +150,14 @@ public class Home_Activity extends AppCompatActivity {
                         String nameHabit = habitSnapshot.child("Ten").getValue(String.class);
                         String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
                         String donVi = habitSnapshot.child("DonVi").getValue(String.class);
+                        String reminder = habitSnapshot.child("LoiNhacNho").getValue(String.class);
                         double target = habitSnapshot.child("MucTieu").getValue(Double.class);
                         double doing = getHistoryData(habitSnapshot.child("ThoiGianThucHien"));
                         String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
                         target = calculateTarget(target, period);
                         double donViTang = habitSnapshot.child("DonViTang").getValue(Double.class);
                         String done = doing + "/" + target + " " + donVi;
+
 
                         if(indexItem == -1)
                         {
@@ -197,5 +215,95 @@ public class Home_Activity extends AppCompatActivity {
                 return i;
         }
         return -1;
+    }
+
+    public void getReminder() {
+        String idUser = getIntent().getStringExtra("idTaiKhoan");
+        getConnection(idUser);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot habitSnapshot : snapshot.getChildren()) {
+                        String habitId = habitSnapshot.getKey();
+
+                        String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
+                        String reminder = habitSnapshot.child("LoiNhacNho").getValue(String.class);
+
+                        Log.d("ReminderDebug", "Time: " + time + ", Reminder: " + reminder); // In thông tin debug
+
+                        Calendar cal_alarm = convertTimeStringToCalendar(time);
+                        int hour = cal_alarm.get(Calendar.HOUR_OF_DAY);
+                        int minute = cal_alarm.get(Calendar.MINUTE);
+
+                        // Lấy thời gian và thông báo từ Firebase
+
+                        // Đặt hẹn giờ và gửi thông báo
+                        setTimer(hour, minute, reminder);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Home_Activity.this, "Lỗi khi đọc dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setTimer(int hour, int minute, String message) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Date date = new Date();
+
+        Calendar cal_alarm = Calendar.getInstance();
+        Calendar cal_now = Calendar.getInstance();
+
+        cal_now.setTime(date);
+        cal_alarm.setTime(date);
+
+        cal_alarm.set(Calendar.HOUR_OF_DAY, hour);
+        cal_alarm.set(Calendar.MINUTE, minute);
+        cal_alarm.set(Calendar.SECOND, 0);
+
+        if (cal_alarm.before(cal_now)) {
+            cal_alarm.add(Calendar.DATE, 1);
+        }
+
+        Intent i = new Intent(Home_Activity.this, MyBroadcastReceiver.class);
+        i.putExtra("message", message); // Đưa thông báo vào intent
+
+        // Sử dụng một requestCode duy nhất cho mỗi PendingIntent
+        int requestCode = generateRequestCode(); // Phương thức để tạo requestCode duy nhất
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(Home_Activity.this, requestCode, i, PendingIntent.FLAG_IMMUTABLE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), pendingIntent);
+    }
+    private int generateRequestCode() {
+        return (int) System.currentTimeMillis(); // Sử dụng thời gian hiện tại làm requestCode
+    }
+    private Calendar convertTimeStringToCalendar(String timeString) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("h:mma", Locale.getDefault());
+        try {
+            Date date = sdf.parse(timeString);
+            calendar.setTime(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return calendar;
+    }
+    private void notification() {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "Alarm Reminders";
+            String description = "Hey, Wake Up!!";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel  = new NotificationChannel("Notify", name,importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
