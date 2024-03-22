@@ -1,8 +1,11 @@
 package com.example.finalproject.model;
 
+import java.util.Date;
+
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.PropertyName;
 
-public class Habit  {
+public class Habit {
     @PropertyName("DonVi")
     private String donVi;
 
@@ -15,8 +18,6 @@ public class Habit  {
     @PropertyName("LoiNhacNho")
     private String loiNhacNho;
 
-    @PropertyName("MauSac")
-    private String mauSac;
 
     @PropertyName("MoTa")
     private String moTa;
@@ -42,127 +43,111 @@ public class Habit  {
     @PropertyName("TrangThai")
     private String trangThai;
 
+    // Constructor
     public Habit() {
+        // Empty constructor required for Firebase
     }
 
-    public Habit(String donVi, double donViTang, String khoangThoiGian, String loiNhacNho, String mauSac, String moTa, int mucTieu, String ten, String thoiDiem, String thoiGianBatDau, String thoiGianKetThuc, String thoiGianNhacNho, String trangThai) {
-        this.donVi = donVi;
-        this.donViTang = donViTang;
-        this.khoangThoiGian = khoangThoiGian;
-        this.loiNhacNho = loiNhacNho;
-        this.mauSac = mauSac;
-        this.moTa = moTa;
-        this.mucTieu = mucTieu;
-        this.ten = ten;
-        this.thoiDiem = thoiDiem;
-        this.thoiGianBatDau = thoiGianBatDau;
-        this.thoiGianKetThuc = thoiGianKetThuc;
-        this.thoiGianNhacNho = thoiGianNhacNho;
-        this.trangThai = trangThai;
-    }
-
+    // Getters and setters
+    @PropertyName("DonVi")
     public String getDonVi() {
         return donVi;
     }
 
+    @PropertyName("DonVi")
     public void setDonVi(String donVi) {
         this.donVi = donVi;
     }
 
+    @PropertyName("DonViTang")
     public double getDonViTang() {
         return donViTang;
     }
-
+    @PropertyName("DonViTang")
     public void setDonViTang(double donViTang) {
         this.donViTang = donViTang;
     }
-
+    @PropertyName("KhoangThoiGian")
     public String getKhoangThoiGian() {
         return khoangThoiGian;
     }
-
+    @PropertyName("KhoangThoiGian")
     public void setKhoangThoiGian(String khoangThoiGian) {
         this.khoangThoiGian = khoangThoiGian;
     }
-
+    @PropertyName("LoiNhacNho")
     public String getLoiNhacNho() {
         return loiNhacNho;
     }
 
+    @PropertyName("LoiNhacNho")
     public void setLoiNhacNho(String loiNhacNho) {
         this.loiNhacNho = loiNhacNho;
     }
-
-    public String getMauSac() {
-        return mauSac;
-    }
-
-    public void setMauSac(String mauSac) {
-        this.mauSac = mauSac;
-    }
-
+    @PropertyName("MoTa")
     public String getMoTa() {
         return moTa;
     }
-
+    @PropertyName("MoTa")
     public void setMoTa(String moTa) {
         this.moTa = moTa;
     }
-
+    @PropertyName("MucTieu")
     public int getMucTieu() {
         return mucTieu;
     }
-
+    @PropertyName("MucTieu")
     public void setMucTieu(int mucTieu) {
         this.mucTieu = mucTieu;
     }
-
+    @PropertyName("Ten")
     public String getTen() {
         return ten;
     }
-
+    @PropertyName("Ten")
     public void setTen(String ten) {
         this.ten = ten;
     }
-
+    @PropertyName("ThoiDiem")
     public String getThoiDiem() {
         return thoiDiem;
     }
-
+    @PropertyName("ThoiDiem")
     public void setThoiDiem(String thoiDiem) {
         this.thoiDiem = thoiDiem;
     }
-
+    @PropertyName("ThoiGianBatDau")
     public String getThoiGianBatDau() {
         return thoiGianBatDau;
     }
-
+    @PropertyName("ThoiGianBatDau")
     public void setThoiGianBatDau(String thoiGianBatDau) {
         this.thoiGianBatDau = thoiGianBatDau;
     }
 
+    @PropertyName("ThoiGianKetThuc")
     public String getThoiGianKetThuc() {
         return thoiGianKetThuc;
     }
-
+    @PropertyName("ThoiGianKetThuc")
     public void setThoiGianKetThuc(String thoiGianKetThuc) {
         this.thoiGianKetThuc = thoiGianKetThuc;
     }
-
+    @PropertyName("ThoiGianNhacNho")
     public String getThoiGianNhacNho() {
         return thoiGianNhacNho;
     }
-
+    @PropertyName("ThoiGianNhacNho")
     public void setThoiGianNhacNho(String thoiGianNhacNho) {
         this.thoiGianNhacNho = thoiGianNhacNho;
     }
-
+    @PropertyName("TrangThai")
     public String getTrangThai() {
         return trangThai;
     }
-
+    @PropertyName("TrangThai")
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
-    // Constructor, Getter, Setter
 }
+
