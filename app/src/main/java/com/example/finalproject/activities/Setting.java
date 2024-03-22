@@ -92,10 +92,7 @@ public class Setting extends AppCompatActivity {
                 txtGender.setText(account.getSex());
                 txtPhone.setText(account.getPhone());
                 txtGmail.setText(account.getGmail());
-                Date born = account.getBorn();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                String strBorn = dateFormat.format(born);
-                txtBorn.setText(strBorn);
+                txtBorn.setText(account.getBorn());
                 Glide.with(this).load(account.getAvatar()).into(imageView);
             }
         }

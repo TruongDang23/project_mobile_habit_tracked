@@ -49,13 +49,13 @@
             android:name=".activities.Setting"
             android:exported="false" />
         <activity
-            android:name=".activities.WelcomeActivity"
+            android:name=".activities.Pomorodo"
             android:exported="false" />
         <!--        <activity-->
         <!--            android:name=".activities.SongsActivity"-->
         <!--            android:exported="false" />-->
         <activity
-            android:name=".activities.Pomorodo"
+            android:name=".activities.WelcomeActivity"
             android:theme="@style/AppTheme"
             android:exported="true">
             <intent-filter>

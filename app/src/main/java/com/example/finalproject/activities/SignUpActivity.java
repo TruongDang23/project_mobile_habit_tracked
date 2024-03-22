@@ -152,7 +152,7 @@ public class SignUpActivity extends AppCompatActivity {
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        newAccount.setBorn(ngaySinhDate);
+                        newAccount.setBorn("01-01-1970");
                         newAccount.setGmail("Chưa thiết lập");
 
                         newAccount.setPhone("Chưa thiết lập");

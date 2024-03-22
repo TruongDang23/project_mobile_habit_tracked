@@ -116,49 +116,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             String sex = taiKhoanSnapshot.child("sex").getValue(String.class);
                             String gmail = taiKhoanSnapshot.child("gmail").getValue(String.class);
                             String name = taiKhoanSnapshot.child("name").getValue(String.class);
-                            Date bornDate = null;
-                           /* String bornStr = taiKhoanSnapshot.child("born").getValue(String.class);
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-
-                            try {
-                                bornDate = dateFormat.parse(bornStr);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            */
-
-                            // Lấy đối tượng born từ taiKhoanSnapshot
-                            DataSnapshot bornSnapshot = taiKhoanSnapshot.child("born");
-
-                            // Kiểm tra xem born có tồn tại hay không
-                            if (bornSnapshot.exists()) {
-                                // Lấy các giá trị con của born: date, month, year
-                                int date = bornSnapshot.child("date").getValue(Integer.class);
-                                int hours = bornSnapshot.child("hours").getValue(Integer.class);
-                                int minutes = bornSnapshot.child("minutes").getValue(Integer.class);
-                                int month = bornSnapshot.child("month").getValue(Integer.class);
-                                int seconds = bornSnapshot.child("seconds").getValue(Integer.class);
-                                int year = bornSnapshot.child("year").getValue(Integer.class) + 1900;
-
-                                // Tạo một đối tượng Calendar và đặt các giá trị date, month, year vào
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.set(Calendar.YEAR, year);
-                                calendar.set(Calendar.MONTH, month);
-                                calendar.set(Calendar.DATE, date);
-                                calendar.set(Calendar.HOUR_OF_DAY, hours);
-                                calendar.set(Calendar.MINUTE, minutes);
-                                calendar.set(Calendar.SECOND, seconds);
-                                calendar.set(Calendar.MILLISECOND, 0);
-
-                                // Lấy đối tượng Date từ Calendar
-                                bornDate = calendar.getTime();
-
-                                // In ra ngày sinh đã được chuyển đổi
-                            } else {
-                                // Xử lý trường hợp born không tồn tại trong dữ liệu
-                                System.out.println("Không tìm thấy thông tin về ngày sinh.");
-                            }
-
+                            String born =  taiKhoanSnapshot.child("born").getValue(String.class);
 
                             String phone = taiKhoanSnapshot.child("phone").getValue(String.class);
                             // ... Lấy thêm thông tin khác từ Firebase
@@ -169,7 +127,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             account.setAvatar(avatar);
                             account.setName(name);
                             account.setSex(sex);
-                            account.setBorn(bornDate);
+                            account.setBorn(born);
                             account.setGmail(gmail);
                             account.setPhone(phone);
 

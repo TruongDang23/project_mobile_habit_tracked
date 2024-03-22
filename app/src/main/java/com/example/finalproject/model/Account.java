@@ -9,14 +9,14 @@ public class Account implements Serializable {
     private String Gmail;
     private String Name;
     private String Password;
-    private Date Born;
+    private String Born;
     private String Phone;
     private String Username;
 
     public Account() {
     }
 
-    public Account(String avatar, String sex, String gmail, String name, String password, Date born, String phone, String username) {
+    public Account(String avatar, String sex, String gmail, String name, String password, String born, String phone, String username) {
         Avatar = avatar;
         Sex = sex;
         Gmail = gmail;
@@ -73,11 +73,11 @@ public class Account implements Serializable {
         Password = password;
     }
 
-    public Date getBorn() {
+    public String getBorn() {
         return Born;
     }
 
-    public void setBorn(Date born) {
+    public void setBorn(String born) {
         Born = born;
     }
 

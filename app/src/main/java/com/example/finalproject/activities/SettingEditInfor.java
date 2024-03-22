@@ -2,11 +2,13 @@ package com.example.finalproject.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -37,6 +39,7 @@ public class SettingEditInfor extends AppCompatActivity {
     private RadioGroup radioGroup;
     String strAvatar;
     private RadioButton maleRadioButton,femaleRadioButton;
+    private ImageView imbtnDate;
 
     ImageView Avatar;
     @Override
@@ -49,6 +52,7 @@ public class SettingEditInfor extends AppCompatActivity {
     private void doFormWidget(){
         edtName = findViewById(R.id.editTextText);
         edtDate = findViewById(R.id.editTextDate);
+        edtDate.setEnabled(false);
         edtPhone = findViewById(R.id.editTextPhone);
         edtEmailAddress = findViewById(R.id.editTextTextEmailAddress);
         btnSubmit = findViewById(R.id.btnSubmit);
@@ -56,6 +60,7 @@ public class SettingEditInfor extends AppCompatActivity {
         Avatar = findViewById(R.id.image);
         maleRadioButton = findViewById(R.id.radioButton);
         femaleRadioButton = findViewById(R.id.radioButton2);
+        imbtnDate = findViewById(R.id.imbtnDate);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +83,27 @@ public class SettingEditInfor extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        imbtnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SettingEditInfor.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                // Xử lý khi người dùng chọn ngày
+                                // Ví dụ: Đặt giá trị ngày vào văn bản của nút
+                                String selectedDate = String.format(Locale.getDefault(), "%02d-%02d-%d", day, month + 1, year);
+                                edtDate.setText(selectedDate);
+                            }
+                        }, year, month, dayOfMonth); // Thiết lập giá trị mặc định cho DatePickerDialog
+                datePickerDialog.show();
+            }
+        });
     }
 
     private void showInfor(){
@@ -96,12 +122,7 @@ public class SettingEditInfor extends AppCompatActivity {
                     femaleRadioButton.setChecked(true);
                 }
                 edtName.setText(account.getName());
-
-                Date born = account.getBorn();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                String strBorn = dateFormat.format(born);
-                edtDate.setText(strBorn);
-
+                edtDate.setText(account.getBorn());
                 edtPhone.setText(account.getPhone());
                 edtEmailAddress.setText(account.getGmail());
                 Glide.with(this).load(account.getAvatar()).into(Avatar);
@@ -118,31 +139,14 @@ public class SettingEditInfor extends AppCompatActivity {
         connectionFirebase();
         String currentGender = null;
         String phone = edtPhone.getText().toString();
-
+        String born = edtDate.getText().toString();
         if (maleRadioButton.isChecked()) {
             currentGender = "Nam";
         } else if (femaleRadioButton.isChecked()) {
             currentGender = "Nữ";
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        Date ngaySinhDate = null;
-        try {
-            // Chuyển đổi chuỗi thành đối tượng Date
-            ngaySinhDate = dateFormat.parse(edtDate.getText().toString());
-
-            // Cắt bỏ thông tin giờ, phút và giây từ đối tượng Date
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(ngaySinhDate);
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-            ngaySinhDate = calendar.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Account editAccount = new Account(strAvatar, currentGender, edtEmailAddress.getText().toString(), edtName.getText().toString(), Password, ngaySinhDate, phone, Username);
+        Account editAccount = new Account(strAvatar, currentGender, edtEmailAddress.getText().toString(), edtName.getText().toString(), Password, born, phone, Username);
         ref.setValue(editAccount);
 
 
