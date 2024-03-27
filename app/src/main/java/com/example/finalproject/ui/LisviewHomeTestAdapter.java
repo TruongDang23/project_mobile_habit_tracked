@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class LisviewHomeTestAdapter extends ArrayAdapter<ListviewHomeTest> {
+    private ListView listView; // Thêm trường ListView
     private FirebaseDatabase database;
     private DatabaseReference ref;
     private ArrayList<ListviewHomeTest> listviewHomeTestsArrayList;

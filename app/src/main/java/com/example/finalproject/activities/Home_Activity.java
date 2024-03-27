@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.finalproject.R;
@@ -33,10 +34,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.harrywhewell.scrolldatepicker.DayScrollDatePicker;
 import com.harrywhewell.scrolldatepicker.OnDateSelectedListener;
 
+import org.joda.time.LocalDate;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,6 +52,7 @@ public class Home_Activity extends AppCompatActivity {
     private DatabaseReference ref;
     private Account acc = new Account();
     private DayScrollDatePicker mPicker;
+    private TextView currentDay;
     ListView listHome;
     ArrayList<ListviewHomeTest> arrayListHome;
 
@@ -67,21 +71,10 @@ public class Home_Activity extends AppCompatActivity {
         mPicker = findViewById(R.id.day_date_picker);
         mPicker.setStartDate(1, 3, 2024);
         mPicker.setEndDate(1, 3, 2025);
-        mPicker.getSelectedDate(
-                new OnDateSelectedListener() {
-                    @Override
-                    public void onDateSelected(@Nullable Date date) {
-                        if (date != null) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.setTime(date);
-                            int year = calendar.get(Calendar.YEAR);
-                            int month = calendar.get(Calendar.MONTH) + 1;
-                            int day = calendar.get(Calendar.DAY_OF_MONTH);
-                            Toast.makeText(Home_Activity.this, "Selected date is " + day + " / " + month + " / " + year, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
+        currentDay = findViewById(R.id.txtCurrentDay);
+
+        Calendar currCalendar = Calendar.getInstance();
+        currentDay.setText(currCalendar.getTime().toString());
 
         listHome = findViewById(R.id.lvHome);
         arrayListHome = new ArrayList<>();
