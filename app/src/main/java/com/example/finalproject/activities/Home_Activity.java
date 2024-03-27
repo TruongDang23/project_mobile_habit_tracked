@@ -84,7 +84,8 @@ public class Home_Activity extends AppCompatActivity {
         listHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(Home_Activity.this,"Position"+position,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Home_Activity.this, ProgressActivity.class);
+                startActivity(intent);
             }
         });
 
