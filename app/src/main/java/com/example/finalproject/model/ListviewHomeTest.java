@@ -22,6 +22,7 @@ public class ListviewHomeTest implements Serializable {
         this.donViTang = donVi;
     }
 
+
     public double getDonViTang() {
         return donViTang;
     }
