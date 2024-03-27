@@ -117,7 +117,6 @@ public class WelcomeActivity extends AppCompatActivity {
                             String gmail = taiKhoanSnapshot.child("gmail").getValue(String.class);
                             String name = taiKhoanSnapshot.child("name").getValue(String.class);
                             String born =  taiKhoanSnapshot.child("born").getValue(String.class);
-
                             String phone = taiKhoanSnapshot.child("phone").getValue(String.class);
                             // ... Lấy thêm thông tin khác từ Firebase
 
@@ -132,7 +131,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             account.setPhone(phone);
 
                             // Tạo Intent và đặt Bundle vào Intent
-                            Intent intent = new Intent(WelcomeActivity.this, Setting.class);
+                            Intent intent = new Intent(WelcomeActivity.this, Home_Activity.class);
                             // Tạo Bundle và đặt đối tượng Account vào Bundle
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("user_account", account);

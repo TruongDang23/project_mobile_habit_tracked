@@ -29,10 +29,21 @@
         <com.harrywhewell.scrolldatepicker.DayScrollDatePicker
             android:id="@+id/day_date_picker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#187BCE" />
+            android:layout_height="wrap_content">
+        </com.harrywhewell.scrolldatepicker.DayScrollDatePicker>
     </RelativeLayout>
-
+    <TextView
+        android:id="@+id/txtCurrentDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="160dp"
+        android:text="ABC"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
     <ListView
         android:id="@+id/lvHome"
         android:layout_width="match_parent"
