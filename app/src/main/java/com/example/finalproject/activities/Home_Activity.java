@@ -92,6 +92,10 @@ public class Home_Activity extends AppCompatActivity {
         btnNew = findViewById(R.id.btnNew);
         btnNew.setOnClickListener(v -> {
             Intent intent = new Intent(Home_Activity.this, Create_habit.class);
+            // Tạo Bundle và đặt đối tượng Account vào Bundle
+            Bundle bundle = new Bundle();
+            intent.putExtra("idTaiKhoan", "User001");
+            intent.putExtras(bundle);
             startActivity(intent);
         });
 

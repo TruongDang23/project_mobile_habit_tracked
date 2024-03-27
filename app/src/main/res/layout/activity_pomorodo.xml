@@ -7,88 +7,61 @@
     android:background="#d0ebff"
     tools:context=".activities.Pomorodo">
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Pomorodo"
-        android:textColor="@color/Blue"
-        android:textSize="48sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="391dp"
-        android:layout_height="342dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="192dp"
-        android:background="@drawable/btn_background"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="360dp"
+        android:layout_height="360dp"
+        android:fadeScrollbars="false"
+        android:max="100"
+        android:progress="100"
+        android:progressDrawable="@drawable/ic_circular"
+        android:progressTint="@android:color/white"
+        android:rotation="270"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.425" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="160dp"
-            android:layout_height="58dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edt_background"
-            android:backgroundTint="@color/my_light_primary"
-            android:text="Time"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:text="@string/default_time"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="@+id/progressBar"
+        app:layout_constraintTop_toTopOf="@+id/progressBar" />
 
-        <Button
-            android:id="@+id/button7"
-            android:layout_width="160dp"
-            android:layout_height="58dp"
-            android:layout_marginStart="130dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="67dp"
-            android:background="@drawable/edt_background"
-            android:text="Break"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.727"
-            app:layout_constraintStart_toEndOf="@+id/button2"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/resetButton"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="148dp"
+        android:background="@drawable/ic_round_circle"
+        android:backgroundTint="#2196F3"
+        android:contentDescription="@string/button_reset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/baseline_stop_24" />
 
-        <Button
-            android:id="@+id/button12"
-            android:layout_width="278dp"
-            android:layout_height="136dp"
-            android:layout_marginTop="100dp"
-            android:backgroundTint="@color/white"
-            android:text="25:00"
-            android:textColor="@color/black"
-            android:textSize="80sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/button16"
-            android:layout_width="156dp"
-            android:layout_height="63dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/edt_background"
-            android:text="Start"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <ImageButton
+        android:id="@+id/resumePauseButton"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="92dp"
+        android:layout_marginBottom="148dp"
+        android:background="@drawable/ic_round_circle"
+        android:backgroundTint="#F44336"
+        android:contentDescription="@string/button_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_play_arrow_24" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
@@ -111,7 +84,8 @@
             app:layout_constraintHorizontal_bias="0.044"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            app:tint="#495057" />
 
         <ImageButton
             android:id="@+id/ib_graph"

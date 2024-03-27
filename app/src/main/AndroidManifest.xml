@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-
+  
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,14 +18,16 @@
         android:theme="@style/Theme.FinalProject"
         tools:targetApi="31">
         <activity
+            android:name=".activities.SetTimeActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SettingEditInfor"
             android:exported="false" />
         <activity
             android:name=".activities.Progress_total"
             android:exported="false" />
-
         <activity
-            android:name=".activities.Pomorodo"
+            android:name=".activities.SongsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.ProgressActivity"
@@ -51,6 +52,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.WelcomeActivity"
+            android:theme="@style/AppTheme"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
