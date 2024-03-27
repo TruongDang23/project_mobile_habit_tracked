@@ -133,12 +133,12 @@ public class WelcomeActivity extends AppCompatActivity {
                             // Kiểm tra xem born có tồn tại hay không
                             if (bornSnapshot.exists()) {
                                 // Lấy các giá trị con của born: date, month, year
-                                int date = bornSnapshot.child("date").getValue(Integer.class);
-                                int hours = bornSnapshot.child("hours").getValue(Integer.class);
-                                int minutes = bornSnapshot.child("minutes").getValue(Integer.class);
-                                int month = bornSnapshot.child("month").getValue(Integer.class);
-                                int seconds = bornSnapshot.child("seconds").getValue(Integer.class);
-                                int year = bornSnapshot.child("year").getValue(Integer.class) + 1900;
+                                int date = 5;//bornSnapshot.child("date").getValue(Integer.class);
+                                int hours = 1;//bornSnapshot.child("hours").getValue(Integer.class);
+                                int minutes = 30;//bornSnapshot.child("minutes").getValue(Integer.class);
+                                int month = 1;//bornSnapshot.child("month").getValue(Integer.class);
+                                int seconds = 40;//bornSnapshot.child("seconds").getValue(Integer.class);
+                                int year = 2003;//bornSnapshot.child("year").getValue(Integer.class) + 1900;
 
                                 // Tạo một đối tượng Calendar và đặt các giá trị date, month, year vào
                                 Calendar calendar = Calendar.getInstance();

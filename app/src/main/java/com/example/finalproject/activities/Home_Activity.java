@@ -85,8 +85,15 @@ public class Home_Activity extends AppCompatActivity {
 
         listHome = findViewById(R.id.lvHome);
         arrayListHome = new ArrayList<>();
-        adapterHome = new LisviewHomeTestAdapter(arrayListHome, Home_Activity.this);
+        adapterHome = new LisviewHomeTestAdapter(arrayListHome, Home_Activity.this, R.layout.list_item_home);
         listHome.setAdapter(adapterHome);
+
+        listHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(Home_Activity.this,"Position"+position,Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnNew = findViewById(R.id.btnNew);
         btnNew.setOnClickListener(v -> {
@@ -118,12 +125,6 @@ public class Home_Activity extends AppCompatActivity {
             startActivity(i);
         });
 
-//        listHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getApplicationContext(),arrayListHome.get(position).getNameHabit(),Toast.LENGTH_SHORT).show();
-//            }
-//        }); Chưa xử lý sự kiện click vào item của listView
         getListHabit();
         getReminder();
         notification();
