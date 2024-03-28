@@ -73,8 +73,8 @@ public class Home_Activity extends AppCompatActivity {
         mPicker.setEndDate(1, 3, 2025);
         currentDay = findViewById(R.id.txtCurrentDay);
 
-        Calendar currCalendar = Calendar.getInstance();
-        currentDay.setText(currCalendar.getTime().toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        currentDay.setText(LocalDateTime.now().format(formatter));
 
         listHome = findViewById(R.id.lvHome);
         arrayListHome = new ArrayList<>();
