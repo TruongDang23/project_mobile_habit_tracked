@@ -67,6 +67,7 @@ public class Home_Activity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         acc = (Account) b.getSerializable("user_account");
+
         Calendar calendar = Calendar.getInstance();
         mPicker = findViewById(R.id.day_date_picker);
         mPicker.setStartDate(1, 3, 2024);
@@ -155,7 +156,10 @@ public class Home_Activity extends AppCompatActivity {
                         String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
                         target = calculateTarget(target, period);
                         double donViTang = habitSnapshot.child("DonViTang").getValue(Double.class);
-                        String done = doing + "/" + target + " " + donVi;
+
+                        String doingStr = String.format("%.1f", doing);
+                        String targetStr = String.format("%.1f",target);
+                        String done = doingStr + "/" + targetStr + " " + donVi;
 
 
                         if(indexItem == -1)
@@ -191,7 +195,7 @@ public class Home_Activity extends AppCompatActivity {
     }
     public double getHistoryData(DataSnapshot snapshot)
     {
-        double result = 0;
+        double result = 0.0f;
         for(DataSnapshot timeSnapshot : snapshot.getChildren())
         {
             String time = timeSnapshot.getKey();
