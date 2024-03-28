@@ -51,11 +51,11 @@ public class Home_Activity extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference ref;
     private Account acc = new Account();
+    String idUser;
     private DayScrollDatePicker mPicker;
     private TextView currentDay;
     ListView listHome;
     ArrayList<ListviewHomeTest> arrayListHome;
-
     LisviewHomeTestAdapter adapterHome;
     Button btnNew;
     ImageButton ibGraph, ibMusic, ibClock, ibSettings;
@@ -67,6 +67,7 @@ public class Home_Activity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         acc = (Account) b.getSerializable("user_account");
+        idUser = getIntent().getStringExtra("idTaiKhoan");
 
         Calendar calendar = Calendar.getInstance();
         mPicker = findViewById(R.id.day_date_picker);
@@ -103,6 +104,11 @@ public class Home_Activity extends AppCompatActivity {
         ibGraph = findViewById(R.id.ib_graph);
         ibGraph.setOnClickListener(v -> {
             Intent i = new Intent(Home_Activity.this, Progress_total.class);
+            // Tạo Bundle và đặt đối tượng Account vào Bundle
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
+            i.putExtra("idTaiKhoan", idUser);
+            i.putExtras(bundle);
             startActivity(i);
         });
 
@@ -135,7 +141,6 @@ public class Home_Activity extends AppCompatActivity {
     }
     public void getListHabit()
     {
-        String idUser = getIntent().getStringExtra("idTaiKhoan");
         getConnection(idUser);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -160,7 +165,6 @@ public class Home_Activity extends AppCompatActivity {
                         String doingStr = String.format("%.1f", doing);
                         String targetStr = String.format("%.1f",target);
                         String done = doingStr + "/" + targetStr + " " + donVi;
-
 
                         if(indexItem == -1)
                         {
