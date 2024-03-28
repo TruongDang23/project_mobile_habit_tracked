@@ -18,6 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Progress_total extends AppCompatActivity {
 
     ImageButton ibHome, ibMusic, ibClock, ibSetting;
@@ -26,9 +30,11 @@ public class Progress_total extends AppCompatActivity {
     String idUser;
     private FirebaseDatabase dataBase;
     private DatabaseReference ref;
-    int bestStreaks = 1;
+    int bestStreaks;
     int habitDone;
-    int perfectDay = 2;
+    int perfectDay;
+    int numHabit;
+    int[] perfectArr = new int[32];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +61,7 @@ public class Progress_total extends AppCompatActivity {
         getPerfectDay();
 
         txtBestSteaks.setText(Integer.toString(bestStreaks));
-        txtPerfectDay.setText(Integer.toString(perfectDay));
+
     }
     public void getEvents()
     {
@@ -133,6 +139,89 @@ public class Progress_total extends AppCompatActivity {
     }
     public void getPerfectDay()
     {
+        getConnection(idUser);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    numHabit = 0; //Vì numHabit là biến toàn cục nên phải reset rồi mới cộng
+                    for (DataSnapshot habitSnapshot : snapshot.getChildren())
+                    {
+                        String status = habitSnapshot.child("TrangThai").getValue(String.class);
+                        if(status.equals("Đang thực hiện"))
+                            numHabit = numHabit + 1; // numHabit là biến toàn cục để có thể gọi trong hàm onDataChange
+                    }
 
+                    for (DataSnapshot habitSnapshot : snapshot.getChildren())
+                    {
+                        String status = habitSnapshot.child("TrangThai").getValue(String.class);
+                        if(status.equals("Đang thực hiện"))
+                            calculatePerfectDay(habitSnapshot.child("ThoiGianThucHien"));
+                    }
+                    countPerfectDay();
+                    countBestStreaks();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Progress_total.this, "Lỗi khi đọc dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void calculatePerfectDay(DataSnapshot snapshot)
+    {
+        int oldIndex = 0;
+        for(DataSnapshot timeSnapshot : snapshot.getChildren())
+        {
+            String time = timeSnapshot.getKey();
+            if(isThisMonth(time))
+            {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm:ssa");
+                LocalDateTime parsedDateTime = LocalDateTime.parse(time, formatter);
+                int index = parsedDateTime.getDayOfMonth();
+                if (index != oldIndex)
+                {
+                    perfectArr[index] = perfectArr[index] + 1;
+                    oldIndex = index;
+                }
+            }
+        }
+    }
+    public boolean isThisMonth(String time)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm:ssa");
+        LocalDateTime parsedDateTime = LocalDateTime.parse(time, formatter);
+        return (parsedDateTime.getMonth().equals(LocalDateTime.now().getMonth())) && (parsedDateTime.getYear() == (LocalDateTime.now().getYear()));
+        //Nếu tháng & năm trên firebase trùng với tháng, năm ở thời điểm hiện tại thì TRUE, ngược lại FALSE
+    }
+    public void countPerfectDay()
+    {
+        perfectDay = 0;
+        for(int i = 0; i < 32; i++)
+        {
+            if(perfectArr[i] == numHabit)
+                perfectDay++;
+        }
+        txtPerfectDay.setText(Integer.toString(perfectDay));
+    }
+    public void countBestStreaks()
+    {
+        bestStreaks = 1;
+        int maxBestStreak = 1;
+        for(int i = 0; i < 31; i++)
+        {
+            if(perfectArr[i] == numHabit && perfectArr[i+1] == numHabit)
+                bestStreaks++;
+            if(perfectArr[i] < numHabit)
+            {
+                if(maxBestStreak <= bestStreaks)
+                    maxBestStreak = bestStreaks;
+                bestStreaks = 1;
+            }
+        }
+        maxBestStreak = (maxBestStreak == 1) ? 0 : maxBestStreak;
+        txtBestSteaks.setText(Integer.toString(maxBestStreak));
     }
 }
