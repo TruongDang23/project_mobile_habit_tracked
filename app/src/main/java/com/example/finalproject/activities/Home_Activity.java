@@ -67,6 +67,8 @@ public class Home_Activity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         acc = (Account) b.getSerializable("user_account");
+        String idTaiKhoan = getIntent().getStringExtra("idTaiKhoan");
+
         Calendar calendar = Calendar.getInstance();
         mPicker = findViewById(R.id.day_date_picker);
         mPicker.setStartDate(1, 3, 2024);
@@ -85,6 +87,15 @@ public class Home_Activity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(Home_Activity.this, ProgressActivity.class);
+                // Tạo Bundle và đặt đối tượng Account vào Bundle
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", acc);
+                intent.putExtras(bundle);
+                intent.putExtra("idThoiQuen", arrayListHome.get(position).getHabitId());
+                intent.putExtra("idTaiKhoan", idTaiKhoan);
+                Log.d("HabitID", arrayListHome.get(position).getHabitId());
+                Log.d("Username", acc.getUsername());
+                Log.d("idTaiKhoan", idTaiKhoan);
                 startActivity(intent);
             }
         });
