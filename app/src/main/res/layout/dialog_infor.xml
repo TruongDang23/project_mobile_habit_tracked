@@ -34,7 +34,7 @@
             android:enabled="false"
             android:gravity="center"
             android:textSize="18dp"
-            android:textColor="#000000"/>
+            android:textColor="#187BCE"/>
 
         <ImageView
             android:id="@+id/img_close"
@@ -69,6 +69,7 @@
             android:background="@drawable/edt_background"
             android:textColorHint="#187BCE"
             android:textStyle="bold"
+            android:textColor="#187BCE"
             android:textSize="15dp"
             android:enabled="false" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -98,6 +99,7 @@
             android:background="@drawable/edt_background"
             android:padding="5dp"
             android:textColorHint="#187BCE"
+            android:textColor="#187BCE"
             android:textStyle="bold"
             android:hint="1"
             android:enabled="false"
@@ -131,9 +133,11 @@
             android:background="@drawable/edt_background"
             android:padding="5dp"
             android:textColorHint="#187BCE"
+            android:textColor="#187BCE"
             android:textStyle="bold"
             android:enabled="false"
             android:hint="Morning"
+            android:text=""
             android:textSize="18dp"
             android:gravity="center"
             android:layout_marginStart="100dp"
@@ -164,6 +168,7 @@
             android:background="@drawable/edt_background"
             android:padding="5dp"
             android:hint="5:00"
+            android:textColor="#187BCE"
             android:textColorHint="#187BCE"
             android:textStyle="bold"
             android:enabled="false"
@@ -196,6 +201,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edt_background"
             android:textSize="18dp"
+            android:textColor="#187BCE"
+            android:textStyle="bold"
             android:enabled="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -224,6 +231,7 @@
             android:background="@drawable/edt_background"
             android:padding="5dp"
             android:textColorHint="#187BCE"
+            android:textColor="#187BCE"
             android:textStyle="bold"
             android:hint="02/03/2024"
             android:enabled="false"
@@ -245,6 +253,7 @@
             android:background="@drawable/edt_background"
             android:padding="5dp"
             android:textColorHint="#187BCE"
+            android:textColor="#187BCE"
             android:textStyle="bold"
             android:hint="03/03/2024"
             android:enabled="false"
@@ -284,6 +293,7 @@
             android:background="@drawable/edt_background"
             android:padding="5dp"
             android:textColorHint="#187BCE"
+            android:textColor="#187BCE"
             android:textStyle="bold"
             android:hint="10"
             android:enabled="false"
@@ -299,6 +309,7 @@
             android:layout_marginStart="5dp"
             android:padding="5dp"
             android:textColorHint="#187BCE"
+            android:textColor="#187BCE"
             android:textStyle="bold"
             android:hint="km"
             android:enabled="false"
@@ -321,6 +332,7 @@
             android:padding="5dp"
             android:hint="Day"
             android:textColorHint="#187BCE"
+            android:textColor="#187BCE"
             android:textStyle="bold"
             android:enabled="false"
             android:textSize="18dp"
