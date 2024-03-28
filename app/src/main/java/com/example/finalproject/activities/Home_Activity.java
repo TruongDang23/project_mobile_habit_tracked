@@ -149,32 +149,46 @@ public class Home_Activity extends AppCompatActivity {
                 {
                     for(DataSnapshot habitSnapshot : snapshot.getChildren())
                     {
-                        String habitId = habitSnapshot.getKey();
-                        int indexItem = checkHabitNotInList(habitId);
+                        String status = habitSnapshot.child("TrangThai").getValue(String.class);
 
-                        String nameHabit = habitSnapshot.child("Ten").getValue(String.class);
-                        String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
-                        String donVi = habitSnapshot.child("DonVi").getValue(String.class);
-                        String reminder = habitSnapshot.child("LoiNhacNho").getValue(String.class);
-                        double target = habitSnapshot.child("MucTieu").getValue(Double.class);
-                        double doing = getHistoryData(habitSnapshot.child("ThoiGianThucHien"));
-                        String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
-                        target = calculateTarget(target, period);
-                        double donViTang = habitSnapshot.child("DonViTang").getValue(Double.class);
-
-                        String doingStr = String.format("%.1f", doing);
-                        String targetStr = String.format("%.1f",target);
-                        String done = doingStr + "/" + targetStr + " " + donVi;
-
-                        if(indexItem == -1)
+                        if(!status.equals("Đã xóa"))
                         {
-                            arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
-                            adapterHome.notifyDataSetChanged();
-                        }
-                        else
-                        {
-                            arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
-                            adapterHome.notifyDataSetChanged();
+                            String habitId = habitSnapshot.getKey();
+                            int indexItem = checkHabitNotInList(habitId);
+
+                            String nameHabit = habitSnapshot.child("Ten").getValue(String.class);
+                            String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
+                            String donVi = habitSnapshot.child("DonVi").getValue(String.class);
+
+                            double target = habitSnapshot.child("MucTieu").getValue(Double.class);
+                            double doing = getHistoryData(habitSnapshot.child("ThoiGianThucHien"));
+                            String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
+                            target = calculateTarget(target, period);
+                            double donViTang = habitSnapshot.child("DonViTang").getValue(Double.class);
+                            String doingStr = String.format("%.1f", doing);
+                            String targetStr = String.format("%.1f",target);
+                            String done;
+
+                            if(status.equals("Đã hoàn thành"))
+                            {
+                                doing = target; //Vì đã hoàn thành nên tiến độ thực hiện luôn luôn bằng target
+                                done = targetStr + "/" + targetStr + " " + donVi; //Dữ liệu thay vì doingStr thì dùng targetStr cho tiện
+                            }
+                            else
+                            {
+                                done = doingStr + "/" + targetStr + " " + donVi;
+                            }
+
+                            if(indexItem == -1)
+                            {
+                                arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                                adapterHome.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                                adapterHome.notifyDataSetChanged();
+                            }
                         }
                     }
                 }
