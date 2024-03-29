@@ -81,7 +81,7 @@ public class ProgressActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteHabit();
+                deleteHabit(idTaiKhoan,idHabit);
             }
         });
         btnInfor.setOnClickListener(new View.OnClickListener() {
@@ -241,7 +241,7 @@ public class ProgressActivity extends AppCompatActivity {
     }
 
 
-    public void deleteHabit() {
+    public void deleteHabit(String userId,String habbitId){
         AlertDialog.Builder builder = new AlertDialog.Builder(ProgressActivity.this);
         LayoutInflater inflater = getLayoutInflater();
 
@@ -260,6 +260,8 @@ public class ProgressActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Xóa thối quen
+                        chageTrangThai(userId,habbitId);
+                        Toast.makeText(getApplicationContext(), "Deleted successfully", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -359,5 +361,9 @@ public class ProgressActivity extends AppCompatActivity {
             }
         }
         return (maxStreak == 1) ? 0 : maxStreak;
+    }
+    public void chageTrangThai(String userId,String habbitId){
+        dataBase = FirebaseDatabase.getInstance();
+        dataBase.getReference("Habit_Tracker").child("Du_Lieu").child(userId).child(habbitId).child("TrangThai").setValue("Đã Xóa");
     }
 }
