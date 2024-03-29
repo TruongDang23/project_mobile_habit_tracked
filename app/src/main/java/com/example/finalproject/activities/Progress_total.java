@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class Progress_total extends AppCompatActivity {
 
@@ -122,6 +123,7 @@ public class Progress_total extends AppCompatActivity {
                 if(snapshot.exists())
                 {
                     habitDone = 0; //Vì habitDone là bien toàn cục nên phải reset rồi mới cộng
+                    resetArray(perfectArr);
                     for (DataSnapshot habitSnapshot : snapshot.getChildren())
                     {
                         String status = habitSnapshot.child("TrangThai").getValue(String.class);
@@ -146,6 +148,7 @@ public class Progress_total extends AppCompatActivity {
                 if(snapshot.exists())
                 {
                     numHabit = 0; //Vì numHabit là biến toàn cục nên phải reset rồi mới cộng
+                    resetArray(perfectArr);
                     for (DataSnapshot habitSnapshot : snapshot.getChildren())
                     {
                         String status = habitSnapshot.child("TrangThai").getValue(String.class);
@@ -198,6 +201,11 @@ public class Progress_total extends AppCompatActivity {
     }
     public void countPerfectDay()
     {
+        /*
+        Hàm này có chức năng tăng bit ở ngày tương ứng lên 1 đơn vị khi ngày đó nguười dùng có thực hiện thói quen
+        Vì mảng có 32 phần từ: Từ 0 đến 31 sẽ tương ứng cho 31 ngày trong tháng. Phần tử nào có giá trị = số lượng thói quen đang thực hiện
+        ==> Ngày hôm đó thực hiện đầy đủ các thói quen (Bất kể khối lượng nhiều hay ít) ==> Perfect Day
+        */
         perfectDay = 0;
         for(int i = 0; i < 32; i++)
         {
@@ -208,20 +216,32 @@ public class Progress_total extends AppCompatActivity {
     }
     public void countBestStreaks()
     {
+        /*
+            Hàm này cũng dựa vào mảng perfectArr để xác định BestStreaks.
+            Khi một chuỗi perfectDay liên tiếp thì sẽ được xem là ứng cử viên cho BestStreak
+            BestStreak thật sự là số lớn nhất trong các ứng cử viên đó
+         */
         bestStreaks = 1;
         int maxBestStreak = 1;
         for(int i = 0; i < 31; i++)
         {
-            if(perfectArr[i] == numHabit && perfectArr[i+1] == numHabit)
+            if(perfectArr[i] == numHabit && perfectArr[i+1] == numHabit) //Kiểm tra đang là chuỗi perfect liên tiếp
                 bestStreaks++;
-            if(perfectArr[i] < numHabit)
+            if(perfectArr[i] < numHabit)// Bị ngắt chuỗi
             {
+                //Khi bị ngắt chuỗi thì sẽ tiến hành xem xét ứng cử viên cho BestStreak và reset lại biến bestStreak
                 if(maxBestStreak <= bestStreaks)
                     maxBestStreak = bestStreaks;
                 bestStreaks = 1;
             }
         }
+        //Khi chưa có chuỗi perfect thì maxBestStreak sẽ mang giá trị mặc định: 1
+        //Tuy nhiên không tồn tại chuỗi 1 nên phải thay bằng số 0, chuỗi là phải từ 2 trở lên
         maxBestStreak = (maxBestStreak == 1) ? 0 : maxBestStreak;
         txtBestSteaks.setText(Integer.toString(maxBestStreak));
+    }
+    public void resetArray(int[] arr)
+    {
+        Arrays.fill(arr, 0);
     }
 }
