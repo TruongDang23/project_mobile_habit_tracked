@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class Create_habit extends AppCompatActivity {
     private Button btnMorning, btnAfternoon, btnEvening, btnAnytime, btntime;
     private Button btnDonVi, btnDay, btnWeek, btnMonth;
     private Button btnBatDau, btnKetThuc;
+    private ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,15 @@ public class Create_habit extends AppCompatActivity {
         editIncrease = findViewById(R.id.editIncrease);
         editReminderMessage = findViewById(R.id.editReminderMessage);
         editNumber = findViewById(R.id.editNumber);
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Create_habit.this, Home_Activity.class);
+                startActivity(intent);
+            }
+        });
+
         habitTerm();
         handleReminder();
         timeRange();
