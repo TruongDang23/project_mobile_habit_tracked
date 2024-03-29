@@ -18,11 +18,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.finalproject.R;
+import com.example.finalproject.model.Account;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class Pomorodo extends AppCompatActivity {
+    private Account getAccount = new Account();
     ImageButton ibHome, ibGraph, ibMusic, ibClock, ibSetting;
     boolean isTimeRunning = false, isBreak = false;
     final static long DEFAULT_WORKING_TIME = 1500000, DEFAULT_BREAK_TIME = 300000;
@@ -57,18 +59,28 @@ public class Pomorodo extends AppCompatActivity {
         ibClock = findViewById(R.id.ib_clock);
         ibSetting = findViewById(R.id.ib_settings);
 
-        // Set up the buttons to go to the correct activity
+
+        String idTaiKhoan = getIntent().getStringExtra("idTaiKhoan");
+        getData();
         ibHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Pomorodo.this, Home_Activity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", getAccount);
+                intent.putExtra("idTaiKhoan", idTaiKhoan);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
         ibGraph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Pomorodo.this, ProgressActivity.class);
+                Intent intent = new Intent(Pomorodo.this, Progress_total.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", getAccount);
+                intent.putExtra("idTaiKhoan", idTaiKhoan);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -76,6 +88,10 @@ public class Pomorodo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Pomorodo.this, SongsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", getAccount);
+                intent.putExtra("idTaiKhoan", idTaiKhoan);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -83,6 +99,10 @@ public class Pomorodo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Pomorodo.this, Pomorodo.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", getAccount);
+                intent.putExtra("idTaiKhoan", idTaiKhoan);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -90,10 +110,22 @@ public class Pomorodo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Pomorodo.this, Setting.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", getAccount);
+                intent.putExtra("idTaiKhoan", idTaiKhoan);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
         onStart();
+    }
+    public void getData(){
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            // Lấy đối tượng Account từ Bundle
+            Account account = (Account) bundle.getSerializable("user_account");
+            getAccount = account;
+        }
     }
     protected void onStart() {
         super.onStart();

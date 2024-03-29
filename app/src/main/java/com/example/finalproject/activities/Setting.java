@@ -51,18 +51,34 @@ public class Setting extends AppCompatActivity {
         imgBtnMusic = findViewById(R.id.ib_music);
         imgBtnGraph.setOnClickListener(v -> {
             Intent intent = new Intent(Setting.this, Progress_total.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", getAccount);
+            intent.putExtra("idTaiKhoan", idTaiKhoan);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
         imgBtnClcok.setOnClickListener(v -> {
             Intent intent = new Intent(Setting.this, Pomorodo.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", getAccount);
+            intent.putExtra("idTaiKhoan", idTaiKhoan);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
         imgBtnHome.setOnClickListener(v -> {
             Intent intent = new Intent(Setting.this, Home_Activity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", getAccount);
+            intent.putExtra("idTaiKhoan", idTaiKhoan);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
         imgBtnMusic.setOnClickListener(v -> {
             Intent intent = new Intent(Setting.this, SongsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", getAccount);
+            intent.putExtra("idTaiKhoan", idTaiKhoan);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
 
