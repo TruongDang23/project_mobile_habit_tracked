@@ -236,5 +236,4 @@ public class ProgressActivity extends AppCompatActivity {
         dataBase = FirebaseDatabase.getInstance();
         ref = dataBase.getReference("Habit_Tracker").child("Du_Lieu").child(idUser).child(idHabit);
     }
-
 }
