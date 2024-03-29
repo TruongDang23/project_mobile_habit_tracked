@@ -36,11 +36,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class ProgressActivity extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference ref;
     private Account acc = new Account();
+    private int[] perfectArr = new int[32];
     TextView txtDIM, txtTTD, txtVTT, txtCS;
 
     @Override
@@ -105,6 +107,9 @@ public class ProgressActivity extends AppCompatActivity {
                 {
                     try
                     {
+                        //Reset array
+                        Arrays.fill(perfectArr,0);
+
                         //Lấy tên thói quen
                         String ten = snapshot.child("Ten").getValue(String.class);
                         tvDetail.setText(ten);
@@ -120,8 +125,12 @@ public class ProgressActivity extends AppCompatActivity {
                         txtVTT.setText(fomatNumber + " " + unit);
 
                         //Lấy Done in month
+                        int doneInMonth = getDoneInMonth(snapshot.child("ThoiGianThucHien"));
+                        txtDIM.setText(doneInMonth + " Days");
 
                         //Lấy Current Streak
+                        int streak = getCurrentSteak();
+                        txtCS.setText(streak + " Days");
                     }
                     catch (Exception e)
                     {
@@ -299,5 +308,56 @@ public class ProgressActivity extends AppCompatActivity {
         LocalDateTime parsedCurr = LocalDateTime.parse(curr, formatter);
         LocalDateTime parsedPre = LocalDateTime.parse(pre, formatter);
         return parsedCurr.toLocalDate().equals(parsedPre.toLocalDate());
+    }
+    public int getDoneInMonth(DataSnapshot snapshot)
+    {
+        for(DataSnapshot timeSnapshot : snapshot.getChildren())
+        {
+            String time = timeSnapshot.getKey();
+            if(isInCurrentMonth(time))
+            {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm:ssa");
+                LocalDateTime parsedTime = LocalDateTime.parse(time, formatter);
+
+                perfectArr[parsedTime.getDayOfMonth()] = 1;
+            }
+        }
+        return countDay();
+    }
+    public boolean isInCurrentMonth(String time)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm:ssa");
+        LocalDateTime parsedTime = LocalDateTime.parse(time, formatter);
+
+        return (parsedTime.getMonth().equals(LocalDateTime.now().getMonth())) && (parsedTime.getYear() == LocalDateTime.now().getYear());
+    }
+    public int countDay()
+    {
+        int day = 0;
+        for (int i = 0; i < perfectArr.length; i++)
+        {
+            if(perfectArr[i] == 1)
+                day++;
+        }
+        return day;
+    }
+    public int getCurrentSteak()
+    {
+        int maxStreak = 0;
+        int streak = 1;
+        for(int i = 0; i < perfectArr.length - 1; i++)
+        {
+            if(perfectArr[i] == 1 && perfectArr[i+1] == 1)
+                streak++;
+            else if (perfectArr[i] == 0)
+            {
+                if(maxStreak <= streak)
+                {
+                    maxStreak = streak;
+                    streak = 1;
+                }
+            }
+        }
+        return (maxStreak == 1) ? 0 : maxStreak;
     }
 }
