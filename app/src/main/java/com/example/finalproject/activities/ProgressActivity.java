@@ -34,10 +34,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class ProgressActivity extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference ref;
     private Account acc = new Account();
+    TextView txtDIM, txtTTD, txtVTT, txtCS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,19 +92,45 @@ public class ProgressActivity extends AppCompatActivity {
 
     public void getDetailHabit(String idHabit, String idTaiKhoan) {
         TextView tvDetail = (TextView) findViewById(R.id.tvDetail);
+        txtDIM = (TextView) findViewById(R.id.tvDoneinMonth);
+        txtTTD = (TextView) findViewById(R.id.tvTotalDone);
+        txtVTT = (TextView) findViewById(R.id.tvVolTotal);
+        txtCS = (TextView) findViewById(R.id.tvCurrentStreak);
+
         getConnection(idTaiKhoan, idHabit);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String ten = snapshot.child("Ten").getValue(String.class);
-                    tvDetail.setText(ten);
-                    try {
-                    } catch (Exception e) {
+                if (snapshot.exists())
+                {
+                    try
+                    {
+                        //Lấy tên thói quen
+                        String ten = snapshot.child("Ten").getValue(String.class);
+                        tvDetail.setText(ten);
+
+                        //Lấy Total Done
+                        int totalDone = getTotalDone(snapshot.child("ThoiGianThucHien"));
+                        txtTTD.setText(totalDone + " Days");
+
+                        //Lấy Vol Total
+                        Double vol = getVolTotal(snapshot.child("ThoiGianThucHien"));
+                        String fomatNumber = String.format("%.1f",vol);
+                        String unit = snapshot.child("DonVi").getValue(String.class);
+                        txtVTT.setText(fomatNumber + " " + unit);
+
+                        //Lấy Done in month
+
+                        //Lấy Current Streak
+                    }
+                    catch (Exception e)
+                    {
                         Toast.makeText(ProgressActivity.this, e.toString() + "\n", Toast.LENGTH_LONG).show();
                         Log.d("Error", e.toString());
                     }
-                } else {
+                }
+                else
+                {
                     Toast.makeText(ProgressActivity.this, "Không tìm thấy dữ liệu", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -235,5 +265,39 @@ public class ProgressActivity extends AppCompatActivity {
     public void getConnection(String idUser, String idHabit) {
         dataBase = FirebaseDatabase.getInstance();
         ref = dataBase.getReference("Habit_Tracker").child("Du_Lieu").child(idUser).child(idHabit);
+    }
+    public Double getVolTotal(DataSnapshot snapshot)
+    {
+        double result = 0;
+        for(DataSnapshot timeSnapshot : snapshot.getChildren())
+        {
+            double vol = timeSnapshot.getValue(Double.class);
+            result += vol;
+        }
+        return result;
+    }
+    public int getTotalDone(DataSnapshot snapshot)
+    {
+        int day = 0;
+        String current = "";
+        String previous = "";
+        for(DataSnapshot timeSnapshot : snapshot.getChildren())
+        {
+            current = timeSnapshot.getKey();
+            if(previous.isEmpty() || !isSameDay(current,previous))
+            {
+                day++;
+                previous = current;
+            }
+        }
+        return day;
+    }
+    public boolean isSameDay(String curr, String pre)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm:ssa");
+
+        LocalDateTime parsedCurr = LocalDateTime.parse(curr, formatter);
+        LocalDateTime parsedPre = LocalDateTime.parse(pre, formatter);
+        return parsedCurr.toLocalDate().equals(parsedPre.toLocalDate());
     }
 }
