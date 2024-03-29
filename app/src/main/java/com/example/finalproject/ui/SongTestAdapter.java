@@ -84,7 +84,7 @@ public class SongTestAdapter extends ArrayAdapter<SongTestGridView> {
         } else if (url.equalsIgnoreCase("6")) {
             videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t6);
         } else if (url.equalsIgnoreCase("7")) {
-            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t7);
+            videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t71);
         } else if (url.equalsIgnoreCase("8")) {
             videoView.setVideoPath("android.resource://" + this.getContext().getPackageName() + "/" + R.raw.t8);
         }
