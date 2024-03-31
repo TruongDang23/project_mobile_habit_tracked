@@ -4,11 +4,14 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.finalproject.R;
+import com.example.finalproject.ui.MyPagerProgressAdapter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -20,6 +23,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +64,15 @@ public class ProgressWeekFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    public static ProgressWeekFragment newInstance(String idHabit, String idTaiKhoan, String test) {
+        ProgressWeekFragment fragment = new ProgressWeekFragment();
+        Bundle args = new Bundle();
+        args.putString("idHabit", idHabit);
+        args.putString("idTaiKhoan", idTaiKhoan);
+        args.putString("test", test);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +87,12 @@ public class ProgressWeekFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress_week, container, false);
+        // Lấy dữ liệu
+        String idHabit = getArguments().getString("idHabit");
+        String idTaiKhoan = getArguments().getString("idTaiKhoan");
+        Log.d("idHabit w", idHabit);
+        Log.d("idTaiKhoan w", idTaiKhoan);
+
         barChart = view.findViewById(R.id.barChart);
         setUpBarChart();
         loadBarChartData();
