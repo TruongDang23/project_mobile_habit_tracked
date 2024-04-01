@@ -11,6 +11,23 @@ import com.example.finalproject.activities.ProgressWeekFragment;
 
 public class MyPagerProgressAdapter extends FragmentPagerAdapter {
     private int numOfTabs;
+    private String idHabit;
+    private String idTaiKhoan;
+    private String test = "";
+
+    public MyPagerProgressAdapter(@NonNull FragmentManager fm, int numOfTabs, String idHabit, String idTaiKhoan, String test) {
+        super(fm);
+        this.numOfTabs = numOfTabs;
+        this.idHabit = idHabit;
+        this.idTaiKhoan = idTaiKhoan;
+        this.test = test;
+    }
+    public String getIdHabit() {
+        return this.idHabit;
+    }
+    public String getIdTaiKhoan() {
+        return this.idTaiKhoan;
+    }
 
     public MyPagerProgressAdapter(@NonNull FragmentManager fm, int numOfTabs) {
         super(fm);
@@ -26,11 +43,11 @@ public class MyPagerProgressAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new ProgressDayFragment();
+                return ProgressDayFragment.newInstance(idHabit, idTaiKhoan, test);
             case 1:
-                return new ProgressWeekFragment();
+                return ProgressWeekFragment.newInstance(idHabit, idTaiKhoan, test);
             case 2:
-                return new ProgressMonthFragment();
+                return ProgressMonthFragment.newInstance(idHabit, idTaiKhoan, test);
             default:
                 return null;
         }
