@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,11 +19,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Progress_total extends AppCompatActivity {
 
@@ -36,6 +44,10 @@ public class Progress_total extends AppCompatActivity {
     int perfectDay;
     int numHabit;
     int[] perfectArr = new int[32];
+    private MaterialCalendarView calendar;
+    private Set<CalendarDay> habitDays = new HashSet<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +69,12 @@ public class Progress_total extends AppCompatActivity {
         ibMusic = (ImageButton) findViewById(R.id.ib_music);
         ibClock = (ImageButton) findViewById(R.id.ib_clock);
 
+        calendar = (MaterialCalendarView) findViewById(R.id.calendarView);
+
         getBestStreaks();
         getHabitDone();
         getPerfectDay();
+        highlightDays();
 
         txtBestSteaks.setText(Integer.toString(bestStreaks));
 
@@ -114,6 +129,38 @@ public class Progress_total extends AppCompatActivity {
     {
 
     }
+    public void highlightDays() {
+        getConnection(idUser);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot habitSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot timeSnapshot : habitSnapshot.child("ThoiGianThucHien").getChildren()) {
+                        String time = timeSnapshot.getKey();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm:ssa");
+                        LocalDateTime parsedDateTime = LocalDateTime.parse(time, formatter);
+                        CalendarDay day = CalendarDay.from(parsedDateTime.getYear(), parsedDateTime.getMonthValue(), parsedDateTime.getDayOfMonth());
+                        habitDays.add(day);
+                    }
+                }
+                setupCalendar();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Progress_total.this, "Lỗi khi đọc dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setupCalendar() {
+        calendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
+        calendar.setDateSelected(CalendarDay.today(), true);
+        for (CalendarDay day : habitDays) {
+            calendar.setDateSelected(day, true);
+        }
+    }
+
     public void getHabitDone()
     {
         getConnection(idUser);
