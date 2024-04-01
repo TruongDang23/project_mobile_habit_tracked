@@ -361,4 +361,3 @@ public class ProgressActivity extends AppCompatActivity {
         return (maxStreak == 1) ? 0 : maxStreak;
     }
 }
-//Nguyen Bao Quoc
