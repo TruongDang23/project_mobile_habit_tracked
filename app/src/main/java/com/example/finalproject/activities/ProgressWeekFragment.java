@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.finalproject.R;
@@ -20,10 +21,13 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.time.LocalDate;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,6 +68,7 @@ public class ProgressWeekFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public static ProgressWeekFragment newInstance(String idHabit, String idTaiKhoan, String test) {
         ProgressWeekFragment fragment = new ProgressWeekFragment();
         Bundle args = new Bundle();
@@ -93,6 +98,9 @@ public class ProgressWeekFragment extends Fragment {
         Log.d("idHabit w", idHabit);
         Log.d("idTaiKhoan w", idTaiKhoan);
 
+        // Load x_values
+        loadXValues();
+
         barChart = view.findViewById(R.id.barChart);
         setUpBarChart();
         loadBarChartData();
@@ -100,6 +108,7 @@ public class ProgressWeekFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
     private void setUpBarChart() {
         barChart.getAxisRight().setDrawLabels(false);
         barChart.setDrawBarShadow(false);
@@ -110,15 +119,25 @@ public class ProgressWeekFragment extends Fragment {
         barChart.setDrawBorders(true);
         barChart.setBorderColor(getResources().getColor(R.color.Blue));
     }
+
     private void loadBarChartData() {
         ArrayList<BarEntry> barEntriesArrayList = new ArrayList<>();
-        barEntriesArrayList.add(new BarEntry(0f, 4));
-        barEntriesArrayList.add(new BarEntry(1f, 6));
-        barEntriesArrayList.add(new BarEntry(2f, 8));
-        barEntriesArrayList.add(new BarEntry(3f, 2));
-        barEntriesArrayList.add(new BarEntry(4f, 4));
-        barEntriesArrayList.add(new BarEntry(5f, 1));
-        barEntriesArrayList.add(new BarEntry(6f, 3));
+//        barEntriesArrayList.add(new BarEntry(0f, 4));
+//        barEntriesArrayList.add(new BarEntry(1f, 6));
+//        barEntriesArrayList.add(new BarEntry(2f, 8));
+//        barEntriesArrayList.add(new BarEntry(3f, 2));
+//        barEntriesArrayList.add(new BarEntry(4f, 4));
+//        barEntriesArrayList.add(new BarEntry(5f, 1));
+//        barEntriesArrayList.add(new BarEntry(6f, 3));
+        // Nếu không có dữ liệu thì mặc định là 0
+        for (int i = 0; i < 7; i++) {
+            if (x_values.get(i).equals("")) {
+                barEntriesArrayList.add(new BarEntry(i, null));
+            } else {
+                int random = (int) (Math.random() * 10 + 1);
+                barEntriesArrayList.add(new BarEntry(i, random));
+            }
+        }
 
         YAxis yAxis = barChart.getAxisLeft();
         yAxis.setAxisMinimum(0);
@@ -135,9 +154,38 @@ public class ProgressWeekFragment extends Fragment {
         barChart.getDescription().setEnabled(false);
         barChart.invalidate();
 
+
         barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(x_values));
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setGranularity(1f);
         barChart.getXAxis().setGranularityEnabled(true);
+    }
+
+    // Hàm lấy ngày hiện tại trong tuần cho vào x_values
+    private void loadXValues() {
+        int currentDay = LocalDateTime.now().getDayOfMonth();
+        int currentMonth = LocalDateTime.now().getMonthValue();
+        //int currentDay = 9;
+        Log.d("currentDayIndex", String.valueOf(currentDay));
+        if (currentDay > 7) {
+            for (int i = 0; i < 7; i++) {
+                int day = currentDay - i;
+                if (day <= 0) {
+                    day += 30;
+                }
+                String dayMonth = day + "/" + currentMonth;
+                x_values.set(6 - i, dayMonth);
+            }
+        } else if (currentDay <= 7) {
+            for (int i = 1; i < currentDay + 1; i++) {
+                String dayMonth = i + "/" + currentMonth;
+                x_values.set(i-1, dayMonth);
+            }
+            for (int i = currentDay +1; i < 8; i++) {
+                x_values.set(i-1, "");
+            }
+        }
+        Log.d("x_values", x_values.toString());
+
     }
 }
