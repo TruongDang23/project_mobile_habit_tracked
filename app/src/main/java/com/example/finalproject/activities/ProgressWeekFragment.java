@@ -134,7 +134,7 @@ public class ProgressWeekFragment extends Fragment {
 
     private void loadBarChartData(String idHabit, String idTaiKhoan) {
         getConnection(idTaiKhoan, idHabit);
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -151,6 +151,51 @@ public class ProgressWeekFragment extends Fragment {
                         habitWeek.setKhoangThoiGian(khoangThoiGianInt);
                         String trangThai = dataSnapshot.child("TrangThai").getValue(String.class);
                         habitWeek.setTrangThai(trangThai);
+
+                        // Set up BarChart
+                        ArrayList<BarEntry> barEntriesArrayList = new ArrayList<>();
+                        // Nếu không có dữ liệu thì mặc định là 0
+                        for (int i = 0; i < 7; i++) {
+                            if (x_values.get(i).equals("")) {
+                                barEntriesArrayList.add(new BarEntry(i, null));
+                            } else {
+                                float random = (float) (Math.random() * 10);
+                                barEntriesArrayList.add(new BarEntry(i, random));
+                            }
+                        }
+                        YAxis yAxis = barChart.getAxisLeft();
+                        yAxis.setAxisMinimum(0);
+                        float maxAxis = calculateMaxAxis(habitWeek.getMucTieu(), habitWeek.getSoNgayThucHien());
+                        try {
+                            Log.d("t1", String.valueOf(habitWeek.getSoNgayThucHien()));
+                            yAxis.setAxisMaximum(maxAxis);
+                            // maxAxisInt bbằng số thực của maxAxis
+                            int maxAxisInt = (int) Math.ceil(maxAxis);
+                            yAxis.setLabelCount(maxAxisInt);
+                            Log.d("maxAxis", String.valueOf(maxAxis));
+                            Log.d("maxAxisInt", String.valueOf(maxAxisInt));
+                        } catch (Exception e) {
+                            Log.d("Error", e.getMessage());
+
+                        }
+                        //yAxis.setAxisMaximum(10);
+                        yAxis.setGranularity(1f);
+                        //yAxis.setLabelCount(10);
+
+                        BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, "Weekly Progress");
+                        int color = getResources().getColor(R.color.Blue);
+                        barDataSet.setColor(color);
+
+                        BarData barData = new BarData(barDataSet);
+                        barChart.setData(barData);
+                        barChart.getDescription().setEnabled(false);
+                        barChart.invalidate();
+
+
+                        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(x_values));
+                        barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                        barChart.getXAxis().setGranularity(1f);
+                        barChart.getXAxis().setGranularityEnabled(true);
                     }
                     catch (Exception e) {
                         Log.d("Error", e.getMessage());
@@ -167,47 +212,7 @@ public class ProgressWeekFragment extends Fragment {
             }
         });
 
-        ArrayList<BarEntry> barEntriesArrayList = new ArrayList<>();
-        // Nếu không có dữ liệu thì mặc định là 0
-        for (int i = 0; i < 7; i++) {
-            if (x_values.get(i).equals("")) {
-                barEntriesArrayList.add(new BarEntry(i, null));
-            } else {
-                int random = (int) (Math.random() * 10 + 1);
-                barEntriesArrayList.add(new BarEntry(i, random));
-            }
-        }
 
-        YAxis yAxis = barChart.getAxisLeft();
-        yAxis.setAxisMinimum(0);
-        int maxAxis = calculateMaxAxis(habitWeek.getMucTieu(), habitWeek.getSoNgayThucHien());
-        try {
-            Log.d("t1", String.valueOf(habitWeek.getSoNgayThucHien()));
-            yAxis.setAxisMaximum(maxAxis);
-            yAxis.setLabelCount(maxAxis);
-            Log.d("maxAxis", String.valueOf(maxAxis));
-        } catch (Exception e) {
-            Log.d("Error", e.getMessage());
-
-        }
-        //yAxis.setAxisMaximum(10);
-        yAxis.setGranularity(1f);
-        //yAxis.setLabelCount(10);
-
-        BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, "Weekly Progress");
-        int color = getResources().getColor(R.color.Blue);
-        barDataSet.setColor(color);
-
-        BarData barData = new BarData(barDataSet);
-        barChart.setData(barData);
-        barChart.getDescription().setEnabled(false);
-        barChart.invalidate();
-
-
-        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(x_values));
-        barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        barChart.getXAxis().setGranularity(1f);
-        barChart.getXAxis().setGranularityEnabled(true);
     }
     private int getThoiGianThucHien(String thoiGianBatDau, String thoiGianKetThuc) {
         // thoiGianBatDau và thoiGianKetThuc có dạng "dd-MM-yyyy"
@@ -218,9 +223,9 @@ public class ProgressWeekFragment extends Fragment {
         int thoiGianThucHien = ngayKetThuc.getDayOfYear() - ngayBatDau.getDayOfYear();
         return thoiGianThucHien;
     }
-    private int calculateMaxAxis(double mucTieu, int thoiGianThucHien) {
-        // maxAxis = thoiGianThucHien / mucTieu
-        int maxAxis = (int) Math.ceil(thoiGianThucHien / mucTieu);
+    private float calculateMaxAxis(double mucTieu, int thoiGianThucHien) {
+        //int maxAxis = (int) Math.ceil(mucTieu*1.0 / thoiGianThucHien);
+        float maxAxis = (float) Math.ceil(mucTieu*1.0 / thoiGianThucHien);
         return maxAxis;
     }
     private int getKhoangThoiGian(String khoangThoiGian) {
