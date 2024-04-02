@@ -5,6 +5,16 @@ public class HabitWeek {
     private int soNgayThucHien;
     private int khoangThoiGian;
     private String trangThai;
+    private double donViTang;
+    private float mucTieuNgay;
+
+    public float getMucTieuNgay() {
+        return mucTieuNgay;
+    }
+
+    public void setMucTieuNgay(float mucTieuNgay) {
+        this.mucTieuNgay = mucTieuNgay;
+    }
 
     public HabitWeek() {
     }
@@ -46,5 +56,13 @@ public class HabitWeek {
 
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
+    }
+
+    public double getDonViTang() {
+        return donViTang;
+    }
+
+    public void setDonViTang(double donViTang) {
+        this.donViTang = donViTang;
     }
 }

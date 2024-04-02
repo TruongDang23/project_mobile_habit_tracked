@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -151,6 +152,10 @@ public class ProgressWeekFragment extends Fragment {
                         habitWeek.setKhoangThoiGian(khoangThoiGianInt);
                         String trangThai = dataSnapshot.child("TrangThai").getValue(String.class);
                         habitWeek.setTrangThai(trangThai);
+                        double donViTang = dataSnapshot.child("DonViTang").getValue(Double.class);
+                        habitWeek.setDonViTang(donViTang);
+                        float mucTieuNgay = calculateMaxAxis(muctieu, thoiGianThucHien);
+                        habitWeek.setMucTieuNgay(mucTieuNgay);
 
                         // Set up BarChart
                         ArrayList<BarEntry> barEntriesArrayList = new ArrayList<>();
@@ -159,30 +164,18 @@ public class ProgressWeekFragment extends Fragment {
                             if (x_values.get(i).equals("")) {
                                 barEntriesArrayList.add(new BarEntry(i, null));
                             } else {
-                                float random = (float) (Math.random() * 10);
-                                barEntriesArrayList.add(new BarEntry(i, random));
+                                float percentDay = calculateIncrease(dataSnapshot.child("ThoiGianThucHien"), mucTieuNgay, i+1);
+                                barEntriesArrayList.add(new BarEntry(i, percentDay));
                             }
                         }
                         YAxis yAxis = barChart.getAxisLeft();
                         yAxis.setAxisMinimum(0);
-                        float maxAxis = calculateMaxAxis(habitWeek.getMucTieu(), habitWeek.getSoNgayThucHien());
-                        try {
-                            Log.d("t1", String.valueOf(habitWeek.getSoNgayThucHien()));
-                            yAxis.setAxisMaximum(maxAxis);
-                            // maxAxisInt bbằng số thực của maxAxis
-                            int maxAxisInt = (int) Math.ceil(maxAxis);
-                            yAxis.setLabelCount(maxAxisInt);
-                            Log.d("maxAxis", String.valueOf(maxAxis));
-                            Log.d("maxAxisInt", String.valueOf(maxAxisInt));
-                        } catch (Exception e) {
-                            Log.d("Error", e.getMessage());
 
-                        }
-                        //yAxis.setAxisMaximum(10);
+                        yAxis.setAxisMaximum(100);
                         yAxis.setGranularity(1f);
-                        //yAxis.setLabelCount(10);
+                        yAxis.setLabelCount(10);
 
-                        BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, "Weekly Progress");
+                        BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, "Weekly Progress (%)");
                         int color = getResources().getColor(R.color.Blue);
                         barDataSet.setColor(color);
 
@@ -225,8 +218,9 @@ public class ProgressWeekFragment extends Fragment {
     }
     private float calculateMaxAxis(double mucTieu, int thoiGianThucHien) {
         //int maxAxis = (int) Math.ceil(mucTieu*1.0 / thoiGianThucHien);
-        float maxAxis = (float) Math.ceil(mucTieu*1.0 / thoiGianThucHien);
-        return maxAxis;
+        double result = mucTieu * 1.0 / thoiGianThucHien;
+        double roundedResult = Math.round(result * 100.0) / 100.0;
+        return (float) roundedResult;
     }
     private int getKhoangThoiGian(String khoangThoiGian) {
         if (khoangThoiGian.equals("Day")) {
@@ -238,6 +232,26 @@ public class ProgressWeekFragment extends Fragment {
         }
         return 0;
     }
+    // Hàm tính toán độ tăng của một thói quen trong ngày
+    private float calculateIncrease(DataSnapshot dataSnapshot, float mucTieuNgay, int ngay) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm:ssa");
+        int currentMonth = LocalDateTime.now().getMonthValue();
+        double value = 0;
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            String key = snapshot.getKey();
+            String[] keyArr = key.split(" ");
+            String[] dateArr = keyArr[0].split("-");
+            int day = Integer.parseInt(dateArr[0]);
+            int month = Integer.parseInt(dateArr[1]);
+            if (day == ngay && month == currentMonth) {
+                value += snapshot.getValue(Double.class);
+            }
+        }
+        // Tính phần trăm value so với mucTieuNgay
+        double increase = Math.round((value * 100.0* 100.0 / mucTieuNgay)/ 100.0);
+        return (float) increase;
+    }
+
 
     // Hàm lấy ngày hiện tại trong tuần cho vào x_values
     private void loadXValues() {
