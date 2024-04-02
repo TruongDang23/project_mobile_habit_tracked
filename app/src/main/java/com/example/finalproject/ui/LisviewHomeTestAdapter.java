@@ -32,6 +32,7 @@ public class LisviewHomeTestAdapter extends ArrayAdapter<ListviewHomeTest> {
     private ArrayList<ListviewHomeTest> listviewHomeTestsArrayList;
     private FirebaseDatabase database;
     private DatabaseReference ref;
+    private String idUser = "User001";
 
     public LisviewHomeTestAdapter(ArrayList<ListviewHomeTest> listviewHomeTestsArrayList, Activity context, int resourceID) {
         super(context, resourceID, listviewHomeTestsArrayList);
@@ -63,7 +64,7 @@ public class LisviewHomeTestAdapter extends ArrayAdapter<ListviewHomeTest> {
         ibPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getConnection("User001", listviewHomeTest.getHabitId());
+                getConnection(idUser, listviewHomeTest.getHabitId());
                 increaseData(listviewHomeTestsArrayList.get(position).getDonViTang());
             }
         });
@@ -71,7 +72,7 @@ public class LisviewHomeTestAdapter extends ArrayAdapter<ListviewHomeTest> {
         ibMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getConnection("User001", listviewHomeTest.getHabitId());
+                getConnection(idUser, listviewHomeTest.getHabitId());
                 decreaseData(listviewHomeTestsArrayList.get(position).getDonViTang());
             }
         });

@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -151,12 +152,18 @@ public class Home_Activity extends AppCompatActivity {
                         String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
                         String donVi = habitSnapshot.child("DonVi").getValue(String.class);
                         double target = habitSnapshot.child("MucTieu").getValue(Double.class);
+                        double maxVol = target; //Được sử dụng để check trạng thái Đã hoàn thành
                         double doing = getHistoryData(habitSnapshot.child("ThoiGianThucHien"));
                         String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
                         target = calculateTarget(target, period);
                         double donViTang = habitSnapshot.child("DonViTang").getValue(Double.class);
                         String done = doing + "/" + target + " " + donVi;
+                        String dateEnd = habitSnapshot.child("ThoiGianKetThuc").getValue(String.class);
 
+                        if(todayIsExpire(dateEnd) && isMaxVol(habitSnapshot.child("ThoiGianThucHien"),maxVol))
+                        {
+                            ref.child(habitId).child("TrangThai").setValue("Đã hoàn thành");
+                        }
 
                         if(indexItem == -1)
                         {
@@ -215,7 +222,25 @@ public class Home_Activity extends AppCompatActivity {
         }
         return -1;
     }
-
+    public boolean todayIsExpire(String time)
+    {
+        boolean result = true;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        try {
+            LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
+            result = dateTime.toLocalDate().equals(LocalDateTime.now().toLocalDate());
+        } catch (DateTimeParseException e) {
+            System.err.println("Error parsing date: " + e.getMessage());
+        }
+        return result;
+    }
+    public boolean isMaxVol(DataSnapshot snapshot, Double maxVol)
+    {
+        double result = 0;
+        for(DataSnapshot data : snapshot.getChildren())
+            result += data.getValue(Double.class);
+        return result >= maxVol;
+    }
     public void getReminder() {
         String idUser = getIntent().getStringExtra("idTaiKhoan");
         getConnection(idUser);
