@@ -172,7 +172,7 @@ public class Create_habit extends AppCompatActivity {
         period = determinePeriod();
 
         if(checkTarget(goal, implementationDays, increase)){
-            Toast.makeText(Create_habit.this, "Bạn nên nhập mục tiêu lớn hơn để mục tiêu trong một ngày không nhỏ hơn đơn vị tăng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Create_habit.this, "Mục tiêu của bạn quá ít để thực hiện", Toast.LENGTH_SHORT).show();
             return;
         }
 

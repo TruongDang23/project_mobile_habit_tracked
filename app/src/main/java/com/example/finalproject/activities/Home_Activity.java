@@ -154,7 +154,7 @@ public class Home_Activity extends AppCompatActivity {
                         String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
                         target = calculateTarget(target, period);
                         double donViTang = habitSnapshot.child("DonViTang").getValue(Double.class);
-                        String done = doing + "/" + target + " " + donVi;
+                        String done = doing + "/" + String.format("%.1f",target) + " " + donVi;
                         String dateEnd = habitSnapshot.child("ThoiGianKetThuc").getValue(String.class);
 
                         if(todayIsExpire(dateEnd) && isMaxVol(habitSnapshot.child("ThoiGianThucHien"),maxVol))
@@ -183,15 +183,15 @@ public class Home_Activity extends AppCompatActivity {
             }
         });
     }
-    public int calculateTarget(double target, String period)
+    public double calculateTarget(double target, String period)
     {
-        int result = 0;
+        double result = 0;
         if(period.equals("Day"))
-            return (int)target;
+            return target;
         else if(period.equals("Week"))
-            return (int) Math.ceil(target * 1.0 / 7);
+            return (target/ 7);
         else if (period.equals("Month"))
-            return (int) Math.ceil(target * 1.0 / 30);
+            return (target/ 30);
         return result;
     }
     public double getHistoryData(DataSnapshot snapshot)
