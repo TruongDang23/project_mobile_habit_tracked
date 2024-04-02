@@ -2,6 +2,7 @@ package com.example.finalproject.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -49,31 +50,101 @@ public class Edit_habit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
         doFormWidget();
-        //showInfor();
+        showInfor();
+        handleGoalPeriod();
+        btnComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeHabit();
+            }
+        });
     }
     private void doFormWidget(){
         idTaiKhoan = getIntent().getStringExtra("idTaiKhoan");
         idThoiQuen=getIntent().getStringExtra("idThoiQuen");
+        btnComplete=findViewById(R.id.btnComplete);
         editName = findViewById(R.id.editName);
         editDescription = findViewById(R.id.editDescription);
         editIncrease = findViewById(R.id.editIncrease);
         editReminderMessage = findViewById(R.id.editReminderMessage);
         editNumber = findViewById(R.id.editNumber);
+        btntime=findViewById(R.id.btntime);
+        btnBatDau=findViewById(R.id.btnBatDau);
+        btnKetThuc=findViewById(R.id.btnKetThuc);
+        btnDonVi=findViewById(R.id.btnDonVi);
+       // showInfor();
         habitTerm();
         handleReminder();
         timeRange();
         handleGoal();
-
+        handleGoalPeriod();
 
     }
     private void showInfor(){
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
+        Bundle bundlehabit = getIntent().getExtras();
+        if (bundlehabit != null) {
             // Lấy đối tượng Habit từ Bundle
-            Habit habit = (Habit) bundle.getSerializable("idThoiQuen");
+                Habit habit = (Habit) bundlehabit.getSerializable("habit");
                     editName.setText(habit.getTen());
-            }
+                    editDescription.setText(habit.getMoTa());
+                    editIncrease.setText(Double.toString(habit.getDonViTang()));
+                    editReminderMessage.setText(habit.getLoiNhacNho());
+                    editNumber.setText(Integer.toString(habit.getMucTieu()));
+                    String timerange=habit.getThoiDiem();
+                    if(timerange.equals("Morning")){btnMorning.setBackgroundColor(selectedColor);isTimeRangeSelected = "Morning";}
+                    else if(timerange.equals("Afternoon")){btnAfternoon.setBackgroundColor(selectedColor);isTimeRangeSelected = "Afternoon";}
+                    else if (timerange.equals("Evening")) {btnEvening.setBackgroundColor(selectedColor);isTimeRangeSelected = "Evening";}
+                    else {btnAnytime.setBackgroundColor(selectedColor);isTimeRangeSelected = "Anytime";}
+                    btntime.setText(habit.getThoiGianNhacNho());
+                    btnKetThuc.setText(habit.getThoiGianKetThuc());
+                    btnBatDau.setText(habit.getThoiGianBatDau());
+                    btnDonVi.setText(habit.getDonVi());
+                    String khoangthoigian=habit.getKhoangThoiGian();
+                    if(khoangthoigian.equals("Day")){btnDay.setBackgroundColor(selectedColor);isDaySelected = true;}
+                    else if(khoangthoigian.equals("Week")){btnWeek.setBackgroundColor(selectedColor);isWeekSelected = true;}
+                    else if(khoangthoigian.equals("Month")) {btnMonth.setBackgroundColor(selectedColor);isMonthSelected = true;}
+
         }
+    }
+
+    private void changeHabit( ){
+        timeRange();
+        handleGoalPeriod();
+        idTaiKhoan = getIntent().getStringExtra("idTaiKhoan");
+        idThoiQuen=getIntent().getStringExtra("idThoiQuen");
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("Habit_Tracker").child("Du_Lieu").child(idTaiKhoan).child(idThoiQuen);
+        String name = editName.getText().toString();
+        String description = editDescription.getText().toString();
+        String increaseStr = editIncrease.getText().toString();
+        double increase = Double.parseDouble(increaseStr);
+        String timeRange = isTimeRangeSelected;
+        String reminder = btntime.getText().toString();
+        String reminderMessage = editReminderMessage.getText().toString();
+        String start = btnBatDau.getText().toString();
+        String end = btnKetThuc.getText().toString();
+        int goal = Integer.parseInt(editNumber.getText().toString());
+        String unit = btnDonVi.getText().toString();
+        period = determinePeriod();
+
+        ref.child("Ten").setValue(name);
+        ref.child("DonVi").setValue(unit);
+        ref.child("DonViTang").setValue(increase);
+        ref.child("KhoangThoiGian").setValue(period);
+        ref.child("LoiNhacNho").setValue(reminderMessage);
+        ref.child("MoTa").setValue(description);
+        ref.child("MucTieu").setValue(goal);
+        ref.child("ThoiDiem").setValue(timeRange);
+        ref.child("ThoiGianBatDau").setValue(start);
+        ref.child("ThoiGianKetThuc").setValue(end);
+        ref.child("ThoiGianNhacNho").setValue(reminder);
+
+        Intent intent = new Intent(Edit_habit.this, Home_Activity.class);
+        Bundle bundlehabit = new Bundle();
+        intent.putExtra("idTaiKhoan",idTaiKhoan);
+        intent.putExtras(bundlehabit);
+        startActivity(intent);
+    }
 
     private void timeRange() {
         btnMorning = findViewById(R.id.btnMorning);
@@ -245,14 +316,6 @@ public class Edit_habit extends AppCompatActivity {
         btnWeek = findViewById(R.id.btnWeek);
         btnMonth = findViewById(R.id.btnMonth);
 
-        btnDay.setBackgroundColor(defaultColor);
-        btnWeek.setBackgroundColor(defaultColor);
-        btnMonth.setBackgroundColor(defaultColor);
-
-        isDaySelected = false;
-        isWeekSelected = false;
-        isMonthSelected = false;
-
 
         if (difference >= 30) {
             // Khoảng cách lớn hơn hoặc bằng 30 ngày: cho phép chọn tất cả các phương thức
@@ -311,10 +374,8 @@ public class Edit_habit extends AppCompatActivity {
             return "Day";
         } else if (isWeekSelected) {
             return "Week";
-        } else if (isMonthSelected) {
+        } else  {
             return "Month";
-        } else {
-            return "Unknown";
         }
     }
     private void handleGoal(){
