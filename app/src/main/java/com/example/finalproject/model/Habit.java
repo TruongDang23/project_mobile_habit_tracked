@@ -24,7 +24,7 @@ public class Habit implements Serializable {
     private String moTa;
 
     @PropertyName("MucTieu")
-    private int mucTieu;
+    private double mucTieu;
 
     @PropertyName("Ten")
     private String ten;
@@ -94,11 +94,11 @@ public class Habit implements Serializable {
         this.moTa = moTa;
     }
     @PropertyName("MucTieu")
-    public int getMucTieu() {
+    public double getMucTieu() {
         return mucTieu;
     }
     @PropertyName("MucTieu")
-    public void setMucTieu(int mucTieu) {
+    public void setMucTieu(double mucTieu) {
         this.mucTieu = mucTieu;
     }
     @PropertyName("Ten")

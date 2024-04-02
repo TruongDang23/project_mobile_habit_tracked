@@ -89,7 +89,7 @@ public class Edit_habit extends AppCompatActivity {
                     editDescription.setText(habit.getMoTa());
                     editIncrease.setText(Double.toString(habit.getDonViTang()));
                     editReminderMessage.setText(habit.getLoiNhacNho());
-                    editNumber.setText(Integer.toString(habit.getMucTieu()));
+                    editNumber.setText(Double.toString(habit.getMucTieu()));
                     String timerange=habit.getThoiDiem();
                     if(timerange.equals("Morning")){btnMorning.setBackgroundColor(selectedColor);isTimeRangeSelected = "Morning";}
                     else if(timerange.equals("Afternoon")){btnAfternoon.setBackgroundColor(selectedColor);isTimeRangeSelected = "Afternoon";}
@@ -123,7 +123,7 @@ public class Edit_habit extends AppCompatActivity {
         String reminderMessage = editReminderMessage.getText().toString();
         String start = btnBatDau.getText().toString();
         String end = btnKetThuc.getText().toString();
-        int goal = Integer.parseInt(editNumber.getText().toString());
+        double goal = Double.parseDouble(editNumber.getText().toString());
         String unit = btnDonVi.getText().toString();
         period = determinePeriod();
 
