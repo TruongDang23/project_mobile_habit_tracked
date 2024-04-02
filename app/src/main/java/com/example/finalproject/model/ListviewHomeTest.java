@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class ListviewHomeTest implements Serializable {
     private String habitId;
     private String nameHabit;
+    private String section;
     private String timeHabit;
     private String doneProgress;
     private int done;
@@ -13,15 +14,23 @@ public class ListviewHomeTest implements Serializable {
     public ListviewHomeTest() {
     }
 
-    public ListviewHomeTest(String habitID,String nameHabit, String timeHabit, String doneProgress, int done, double donVi) {
+    public ListviewHomeTest(String habitID,String nameHabit, String section, String timeHabit, String doneProgress, int done, double donVi) {
         this.habitId = habitID;
         this.nameHabit = nameHabit;
+        this.section = section;
         this.timeHabit = timeHabit;
         this.doneProgress = doneProgress;
         this.done = done;
         this.donViTang = donVi;
     }
 
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
 
     public double getDonViTang() {
         return donViTang;
