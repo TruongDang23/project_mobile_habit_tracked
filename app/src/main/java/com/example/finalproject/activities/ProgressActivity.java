@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -60,7 +61,7 @@ public class ProgressActivity extends AppCompatActivity {
 
         Button btnDelete = (Button) findViewById(R.id.btnDelete);
         Button btnInfor = (Button) findViewById(R.id.btnInfor);
-
+        Button btnEdit=(Button)findViewById(R.id.btnEdit) ;
         // Lấy thông tin thói quen
         getDetailHabit(idHabit, idTaiKhoan);
 
@@ -89,6 +90,10 @@ public class ProgressActivity extends AppCompatActivity {
             public void onClick(View v) {
                 inforHabit(idHabit, idTaiKhoan);
             }
+        });
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {editHabit(idHabit,idTaiKhoan);}
         });
     }
 
@@ -365,5 +370,15 @@ public class ProgressActivity extends AppCompatActivity {
     public void chageTrangThai(String userId,String habbitId){
         dataBase = FirebaseDatabase.getInstance();
         dataBase.getReference("Habit_Tracker").child("Du_Lieu").child(userId).child(habbitId).child("TrangThai").setValue("Đã Xóa");
+    }
+    public void editHabit(String idhabit, String idTaiKhoan){
+        Intent i = new Intent(ProgressActivity.this, Edit_habit.class );
+        // Tạo Bundle và đặt đối tượng Account vào Bundle
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user_account", acc);
+        i.putExtra("idTaiKhoan",idTaiKhoan);
+        i.putExtra("idThoiQuen",idhabit);
+        i.putExtras(bundle);
+        startActivity(i);
     }
 }
