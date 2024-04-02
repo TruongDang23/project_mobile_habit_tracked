@@ -8,11 +8,13 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -24,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +37,7 @@ import java.util.Locale;
 public class Create_habit extends AppCompatActivity {
 
     private FirebaseDatabase database;
+    private int implementationDays;
     private String isTimeRangeSelected = null;
     private int defaultColor = Color.parseColor("#d0ebff");
     private int selectedColor = Color.parseColor("#187BCE");
@@ -47,10 +52,11 @@ public class Create_habit extends AppCompatActivity {
 
     private Button btnComplete;
     private String idTaiKhoan;
-    private EditText editName, editDescription, editIncrease, editReminderMessage, editNumber;
+    private EditText editName, editDescription, editReminderMessage, editNumber;
     private Button btnMorning, btnAfternoon, btnEvening, btnAnytime, btntime;
     private Button btnDonVi, btnDay, btnWeek, btnMonth;
     private Button btnBatDau, btnKetThuc;
+    private TextView txtIncrease;
     private ImageButton btnBack;
 
     @Override
@@ -60,7 +66,7 @@ public class Create_habit extends AppCompatActivity {
         idTaiKhoan = getIntent().getStringExtra("idTaiKhoan");
         editName = findViewById(R.id.editName);
         editDescription = findViewById(R.id.editDescription);
-        editIncrease = findViewById(R.id.editIncrease);
+        txtIncrease = findViewById(R.id.txtIncrease);
         editReminderMessage = findViewById(R.id.editReminderMessage);
         editNumber = findViewById(R.id.editNumber);
         btnBack = findViewById(R.id.btnBack);
@@ -150,18 +156,21 @@ public class Create_habit extends AppCompatActivity {
         String name = editName.getText().toString();
         String description = editDescription.getText().toString();
         // Increase
-        String increaseStr = editIncrease.getText().toString();
-        double increase = Double.parseDouble(increaseStr);
+        double increase = Double.parseDouble(txtIncrease.getText().toString());
         // Increase
         String timeRange = isTimeRangeSelected;
         String reminder = btntime.getText().toString();
         String reminderMessage = editReminderMessage.getText().toString();
         String start = btnBatDau.getText().toString();
         String end = btnKetThuc.getText().toString();
-        int goal = Integer.parseInt(editNumber.getText().toString());
+        double goal = Double.parseDouble(editNumber.getText().toString());
         String unit = btnDonVi.getText().toString();
         period = determinePeriod();
 
+        if(checkTarget(goal, implementationDays, increase)){
+            Toast.makeText(Create_habit.this, "Bạn nên nhập mục tiêu lớn hơn để mục tiêu trong một ngày không nhỏ hơn đơn vị tăng", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -338,6 +347,7 @@ public class Create_habit extends AppCompatActivity {
         btnDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                implementationDays = 1;
                 btnDay.setBackgroundColor(selectedColor);
                 btnWeek.setBackgroundColor(defaultColor);
                 btnMonth.setBackgroundColor(defaultColor);
@@ -351,6 +361,7 @@ public class Create_habit extends AppCompatActivity {
         btnWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                implementationDays = 7;
                 btnDay.setBackgroundColor(defaultColor);
                 btnWeek.setBackgroundColor(selectedColor);
                 btnMonth.setBackgroundColor(defaultColor);
@@ -363,6 +374,7 @@ public class Create_habit extends AppCompatActivity {
         btnMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                implementationDays = 30;
                 btnDay.setBackgroundColor(defaultColor);
                 btnWeek.setBackgroundColor(defaultColor);
                 btnMonth.setBackgroundColor(selectedColor);
@@ -384,9 +396,21 @@ public class Create_habit extends AppCompatActivity {
             return "Unknown";
         }
     }
+    private boolean checkTarget(double target, int days, double increase) {
+        // Tính tỉ lệ target/days
+        double targetPerDay = target / days;
+
+        // So sánh tỉ lệ với increase
+        if (targetPerDay < increase) {
+            return true; // Nếu target/days < increase thì trả về true
+        } else {
+            return false; // Nếu không thì trả về false
+        }
+    }
+
     private void handleGoal(){
         btnDonVi = findViewById(R.id.btnDonVi);
-
+        txtIncrease.setText("0.1");
         btnDonVi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -395,12 +419,18 @@ public class Create_habit extends AppCompatActivity {
                 switch ( clickCount[0] % 3) {
                     case 0:
                         btnDonVi.setText("km");
+                        txtIncrease.setText("0.1");
+                        editNumber.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         break;
                     case 1:
                         btnDonVi.setText("pages");
+                        txtIncrease.setText("1");
+                        editNumber.setInputType(InputType.TYPE_CLASS_NUMBER);
                         break;
                     case 2:
                         btnDonVi.setText("hours");
+                        txtIncrease.setText("0.5");
+                        editNumber.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         break;
                 }
             }
