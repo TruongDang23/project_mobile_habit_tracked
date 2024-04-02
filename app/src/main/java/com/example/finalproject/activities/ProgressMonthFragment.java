@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,16 @@ public class ProgressMonthFragment extends Fragment {
         return fragment;
     }
 
+    public static ProgressMonthFragment newInstance(String idHabit, String idTaiKhoan, String test) {
+        ProgressMonthFragment fragment = new ProgressMonthFragment();
+        Bundle args = new Bundle();
+        args.putString("idHabit", idHabit);
+        args.putString("idTaiKhoan", idTaiKhoan);
+        args.putString("test", test);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +75,11 @@ public class ProgressMonthFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress_month, container, false);
+        // Lấy dữ liệu
+        String idHabit = getArguments().getString("idHabit");
+        String idTaiKhoan = getArguments().getString("idTaiKhoan");
+        Log.d("idHabit m", idHabit);
+        Log.d("idTaiKhoan m", idTaiKhoan);
         calendar = view.findViewById(R.id.calendarView);
         setupCalendar();
         // Inflate the layout for this fragment

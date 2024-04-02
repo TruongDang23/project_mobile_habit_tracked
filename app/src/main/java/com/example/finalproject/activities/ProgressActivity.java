@@ -72,11 +72,19 @@ public class ProgressActivity extends AppCompatActivity {
 
         ViewPager viewPagerProgress = findViewById(R.id.viewpagerProgress);
 
-        MyPagerProgressAdapter paperProgressAdapter = new MyPagerProgressAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        MyPagerProgressAdapter paperProgressAdapter = new MyPagerProgressAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), idHabit, idTaiKhoan, "");
         viewPagerProgress.setAdapter(paperProgressAdapter);
+
+        // Truyền dữ liệu qua các tab
+        ProgressDayFragment progressDayFragment = ProgressDayFragment.newInstance(idHabit, idTaiKhoan, "");
+        ProgressWeekFragment progressWeekFragment = ProgressWeekFragment.newInstance(idHabit, idTaiKhoan, "");
+        ProgressMonthFragment progressMonthFragment = ProgressMonthFragment.newInstance(idHabit, idTaiKhoan, "");
+
+
 
         // Dung cho viec chuyen tab
         tabLayout.setupWithViewPager(viewPagerProgress);
+
 
         //Xóa thói quen
         btnDelete.setOnClickListener(new View.OnClickListener() {
