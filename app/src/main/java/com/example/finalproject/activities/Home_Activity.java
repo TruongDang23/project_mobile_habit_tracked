@@ -150,7 +150,6 @@ public class Home_Activity extends AppCompatActivity {
                         String section = habitSnapshot.child("ThoiDiem").getValue(String.class);
                         String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
                         String donVi = habitSnapshot.child("DonVi").getValue(String.class);
-                        String reminder = habitSnapshot.child("LoiNhacNho").getValue(String.class);
                         double target = habitSnapshot.child("MucTieu").getValue(Double.class);
                         double doing = getHistoryData(habitSnapshot.child("ThoiGianThucHien"));
                         String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
