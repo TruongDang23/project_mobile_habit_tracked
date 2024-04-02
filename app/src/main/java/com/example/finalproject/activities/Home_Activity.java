@@ -51,12 +51,11 @@ import java.util.SimpleTimeZone;
 public class Home_Activity extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference ref;
-    private Account acc = new Account();
     private DayScrollDatePicker mPicker;
     private TextView currentDay;
+    private String idUser;
     ListView listHome;
     ArrayList<ListviewHomeTest> arrayListHome;
-
     LisviewHomeTestAdapter adapterHome;
     Button btnNew;
     ImageButton ibGraph, ibMusic, ibClock, ibSettings;
@@ -66,8 +65,6 @@ public class Home_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Bundle b = getIntent().getExtras();
-        acc = (Account) b.getSerializable("user_account");
         Calendar calendar = Calendar.getInstance();
         mPicker = findViewById(R.id.day_date_picker);
         mPicker.setStartDate(1, 3, 2024);
@@ -95,7 +92,7 @@ public class Home_Activity extends AppCompatActivity {
             Intent intent = new Intent(Home_Activity.this, Create_habit.class);
             // Tạo Bundle và đặt đối tượng Account vào Bundle
             Bundle bundle = new Bundle();
-            intent.putExtra("idTaiKhoan", "User001");
+            intent.putExtra("idTaiKhoan", idUser);
             intent.putExtras(bundle);
             startActivity(intent);
         });
@@ -135,7 +132,7 @@ public class Home_Activity extends AppCompatActivity {
     }
     public void getListHabit()
     {
-        String idUser = getIntent().getStringExtra("idTaiKhoan");
+        idUser = getIntent().getStringExtra("idTaiKhoan");
         getConnection(idUser);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -164,6 +161,7 @@ public class Home_Activity extends AppCompatActivity {
                         {
                             ref.child(habitId).child("TrangThai").setValue("Đã hoàn thành");
                         }
+                        else ref.child(habitId).child("TrangThai").setValue("Đang thực hiện");
 
                         if(indexItem == -1)
                         {

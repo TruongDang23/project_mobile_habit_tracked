@@ -68,6 +68,10 @@ public class Create_habit extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Create_habit.this, Home_Activity.class);
+                // Tạo Bundle và đặt đối tượng Account vào Bundle
+                Bundle bundle = new Bundle();
+                intent.putExtra("idTaiKhoan", idTaiKhoan);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
