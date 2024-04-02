@@ -147,6 +147,7 @@ public class Home_Activity extends AppCompatActivity {
                         int indexItem = checkHabitNotInList(habitId);
 
                         String nameHabit = habitSnapshot.child("Ten").getValue(String.class);
+                        String section = habitSnapshot.child("ThoiDiem").getValue(String.class);
                         String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
                         String donVi = habitSnapshot.child("DonVi").getValue(String.class);
                         String reminder = habitSnapshot.child("LoiNhacNho").getValue(String.class);
@@ -160,12 +161,12 @@ public class Home_Activity extends AppCompatActivity {
 
                         if(indexItem == -1)
                         {
-                            arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                            arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
                             adapterHome.notifyDataSetChanged();
                         }
                         else
                         {
-                            arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                            arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
                             adapterHome.notifyDataSetChanged();
                         }
                     }

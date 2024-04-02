@@ -27,6 +27,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tvHomeListSection"
+            android:layout_width="100dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:text="Morning"
+            android:textColor="#868e96"
+            android:textSize="20dp"
+            app:layout_constraintStart_toEndOf="@+id/tvHomeListTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextSizeCheck" />
+
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="30dp"

@@ -47,12 +47,14 @@ public class LisviewHomeTestAdapter extends ArrayAdapter<ListviewHomeTest> {
             convertView = context.getLayoutInflater().inflate(resourcedId,null);
         }
         TextView nameHabit = (TextView) convertView.findViewById(R.id.tvHomeListTitle);
+        TextView section = (TextView) convertView.findViewById(R.id.tvHomeListSection);
         TextView timeHabit = (TextView) convertView.findViewById(R.id.tvHomeListTime);
         TextView doneProgress = (TextView) convertView.findViewById(R.id.tvDoneProgress);
         ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.pbHomeListProgress);
 
         ListviewHomeTest listviewHomeTest = listviewHomeTestsArrayList.get(position);
         nameHabit.setText(listviewHomeTest.getNameHabit());
+        section.setText(listviewHomeTest.getSection());
         timeHabit.setText(listviewHomeTest.getTimeHabit());
         doneProgress.setText(listviewHomeTest.getDoneProgress());
         progressBar.setProgress(listviewHomeTest.getDone());
