@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.finalproject.R;
+import com.example.finalproject.model.HabitWeek;
 import com.example.finalproject.ui.MyPagerProgressAdapter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -20,6 +22,12 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.Firebase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,8 +43,11 @@ import java.time.LocalDate;
  * create an instance of this fragment.
  */
 public class ProgressWeekFragment extends Fragment {
+    private FirebaseDatabase dataBase;
+    private DatabaseReference ref;
+    private HabitWeek habitWeek = new HabitWeek();
     private BarChart barChart;
-    private List<String> x_values = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
+    private List<String> x_values = Arrays.asList("", "", "", "", "", "", "");
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -102,8 +113,9 @@ public class ProgressWeekFragment extends Fragment {
         loadXValues();
 
         barChart = view.findViewById(R.id.barChart);
+        loadBarChartData(idHabit, idTaiKhoan);
         setUpBarChart();
-        loadBarChartData();
+
 
         // Inflate the layout for this fragment
         return view;
@@ -120,15 +132,42 @@ public class ProgressWeekFragment extends Fragment {
         barChart.setBorderColor(getResources().getColor(R.color.Blue));
     }
 
-    private void loadBarChartData() {
+    private void loadBarChartData(String idHabit, String idTaiKhoan) {
+        getConnection(idTaiKhoan, idHabit);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    try {
+                        double muctieu = dataSnapshot.child("MucTieu").getValue(Double.class);
+                        habitWeek.setMucTieu(muctieu);
+                        String thoiGianBatDau = dataSnapshot.child("ThoiGianBatDau").getValue(String.class);
+                        String thoiGianKetThuc = dataSnapshot.child("ThoiGianKetThuc").getValue(String.class);
+                        int thoiGianThucHien = getThoiGianThucHien(thoiGianBatDau, thoiGianKetThuc);
+                        habitWeek.setSoNgayThucHien(thoiGianThucHien);
+                        Log.d("t4", String.valueOf(habitWeek.getSoNgayThucHien()));
+                        String khoangThoiGian = dataSnapshot.child("KhoangThoiGian").getValue(String.class);
+                        int khoangThoiGianInt = getKhoangThoiGian(khoangThoiGian);
+                        habitWeek.setKhoangThoiGian(khoangThoiGianInt);
+                        String trangThai = dataSnapshot.child("TrangThai").getValue(String.class);
+                        habitWeek.setTrangThai(trangThai);
+                    }
+                    catch (Exception e) {
+                        Log.d("Error", e.getMessage());
+                    }
+                }
+                else {
+                    Toast.makeText(getContext(), "Không tìm thấy dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(getContext(), "Lỗi khi đọc dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         ArrayList<BarEntry> barEntriesArrayList = new ArrayList<>();
-//        barEntriesArrayList.add(new BarEntry(0f, 4));
-//        barEntriesArrayList.add(new BarEntry(1f, 6));
-//        barEntriesArrayList.add(new BarEntry(2f, 8));
-//        barEntriesArrayList.add(new BarEntry(3f, 2));
-//        barEntriesArrayList.add(new BarEntry(4f, 4));
-//        barEntriesArrayList.add(new BarEntry(5f, 1));
-//        barEntriesArrayList.add(new BarEntry(6f, 3));
         // Nếu không có dữ liệu thì mặc định là 0
         for (int i = 0; i < 7; i++) {
             if (x_values.get(i).equals("")) {
@@ -141,9 +180,19 @@ public class ProgressWeekFragment extends Fragment {
 
         YAxis yAxis = barChart.getAxisLeft();
         yAxis.setAxisMinimum(0);
-        yAxis.setAxisMaximum(10);
+        int maxAxis = calculateMaxAxis(habitWeek.getMucTieu(), habitWeek.getSoNgayThucHien());
+        try {
+            Log.d("t1", String.valueOf(habitWeek.getSoNgayThucHien()));
+            yAxis.setAxisMaximum(maxAxis);
+            yAxis.setLabelCount(maxAxis);
+            Log.d("maxAxis", String.valueOf(maxAxis));
+        } catch (Exception e) {
+            Log.d("Error", e.getMessage());
+
+        }
+        //yAxis.setAxisMaximum(10);
         yAxis.setGranularity(1f);
-        yAxis.setLabelCount(10);
+        //yAxis.setLabelCount(10);
 
         BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, "Weekly Progress");
         int color = getResources().getColor(R.color.Blue);
@@ -159,6 +208,30 @@ public class ProgressWeekFragment extends Fragment {
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setGranularity(1f);
         barChart.getXAxis().setGranularityEnabled(true);
+    }
+    private int getThoiGianThucHien(String thoiGianBatDau, String thoiGianKetThuc) {
+        // thoiGianBatDau và thoiGianKetThuc có dạng "dd-MM-yyyy"
+        String[] thoiGianBatDauArr = thoiGianBatDau.split("-");
+        String[] thoiGianKetThucArr = thoiGianKetThuc.split("-");
+        LocalDate ngayBatDau = LocalDate.of(Integer.parseInt(thoiGianBatDauArr[2]), Integer.parseInt(thoiGianBatDauArr[1]), Integer.parseInt(thoiGianBatDauArr[0]));
+        LocalDate ngayKetThuc = LocalDate.of(Integer.parseInt(thoiGianKetThucArr[2]), Integer.parseInt(thoiGianKetThucArr[1]), Integer.parseInt(thoiGianKetThucArr[0]));
+        int thoiGianThucHien = ngayKetThuc.getDayOfYear() - ngayBatDau.getDayOfYear();
+        return thoiGianThucHien;
+    }
+    private int calculateMaxAxis(double mucTieu, int thoiGianThucHien) {
+        // maxAxis = thoiGianThucHien / mucTieu
+        int maxAxis = (int) Math.ceil(thoiGianThucHien / mucTieu);
+        return maxAxis;
+    }
+    private int getKhoangThoiGian(String khoangThoiGian) {
+        if (khoangThoiGian.equals("Day")) {
+            return 1;
+        } else if (khoangThoiGian.equals("Week")) {
+            return 7;
+        } else if (khoangThoiGian.equals("Month")) {
+            return 30;
+        }
+        return 0;
     }
 
     // Hàm lấy ngày hiện tại trong tuần cho vào x_values
@@ -187,5 +260,9 @@ public class ProgressWeekFragment extends Fragment {
         }
         Log.d("x_values", x_values.toString());
 
+    }
+    public void getConnection(String idUser, String idHabit) {
+        dataBase = FirebaseDatabase.getInstance();
+        ref = dataBase.getReference("Habit_Tracker").child("Du_Lieu").child(idUser).child(idHabit);
     }
 }
