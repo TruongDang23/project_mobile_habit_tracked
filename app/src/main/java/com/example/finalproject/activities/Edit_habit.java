@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class Edit_habit extends AppCompatActivity {
 
     private DatabaseReference ref;
     private Button btnComplete;
+    private ImageButton btnBack;
     private String idTaiKhoan;
     private String idThoiQuen;
     private TextView txtIncrease;
@@ -66,6 +68,13 @@ public class Edit_habit extends AppCompatActivity {
                 changeHabit();
             }
         });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Edit_habit.this, ProgressActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     private void doFormWidget(){
         idTaiKhoan = getIntent().getStringExtra("idTaiKhoan");
@@ -80,6 +89,7 @@ public class Edit_habit extends AppCompatActivity {
         btnBatDau=findViewById(R.id.btnBatDau);
         btnKetThuc=findViewById(R.id.btnKetThuc);
         btnDonVi=findViewById(R.id.btnDonVi);
+        btnBack=findViewById(R.id.btnBack);
         habitTerm();
         handleReminder();
         timeRange();
@@ -178,9 +188,10 @@ public class Edit_habit extends AppCompatActivity {
         ref.child("ThoiGianNhacNho").setValue(reminder);
 
 
-        Intent intent = new Intent(Edit_habit.this, Home_Activity.class);
+        Intent intent = new Intent(Edit_habit.this, ProgressActivity.class);
         Bundle bundlehabit = new Bundle();
         intent.putExtra("idTaiKhoan",idTaiKhoan);
+        intent.putExtra("idThoiQuen",idThoiQuen);
         intent.putExtras(bundlehabit);
         startActivity(intent);
     }
