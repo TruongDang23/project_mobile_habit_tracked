@@ -1,11 +1,12 @@
 package com.example.finalproject.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.PropertyName;
 
-public class Habit {
+public class Habit implements Serializable {
     @PropertyName("DonVi")
     private String donVi;
 

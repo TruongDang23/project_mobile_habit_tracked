@@ -33,7 +33,7 @@ public class SongsActivity extends AppCompatActivity {
         songTestGridViews.add(new SongTestGridView("Music Box", R.drawable.song_sample4, "4"));
         songTestGridViews.add(new SongTestGridView("Bolero", R.drawable.song_sample5, "5"));
         songTestGridViews.add(new SongTestGridView("Piano", R.drawable.song_sample6, "6"));
-        songTestGridViews.add(new SongTestGridView("Dance", R.drawable.song_sample7, "7"));
+        songTestGridViews.add(new SongTestGridView("Dance", R.drawable.song_sample71, "7"));
         songTestGridViews.add(new SongTestGridView("Guitar", R.drawable.song_sample8, "8"));
 
         SongTestAdapter SongAdapter = new SongTestAdapter(this, songTestGridViews);

@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -48,6 +47,10 @@
         <activity
             android:name=".activities.Setting"
             android:exported="false" />
+        <activity
+            android:name=".activities.Edit_habit"
+            android:exported="false">
+        </activity>
         <activity
             android:name=".activities.Pomorodo"
             android:theme="@style/AppTheme"
