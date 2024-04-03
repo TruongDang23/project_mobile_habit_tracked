@@ -51,6 +51,9 @@ import java.util.SimpleTimeZone;
 public class Home_Activity extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference ref;
+    private Account acc = new Account();
+    String idUser;
+
     private DayScrollDatePicker mPicker;
     private TextView currentDay;
     private String idUser;
@@ -64,6 +67,10 @@ public class Home_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Bundle b = getIntent().getExtras();
+        acc = (Account) b.getSerializable("user_account");
+        idUser = getIntent().getStringExtra("idTaiKhoan");
 
         Calendar calendar = Calendar.getInstance();
         mPicker = findViewById(R.id.day_date_picker);
@@ -100,6 +107,11 @@ public class Home_Activity extends AppCompatActivity {
         ibGraph = findViewById(R.id.ib_graph);
         ibGraph.setOnClickListener(v -> {
             Intent i = new Intent(Home_Activity.this, Progress_total.class);
+            // Tạo Bundle và đặt đối tượng Account vào Bundle
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
+            i.putExtra("idTaiKhoan", idUser);
+            i.putExtras(bundle);
             startActivity(i);
         });
 
@@ -133,6 +145,7 @@ public class Home_Activity extends AppCompatActivity {
     public void getListHabit()
     {
         idUser = getIntent().getStringExtra("idTaiKhoan");
+
         getConnection(idUser);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -141,37 +154,55 @@ public class Home_Activity extends AppCompatActivity {
                 {
                     for(DataSnapshot habitSnapshot : snapshot.getChildren())
                     {
-                        String habitId = habitSnapshot.getKey();
-                        int indexItem = checkHabitNotInList(habitId);
+                        String status = habitSnapshot.child("TrangThai").getValue(String.class);
 
-                        String nameHabit = habitSnapshot.child("Ten").getValue(String.class);
-                        String section = habitSnapshot.child("ThoiDiem").getValue(String.class);
-                        String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
-                        String donVi = habitSnapshot.child("DonVi").getValue(String.class);
-                        double target = habitSnapshot.child("MucTieu").getValue(Double.class);
-                        double maxVol = target; //Được sử dụng để check trạng thái Đã hoàn thành
-                        double doing = getHistoryData(habitSnapshot.child("ThoiGianThucHien"));
-                        String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
-                        target = calculateTarget(target, period);
-                        double donViTang = habitSnapshot.child("DonViTang").getValue(Double.class);
-                        String done = doing + "/" + String.format("%.1f",target) + " " + donVi;
-                        String dateEnd = habitSnapshot.child("ThoiGianKetThuc").getValue(String.class);
+                        if(!status.equals("Đã xóa"))
+                        {
+                            String habitId = habitSnapshot.getKey();
+                            int indexItem = checkHabitNotInList(habitId);
 
-                        if(todayIsExpire(dateEnd) && isMaxVol(habitSnapshot.child("ThoiGianThucHien"),maxVol))
-                        {
-                            ref.child(habitId).child("TrangThai").setValue("Đã hoàn thành");
-                        }
-                        else ref.child(habitId).child("TrangThai").setValue("Đang thực hiện");
+                            String nameHabit = habitSnapshot.child("Ten").getValue(String.class);
+                            String section = habitSnapshot.child("ThoiDiem").getValue(String.class);
+                            String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
+                            String donVi = habitSnapshot.child("DonVi").getValue(String.class);
 
-                        if(indexItem == -1)
-                        {
-                            arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
-                            adapterHome.notifyDataSetChanged();
-                        }
-                        else
-                        {
-                            arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
-                            adapterHome.notifyDataSetChanged();
+                            double target = habitSnapshot.child("MucTieu").getValue(Double.class);
+                            double maxVol = target; //Được sử dụng để check trạng thái Đã hoàn thành
+                            double doing = getHistoryData(habitSnapshot.child("ThoiGianThucHien"));
+                            String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
+                            target = calculateTarget(target, period);
+                            double donViTang = habitSnapshot.child("DonViTang").getValue(Double.class);
+                            String doingStr = String.format("%.1f", doing);
+                            String targetStr = String.format("%.1f",target);
+                            String done;
+                            String dateEnd = habitSnapshot.child("ThoiGianKetThuc").getValue(String.class);
+
+                            if(status.equals("Đã hoàn thành"))
+                            {
+                                doing = target; //Vì đã hoàn thành nên tiến độ thực hiện luôn luôn bằng target
+                                done = targetStr + "/" + targetStr + " " + donVi; //Dữ liệu thay vì doingStr thì dùng targetStr cho tiện
+                            }
+                            else
+                            {
+                                done = doingStr + "/" + targetStr + " " + donVi;
+                            }
+
+                            if(todayIsExpire(dateEnd) && isMaxVol(habitSnapshot.child("ThoiGianThucHien"),maxVol))
+                            {
+                                ref.child(habitId).child("TrangThai").setValue("Đã hoàn thành");
+                            }
+                            else ref.child(habitId).child("TrangThai").setValue("Đang thực hiện");
+
+                            if(indexItem == -1)
+                            {
+                                arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                                adapterHome.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                                adapterHome.notifyDataSetChanged();
+                            }
                         }
                     }
                 }
@@ -196,7 +227,7 @@ public class Home_Activity extends AppCompatActivity {
     }
     public double getHistoryData(DataSnapshot snapshot)
     {
-        double result = 0;
+        double result = 0.0f;
         for(DataSnapshot timeSnapshot : snapshot.getChildren())
         {
             String time = timeSnapshot.getKey();
