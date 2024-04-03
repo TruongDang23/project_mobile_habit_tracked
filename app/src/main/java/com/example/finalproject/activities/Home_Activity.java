@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,9 +54,9 @@ public class Home_Activity extends AppCompatActivity {
     private Account acc = new Account();
     private DayScrollDatePicker mPicker;
     private TextView currentDay;
+    private String idUser;
     ListView listHome;
     ArrayList<ListviewHomeTest> arrayListHome;
-
     LisviewHomeTestAdapter adapterHome;
     Button btnNew;
     ImageButton ibGraph, ibMusic, ibClock, ibSettings;
@@ -67,7 +68,11 @@ public class Home_Activity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         acc = (Account) b.getSerializable("user_account");
+
         String idTaiKhoan = getIntent().getStringExtra("idTaiKhoan");
+
+        idUser = getIntent().getStringExtra("idTaiKhoan");
+
 
         Calendar calendar = Calendar.getInstance();
         mPicker = findViewById(R.id.day_date_picker);
@@ -75,8 +80,8 @@ public class Home_Activity extends AppCompatActivity {
         mPicker.setEndDate(1, 3, 2025);
         currentDay = findViewById(R.id.txtCurrentDay);
 
-        Calendar currCalendar = Calendar.getInstance();
-        currentDay.setText(currCalendar.getTime().toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        currentDay.setText(LocalDateTime.now().format(formatter));
 
         listHome = findViewById(R.id.lvHome);
         arrayListHome = new ArrayList<>();
@@ -105,7 +110,7 @@ public class Home_Activity extends AppCompatActivity {
             Intent intent = new Intent(Home_Activity.this, Create_habit.class);
             // Tạo Bundle và đặt đối tượng Account vào Bundle
             Bundle bundle = new Bundle();
-            intent.putExtra("idTaiKhoan", "User001");
+            intent.putExtra("idTaiKhoan", idUser);
             intent.putExtras(bundle);
             startActivity(intent);
         });
@@ -113,6 +118,11 @@ public class Home_Activity extends AppCompatActivity {
         ibGraph = findViewById(R.id.ib_graph);
         ibGraph.setOnClickListener(v -> {
             Intent i = new Intent(Home_Activity.this, Progress_total.class);
+            // Tạo Bundle và đặt đối tượng Account vào Bundle
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
+            i.putExtra("idTaiKhoan", idUser);
+            i.putExtras(bundle);
             startActivity(i);
         });
 
@@ -145,7 +155,8 @@ public class Home_Activity extends AppCompatActivity {
     }
     public void getListHabit()
     {
-        String idUser = getIntent().getStringExtra("idTaiKhoan");
+        idUser = getIntent().getStringExtra("idTaiKhoan");
+
         getConnection(idUser);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -154,30 +165,55 @@ public class Home_Activity extends AppCompatActivity {
                 {
                     for(DataSnapshot habitSnapshot : snapshot.getChildren())
                     {
-                        String habitId = habitSnapshot.getKey();
-                        int indexItem = checkHabitNotInList(habitId);
+                        String status = habitSnapshot.child("TrangThai").getValue(String.class);
 
-                        String nameHabit = habitSnapshot.child("Ten").getValue(String.class);
-                        String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
-                        String donVi = habitSnapshot.child("DonVi").getValue(String.class);
-                        String reminder = habitSnapshot.child("LoiNhacNho").getValue(String.class);
-                        double target = habitSnapshot.child("MucTieu").getValue(Double.class);
-                        double doing = getHistoryData(habitSnapshot.child("ThoiGianThucHien"));
-                        String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
-                        target = calculateTarget(target, period);
-                        double donViTang = habitSnapshot.child("DonViTang").getValue(Double.class);
-                        String done = doing + "/" + target + " " + donVi;
-
-
-                        if(indexItem == -1)
+                        if(!status.equals("Đã xóa"))
                         {
-                            arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
-                            adapterHome.notifyDataSetChanged();
-                        }
-                        else
-                        {
-                            arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
-                            adapterHome.notifyDataSetChanged();
+                            String habitId = habitSnapshot.getKey();
+                            int indexItem = checkHabitNotInList(habitId);
+
+                            String nameHabit = habitSnapshot.child("Ten").getValue(String.class);
+                            String section = habitSnapshot.child("ThoiDiem").getValue(String.class);
+                            String time = habitSnapshot.child("ThoiGianNhacNho").getValue(String.class);
+                            String donVi = habitSnapshot.child("DonVi").getValue(String.class);
+
+                            double target = habitSnapshot.child("MucTieu").getValue(Double.class);
+                            double maxVol = target; //Được sử dụng để check trạng thái Đã hoàn thành
+                            double doing = getHistoryData(habitSnapshot.child("ThoiGianThucHien"));
+                            String period = habitSnapshot.child("KhoangThoiGian").getValue(String.class);
+                            target = calculateTarget(target, period);
+                            double donViTang = habitSnapshot.child("DonViTang").getValue(Double.class);
+                            String doingStr = String.format("%.1f", doing);
+                            String targetStr = String.format("%.1f",target);
+                            String done;
+                            String dateEnd = habitSnapshot.child("ThoiGianKetThuc").getValue(String.class);
+
+                            if(status.equals("Đã hoàn thành"))
+                            {
+                                doing = target; //Vì đã hoàn thành nên tiến độ thực hiện luôn luôn bằng target
+                                done = targetStr + "/" + targetStr + " " + donVi; //Dữ liệu thay vì doingStr thì dùng targetStr cho tiện
+                            }
+                            else
+                            {
+                                done = doingStr + "/" + targetStr + " " + donVi;
+                            }
+
+                            if(todayIsExpire(dateEnd) && isMaxVol(habitSnapshot.child("ThoiGianThucHien"),maxVol))
+                            {
+                                ref.child(habitId).child("TrangThai").setValue("Đã hoàn thành");
+                            }
+                            else ref.child(habitId).child("TrangThai").setValue("Đang thực hiện");
+
+                            if(indexItem == -1)
+                            {
+                                arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                                adapterHome.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                                adapterHome.notifyDataSetChanged();
+                            }
                         }
                     }
                 }
@@ -189,20 +225,20 @@ public class Home_Activity extends AppCompatActivity {
             }
         });
     }
-    public int calculateTarget(double target, String period)
+    public double calculateTarget(double target, String period)
     {
-        int result = 0;
+        double result = 0;
         if(period.equals("Day"))
-            return (int)target;
+            return target;
         else if(period.equals("Week"))
-            return (int) Math.ceil(target * 1.0 / 7);
+            return (target/ 7);
         else if (period.equals("Month"))
-            return (int) Math.ceil(target * 1.0 / 30);
+            return (target/ 30);
         return result;
     }
     public double getHistoryData(DataSnapshot snapshot)
     {
-        double result = 0;
+        double result = 0.0f;
         for(DataSnapshot timeSnapshot : snapshot.getChildren())
         {
             String time = timeSnapshot.getKey();
@@ -226,7 +262,25 @@ public class Home_Activity extends AppCompatActivity {
         }
         return -1;
     }
-
+    public boolean todayIsExpire(String time)
+    {
+        boolean result = true;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        try {
+            LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
+            result = dateTime.toLocalDate().equals(LocalDateTime.now().toLocalDate());
+        } catch (DateTimeParseException e) {
+            System.err.println("Error parsing date: " + e.getMessage());
+        }
+        return result;
+    }
+    public boolean isMaxVol(DataSnapshot snapshot, Double maxVol)
+    {
+        double result = 0;
+        for(DataSnapshot data : snapshot.getChildren())
+            result += data.getValue(Double.class);
+        return result >= maxVol;
+    }
     public void getReminder() {
         String idUser = getIntent().getStringExtra("idTaiKhoan");
         getConnection(idUser);
