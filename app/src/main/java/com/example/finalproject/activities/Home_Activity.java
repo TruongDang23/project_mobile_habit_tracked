@@ -52,8 +52,6 @@ public class Home_Activity extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference ref;
     private Account acc = new Account();
-    String idUser;
-
     private DayScrollDatePicker mPicker;
     private TextView currentDay;
     private String idUser;
@@ -195,12 +193,12 @@ public class Home_Activity extends AppCompatActivity {
 
                             if(indexItem == -1)
                             {
-                                arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                                arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
                                 adapterHome.notifyDataSetChanged();
                             }
                             else
                             {
-                                arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                                arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
                                 adapterHome.notifyDataSetChanged();
                             }
                         }
