@@ -69,8 +69,6 @@ public class Home_Activity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         acc = (Account) b.getSerializable("user_account");
 
-        String idTaiKhoan = getIntent().getStringExtra("idTaiKhoan");
-
         idUser = getIntent().getStringExtra("idTaiKhoan");
 
 
@@ -97,10 +95,10 @@ public class Home_Activity extends AppCompatActivity {
                 bundle.putSerializable("user_account", acc);
                 intent.putExtras(bundle);
                 intent.putExtra("idThoiQuen", arrayListHome.get(position).getHabitId());
-                intent.putExtra("idTaiKhoan", idTaiKhoan);
+                intent.putExtra("idTaiKhoan", idUser);
                 Log.d("HabitID", arrayListHome.get(position).getHabitId());
                 Log.d("Username", acc.getUsername());
-                Log.d("idTaiKhoan", idTaiKhoan);
+                Log.d("idTaiKhoan", idUser);
                 startActivity(intent);
             }
         });
@@ -155,8 +153,6 @@ public class Home_Activity extends AppCompatActivity {
     }
     public void getListHabit()
     {
-        idUser = getIntent().getStringExtra("idTaiKhoan");
-
         getConnection(idUser);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -282,7 +278,6 @@ public class Home_Activity extends AppCompatActivity {
         return result >= maxVol;
     }
     public void getReminder() {
-        String idUser = getIntent().getStringExtra("idTaiKhoan");
         getConnection(idUser);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
