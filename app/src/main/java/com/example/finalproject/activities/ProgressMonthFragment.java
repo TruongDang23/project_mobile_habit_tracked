@@ -2,16 +2,28 @@ package com.example.finalproject.activities;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.finalproject.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +32,9 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
  */
 public class ProgressMonthFragment extends Fragment {
     private MaterialCalendarView calendar;
-
+    private Set<CalendarDay> habitDays = new HashSet<>();
+    private FirebaseDatabase dataBase;
+    private DatabaseReference ref;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -70,7 +84,10 @@ public class ProgressMonthFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    public void getConnection(String userId,String habbitId){
+        dataBase = FirebaseDatabase.getInstance();
+        ref = dataBase.getReference("Habit_Tracker").child("Du_Lieu").child(userId).child(habbitId);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,6 +99,7 @@ public class ProgressMonthFragment extends Fragment {
         Log.d("idTaiKhoan m", idTaiKhoan);
         calendar = view.findViewById(R.id.calendarView);
         setupCalendar();
+        highlightDays();
         // Inflate the layout for this fragment
         return view;
     }
@@ -89,9 +107,34 @@ public class ProgressMonthFragment extends Fragment {
     private void setupCalendar() {
         calendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_MULTIPLE);
         calendar.setDateSelected(CalendarDay.today(), true);
-        calendar.setDateSelected(CalendarDay.from(2024, 3, 20), true);
-        calendar.setDateSelected(CalendarDay.from(2024, 3, 21), true);
+        calendar.setDateSelected(CalendarDay.today(), true);
+        for (CalendarDay day : habitDays) {
+            calendar.setDateSelected(day, true);
+        }
 
 
+    }
+    public void highlightDays() {
+        String idHabit = getArguments().getString("idHabit");
+        String idTaiKhoan = getArguments().getString("idTaiKhoan");
+        getConnection(idTaiKhoan,idHabit);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot timeSnapshot : snapshot.child("ThoiGianThucHien").getChildren()) {
+                        String time = timeSnapshot.getKey();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm:ssa");
+                        LocalDateTime parsedDateTime = LocalDateTime.parse(time, formatter);
+                        CalendarDay day = CalendarDay.from(parsedDateTime.getYear(), parsedDateTime.getMonthValue(), parsedDateTime.getDayOfMonth());
+                        habitDays.add(day);
+                    }
+
+                setupCalendar();
+            }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+        }
+    });
     }
 }

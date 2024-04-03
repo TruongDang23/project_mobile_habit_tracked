@@ -382,51 +382,12 @@ public class ProgressActivity extends AppCompatActivity {
         dataBase.getReference("Habit_Tracker").child("Du_Lieu").child(userId).child(habbitId).child("TrangThai").setValue("Đã Xóa");
     }
     public void editHabit(String idhabit, String idTaiKhoan){
-        getConnection(idTaiKhoan,idhabit);
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String name=snapshot.child("Ten").getValue(String.class);
-                String description=snapshot.child("MoTa").getValue(String.class);
-                double increase=snapshot.child("DonViTang").getValue(Double.class);
-                String timeRange=snapshot.child("ThoiDiem").getValue(String.class);
-                String reminder=snapshot.child("ThoiGianNhacNho").getValue(String.class);
-                String reminderMessage=snapshot.child("LoiNhacNho").getValue(String.class);
-                String start=snapshot.child("ThoiGianBatDau").getValue(String.class);
-                String end=snapshot.child("ThoiGianKetThuc").getValue(String.class);
-                String unit=snapshot.child("DonVi").getValue(String.class);
-                Integer goal=snapshot.child("MucTieu").getValue(Integer.class);
-                String period=snapshot.child("KhoangThoiGian").getValue(String.class);
-
-                Habit habit=new Habit();
-
-                habit.setTen(name);
-                habit.setDonVi(unit);
-                habit.setDonViTang(increase);
-                habit.setKhoangThoiGian(period);
-                habit.setLoiNhacNho(reminderMessage);
-                habit.setMoTa(description);
-                habit.setMucTieu(goal);
-                habit.setThoiDiem(timeRange);
-                habit.setThoiGianBatDau(start);
-                habit.setThoiGianKetThuc(end);
-                habit.setThoiGianNhacNho(reminder);
-
                 Intent i = new Intent(ProgressActivity.this, Edit_habit.class );
                 // Tạo Bundle và đặt đối tượng habit vào Bundle
                 Bundle bundlehabit = new Bundle();
-                bundlehabit.putSerializable("habit", habit);
                 i.putExtra("idTaiKhoan",idTaiKhoan);
                 i.putExtra("idThoiQuen",idhabit);
                 i.putExtras(bundlehabit);
                 startActivity(i);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ProgressActivity.this, "Lỗi khi đọc dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 }
