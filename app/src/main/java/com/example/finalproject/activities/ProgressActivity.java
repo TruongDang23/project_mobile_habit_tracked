@@ -92,7 +92,7 @@ public class ProgressActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteHabit(idTaiKhoan,idHabit);
+                deleteHabit(idHabit,idTaiKhoan);
             }
         });
         btnInfor.setOnClickListener(new View.OnClickListener() {
@@ -257,6 +257,8 @@ public class ProgressActivity extends AppCompatActivity {
 
 
     public void deleteHabit(String userId,String habbitId){
+        String idHabit = getIntent().getStringExtra("idThoiQuen");
+        String idTaiKhoan = getIntent().getStringExtra("idTaiKhoan");
         AlertDialog.Builder builder = new AlertDialog.Builder(ProgressActivity.this);
         LayoutInflater inflater = getLayoutInflater();
 
@@ -275,7 +277,7 @@ public class ProgressActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Xóa thối quen
-                        chageTrangThai(userId,habbitId);
+                        chageTrangThai(idTaiKhoan,idHabit);
                         Toast.makeText(getApplicationContext(), "Deleted successfully", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -379,7 +381,7 @@ public class ProgressActivity extends AppCompatActivity {
     }
     public void chageTrangThai(String userId,String habbitId){
         dataBase = FirebaseDatabase.getInstance();
-        dataBase.getReference("Habit_Tracker").child("Du_Lieu").child(userId).child(habbitId).child("TrangThai").setValue("Đã Xóa");
+        dataBase.getReference("Habit_Tracker").child("Du_Lieu").child(userId).child(habbitId).child("TrangThai").setValue("Đã xóa");
     }
     public void editHabit(String idhabit, String idTaiKhoan){
                 Intent i = new Intent(ProgressActivity.this, Edit_habit.class );
