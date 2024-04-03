@@ -164,7 +164,7 @@ public class ProgressWeekFragment extends Fragment {
                             if (x_values.get(i).equals("")) {
                                 barEntriesArrayList.add(new BarEntry(i, null));
                             } else {
-                                float percentDay = calculateIncrease(dataSnapshot.child("ThoiGianThucHien"), mucTieuNgay, i+1);
+                                float percentDay = calculateIncrease(dataSnapshot.child("ThoiGianThucHien"), mucTieuNgay, i+1, donViTang);
                                 barEntriesArrayList.add(new BarEntry(i, percentDay));
                             }
                         }
@@ -213,7 +213,7 @@ public class ProgressWeekFragment extends Fragment {
         String[] thoiGianKetThucArr = thoiGianKetThuc.split("-");
         LocalDate ngayBatDau = LocalDate.of(Integer.parseInt(thoiGianBatDauArr[2]), Integer.parseInt(thoiGianBatDauArr[1]), Integer.parseInt(thoiGianBatDauArr[0]));
         LocalDate ngayKetThuc = LocalDate.of(Integer.parseInt(thoiGianKetThucArr[2]), Integer.parseInt(thoiGianKetThucArr[1]), Integer.parseInt(thoiGianKetThucArr[0]));
-        int thoiGianThucHien = ngayKetThuc.getDayOfYear() - ngayBatDau.getDayOfYear();
+        int thoiGianThucHien = ngayKetThuc.getDayOfYear() - ngayBatDau.getDayOfYear() + 1;
         return thoiGianThucHien;
     }
     private float calculateMaxAxis(double mucTieu, int thoiGianThucHien) {
@@ -233,7 +233,7 @@ public class ProgressWeekFragment extends Fragment {
         return 0;
     }
     // Hàm tính toán độ tăng của một thói quen trong ngày
-    private float calculateIncrease(DataSnapshot dataSnapshot, float mucTieuNgay, int ngay) {
+    private float calculateIncrease(DataSnapshot dataSnapshot, float mucTieuNgay, int ngay, double donViTang) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm:ssa");
         int currentMonth = LocalDateTime.now().getMonthValue();
         double value = 0;
@@ -248,7 +248,7 @@ public class ProgressWeekFragment extends Fragment {
             }
         }
         // Tính phần trăm value so với mucTieuNgay
-        double increase = Math.round((value * 100.0* 100.0 / mucTieuNgay)/ 100.0);
+        double increase = Math.round((value* 100.0* 100.0 / mucTieuNgay)/ 100.0);
         return (float) increase;
     }
 
