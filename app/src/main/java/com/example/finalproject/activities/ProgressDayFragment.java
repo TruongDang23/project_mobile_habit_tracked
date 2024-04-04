@@ -124,9 +124,11 @@ public class ProgressDayFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     try {
-                        double muctieu = dataSnapshot.child("MucTieu").getValue(Double.class);
+                        double target = dataSnapshot.child("MucTieu").getValue(Double.class);
+                        String period = dataSnapshot.child("KhoangThoiGian").getValue(String.class);
+                        target = calculateTarget(target, period);
                         String donvi = dataSnapshot.child("DonVi").getValue(String.class);
-                        tvTodayProgress.setText("Target "+muctieu+" "+donvi);
+                        tvTodayProgress.setText("Target "+String.format("%.1f", target)+" "+donvi);
 
                         // Tính tổng khối lượng công việc đã thực hiện trong ngày
                         double tongKhoiLuong = 0;
@@ -143,8 +145,8 @@ public class ProgressDayFragment extends Fragment {
                             }
                         }
 
-                        tvCurrentProgress.setText(String.valueOf(tongKhoiLuong)+" "+donvi);
-                        loadPieChartData(tongKhoiLuong,muctieu);
+                        tvCurrentProgress.setText(String.format("%.1f", tongKhoiLuong)+" "+donvi);
+                        loadPieChartData(tongKhoiLuong,target);
                         pieChart.invalidate();
                     }catch (Exception e){
                         Log.d("Error", e.getMessage());
@@ -159,6 +161,17 @@ public class ProgressDayFragment extends Fragment {
                 Toast.makeText(getContext(), "Lỗi khi đọc dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public double calculateTarget(double target, String period)
+    {
+        double result = 0;
+        if(period.equals("Day"))
+            return target;
+        else if(period.equals("Week"))
+            return (target/ 7);
+        else if (period.equals("Month"))
+            return (target/ 30);
+        return result;
     }
     private void setUpPieChart() {
         pieChart.setUsePercentValues(false);
