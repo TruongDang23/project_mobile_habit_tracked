@@ -12,9 +12,6 @@ public class ListviewHomeTest implements Serializable {
     private double donViTang;
     private String status;
     private Double doing;
-    public ListviewHomeTest() {
-    }
-
     public ListviewHomeTest(String habitID,String nameHabit, String section, String timeHabit, String doneProgress, int done, double donVi, String status, Double doing) {
         this.habitId = habitID;
         this.nameHabit = nameHabit;

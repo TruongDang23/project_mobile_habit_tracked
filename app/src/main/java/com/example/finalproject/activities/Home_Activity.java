@@ -199,6 +199,7 @@ public class Home_Activity extends AppCompatActivity {
                             if(todayIsExpire(dateEnd) && isMaxVol(habitSnapshot.child("ThoiGianThucHien"),maxVol))
                             {
                                 ref.child(habitId).child("TrangThai").setValue("Đã hoàn thành");
+                                Toast.makeText(Home_Activity.this,"Chúc mừng bạn đã hoàn thành tiến độ",Toast.LENGTH_SHORT).show();
                             }
                             else ref.child(habitId).child("TrangThai").setValue("Đang thực hiện");
 
