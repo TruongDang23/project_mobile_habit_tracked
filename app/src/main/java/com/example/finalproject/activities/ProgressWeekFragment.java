@@ -154,7 +154,7 @@ public class ProgressWeekFragment extends Fragment {
                         habitWeek.setTrangThai(trangThai);
                         double donViTang = dataSnapshot.child("DonViTang").getValue(Double.class);
                         habitWeek.setDonViTang(donViTang);
-                        float mucTieuNgay = calculateMaxAxis(muctieu, thoiGianThucHien);
+                        float mucTieuNgay = calculateMaxAxis(muctieu, khoangThoiGianInt);
                         habitWeek.setMucTieuNgay(mucTieuNgay);
 
                         // Set up BarChart
@@ -220,6 +220,7 @@ public class ProgressWeekFragment extends Fragment {
         //int maxAxis = (int) Math.ceil(mucTieu*1.0 / thoiGianThucHien);
         double result = mucTieu * 1.0 / thoiGianThucHien;
         double roundedResult = Math.round(result * 100.0) / 100.0;
+        Log.d("roundedResult", String.valueOf(roundedResult));
         return (float) roundedResult;
     }
     private int getKhoangThoiGian(String khoangThoiGian) {
@@ -247,6 +248,7 @@ public class ProgressWeekFragment extends Fragment {
                 value += snapshot.getValue(Double.class);
             }
         }
+        Log.d("value", String.valueOf(value));
         // Tính phần trăm value so với mucTieuNgay
         double increase = Math.round((value* 100.0* 100.0 / mucTieuNgay)/ 100.0);
         return (float) increase;

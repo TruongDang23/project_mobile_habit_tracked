@@ -46,8 +46,6 @@ public class Progress_total extends AppCompatActivity {
     int[] perfectArr = new int[32];
     private MaterialCalendarView calendar;
     private Set<CalendarDay> habitDays = new HashSet<>();
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +68,6 @@ public class Progress_total extends AppCompatActivity {
         ibClock = (ImageButton) findViewById(R.id.ib_clock);
 
         calendar = (MaterialCalendarView) findViewById(R.id.calendarView);
-
-        getBestStreaks();
         getHabitDone();
         getPerfectDay();
 
