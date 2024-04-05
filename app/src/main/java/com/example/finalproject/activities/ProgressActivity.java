@@ -92,7 +92,7 @@ public class ProgressActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteHabit(idHabit,idTaiKhoan);
+                deleteHabit(idTaiKhoan,idHabit);
             }
         });
         btnInfor.setOnClickListener(new View.OnClickListener() {
