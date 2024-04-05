@@ -193,16 +193,23 @@ public class ProgressDayFragment extends Fragment {
     private void loadPieChartData(double tongKhoiLuong, double muctieu) {
         // creating data values
         ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry((float) (tongKhoiLuong / muctieu * 100), ""));
-        entries.add(new PieEntry((float) (100 - tongKhoiLuong / muctieu * 100), ""));
+
+        if (tongKhoiLuong >= muctieu) {
+            // Nếu tổng khối lượng lớn hơn hoặc bằng mục tiêu, thêm một phần tử với giá trị là 100%
+            entries.add(new PieEntry(100f, ""));
+        } else {
+            // Nếu tổng khối lượng nhỏ hơn mục tiêu, tính phần trăm và thêm vào danh sách
+            float percentageCompleted = (float) (tongKhoiLuong / muctieu * 100);
+            entries.add(new PieEntry(percentageCompleted, ""));
+            entries.add(new PieEntry(100 - percentageCompleted, ""));
+        }
 
         // creating dataset
         PieDataSet dataset = new PieDataSet(entries, "");
         dataset.setSliceSpace(3f);
         dataset.setSelectionShift(5f);
         dataset.setDrawValues(false);
-//        dataset.setColors(ColorTemplate.JOYFUL_COLORS);
-        int [] colors = {R.color.Blue, R.color.white};
+        int[] colors = {R.color.Blue, R.color.white};
         dataset.setColors(colors, getContext());
 
         // creating data
@@ -213,4 +220,5 @@ public class ProgressDayFragment extends Fragment {
         // setting data
         pieChart.setData(data);
     }
+
 }

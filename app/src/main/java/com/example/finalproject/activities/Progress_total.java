@@ -74,7 +74,6 @@ public class Progress_total extends AppCompatActivity {
         getBestStreaks();
         getHabitDone();
         getPerfectDay();
-        highlightDays();
 
         txtBestSteaks.setText(Integer.toString(bestStreaks));
 
@@ -128,29 +127,6 @@ public class Progress_total extends AppCompatActivity {
     public void getBestStreaks()
     {
 
-    }
-    public void highlightDays() {
-        getConnection(idUser);
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot habitSnapshot : snapshot.getChildren()) {
-                    for (DataSnapshot timeSnapshot : habitSnapshot.child("ThoiGianThucHien").getChildren()) {
-                        String time = timeSnapshot.getKey();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm:ssa");
-                        LocalDateTime parsedDateTime = LocalDateTime.parse(time, formatter);
-                        CalendarDay day = CalendarDay.from(parsedDateTime.getYear(), parsedDateTime.getMonthValue(), parsedDateTime.getDayOfMonth());
-                        habitDays.add(day);
-                    }
-                }
-                setupCalendar();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Progress_total.this, "Lỗi khi đọc dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void setupCalendar() {
@@ -211,6 +187,7 @@ public class Progress_total extends AppCompatActivity {
                     }
                     countPerfectDay();
                     countBestStreaks();
+                    setupCalendar();
                 }
             }
 
@@ -256,8 +233,11 @@ public class Progress_total extends AppCompatActivity {
         perfectDay = 0;
         for(int i = 0; i < 32; i++)
         {
-            if(perfectArr[i] == numHabit)
+            if(perfectArr[i] == numHabit){
                 perfectDay++;
+                habitDays.add(CalendarDay.from(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue(), i));
+            }
+
         }
         txtPerfectDay.setText(Integer.toString(perfectDay));
     }
