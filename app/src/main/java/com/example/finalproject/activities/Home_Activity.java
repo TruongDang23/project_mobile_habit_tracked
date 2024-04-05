@@ -36,6 +36,8 @@ import com.harrywhewell.scrolldatepicker.OnDateSelectedListener;
 
 import org.joda.time.LocalDate;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -202,12 +204,12 @@ public class Home_Activity extends AppCompatActivity {
 
                             if(indexItem == -1)
                             {
-                                arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                                arrayListHome.add(new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang,status,doing));
                                 adapterHome.notifyDataSetChanged();
                             }
                             else
                             {
-                                arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang));
+                                arrayListHome.set(indexItem, new ListviewHomeTest(habitId,nameHabit,section,time,done,(int) Math.ceil(doing * 100.0 / target),donViTang,status,doing));
                                 adapterHome.notifyDataSetChanged();
                             }
                         }
@@ -223,13 +225,16 @@ public class Home_Activity extends AppCompatActivity {
     }
     public double calculateTarget(double target, String period)
     {
-        double result = 0;
+        double result = 0.0;
+        BigDecimal format;
         if(period.equals("Day"))
-            return target;
+            result = target;
         else if(period.equals("Week"))
-            return (target/ 7);
+            result = (target/ 7);
         else if (period.equals("Month"))
-            return (target/ 30);
+            result = (target/ 30);
+        format = new BigDecimal(result).setScale(1, RoundingMode.HALF_UP);
+        result = format.doubleValue();
         return result;
     }
     public double getHistoryData(DataSnapshot snapshot)

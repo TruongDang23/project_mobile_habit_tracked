@@ -10,11 +10,12 @@ public class ListviewHomeTest implements Serializable {
     private String doneProgress;
     private int done;
     private double donViTang;
-
+    private String status;
+    private Double doing;
     public ListviewHomeTest() {
     }
 
-    public ListviewHomeTest(String habitID,String nameHabit, String section, String timeHabit, String doneProgress, int done, double donVi) {
+    public ListviewHomeTest(String habitID,String nameHabit, String section, String timeHabit, String doneProgress, int done, double donVi, String status, Double doing) {
         this.habitId = habitID;
         this.nameHabit = nameHabit;
         this.section = section;
@@ -22,6 +23,24 @@ public class ListviewHomeTest implements Serializable {
         this.doneProgress = doneProgress;
         this.done = done;
         this.donViTang = donVi;
+        this.status = status;
+        this.doing = doing;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Double getDoing() {
+        return doing;
+    }
+
+    public void setDoing(Double doing) {
+        this.doing = doing;
     }
 
     public String getSection() {

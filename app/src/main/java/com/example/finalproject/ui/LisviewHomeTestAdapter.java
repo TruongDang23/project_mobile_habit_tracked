@@ -61,21 +61,34 @@ public class LisviewHomeTestAdapter extends ArrayAdapter<ListviewHomeTest> {
         progressBar.setProgress(listviewHomeTest.getDone());
 
         ImageButton ibPlus = (ImageButton) convertView.findViewById(R.id.ibHomeListPlus);
+        ImageButton ibMinus = (ImageButton) convertView.findViewById(R.id.ibHomeListMinus);
         ibPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getConnection(idUser, listviewHomeTest.getHabitId());
-                increaseData(listviewHomeTestsArrayList.get(position).getDonViTang());
+                if(listviewHomeTest.getStatus().equals("Đã hoàn thành"))
+                    Toast.makeText(context,"Bạn không thể cập nhật tiến độ",Toast.LENGTH_SHORT).show();
+                else
+                {
+                    getConnection(idUser, listviewHomeTest.getHabitId());
+                    increaseData(listviewHomeTestsArrayList.get(position).getDonViTang());
+                }
             }
         });
-        ImageButton ibMinus = (ImageButton) convertView.findViewById(R.id.ibHomeListMinus);
         ibMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getConnection(idUser, listviewHomeTest.getHabitId());
-                decreaseData(listviewHomeTestsArrayList.get(position).getDonViTang());
+                if(listviewHomeTest.getStatus().equals("Đã hoàn thành"))
+                    Toast.makeText(context,"Bạn không thể cập nhật tiến độ",Toast.LENGTH_SHORT).show();
+                else if (listviewHomeTest.getDoing() <= 0)
+                    Toast.makeText(context,"Bạn không thể cập nhật tiến độ",Toast.LENGTH_SHORT).show();
+                else
+                {
+                    getConnection(idUser, listviewHomeTest.getHabitId());
+                    decreaseData(listviewHomeTestsArrayList.get(position).getDonViTang());
+                }
             }
         });
+
         return convertView;
     }
     public void getConnection(String idUser, String idHabit)
