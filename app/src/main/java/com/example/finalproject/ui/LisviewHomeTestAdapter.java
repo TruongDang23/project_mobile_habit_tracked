@@ -2,6 +2,7 @@ package com.example.finalproject.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -55,7 +56,7 @@ public class LisviewHomeTestAdapter extends ArrayAdapter<ListviewHomeTest> {
 
         ListviewHomeTest listviewHomeTest = listviewHomeTestsArrayList.get(position);
         nameHabit.setText(listviewHomeTest.getNameHabit());
-        section.setText(listviewHomeTest.getSection());
+        section.setText((listviewHomeTest.getStatus().equals("Đã hoàn thành")) ? "Đã hoàn thành" : listviewHomeTest.getSection());
         timeHabit.setText(listviewHomeTest.getTimeHabit());
         doneProgress.setText(listviewHomeTest.getDoneProgress());
         progressBar.setProgress(listviewHomeTest.getDone());
