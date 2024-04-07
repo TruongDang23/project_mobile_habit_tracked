@@ -127,7 +127,6 @@ public class Progress_total extends AppCompatActivity {
 
     private void setupCalendar() {
         calendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
-        calendar.setDateSelected(CalendarDay.today(), true);
         for (CalendarDay day : habitDays) {
             calendar.setDateSelected(day, true);
         }
