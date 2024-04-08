@@ -105,14 +105,10 @@ public class ProgressMonthFragment extends Fragment {
     }
 
     private void setupCalendar() {
-        calendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_MULTIPLE);
-        calendar.setDateSelected(CalendarDay.today(), true);
-        calendar.setDateSelected(CalendarDay.today(), true);
+        calendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
         for (CalendarDay day : habitDays) {
             calendar.setDateSelected(day, true);
         }
-
-
     }
     public void highlightDays() {
         String idHabit = getArguments().getString("idHabit");

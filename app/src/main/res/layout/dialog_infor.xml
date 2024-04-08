@@ -59,8 +59,7 @@
         android:id="@+id/txt_layout_decription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edt_background"
-        android:hint="Decription">
+        android:background="@drawable/edt_background">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_decription"
@@ -192,8 +191,7 @@
         android:id="@+id/txt_layout_reminder_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edt_background"
-        android:hint="Reminder Message">
+        android:background="@drawable/edt_background">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_reminder_message"
