@@ -83,10 +83,10 @@ public class ForgotActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot taiKhoanSnapshot : dataSnapshot.getChildren()) {
-                        String currentUsername = taiKhoanSnapshot.child("TenDangNhap").getValue(String.class);
-                        String currentGmail = taiKhoanSnapshot.child("Gmail").getValue(String.class);
+                        String currentUsername = taiKhoanSnapshot.child("username").getValue(String.class);
+                        String currentGmail = taiKhoanSnapshot.child("gmail").getValue(String.class);
                         if (username.equals(currentUsername) && gmail.equals(currentGmail)) {
-                            String currentPassword = taiKhoanSnapshot.child("MatKhau").getValue(String.class);
+                            String currentPassword = taiKhoanSnapshot.child("password").getValue(String.class);
                             String senderEmail = "01215165330asd@gmail.com"; // Địa chỉ Gmail của bạn
                             String senderPassword = "uwcpdnjcsxhchtcv"; // Mật khẩu Gmail của bạn
                             String recipientEmail = gmail; // Địa chỉ Gmail của người nhận

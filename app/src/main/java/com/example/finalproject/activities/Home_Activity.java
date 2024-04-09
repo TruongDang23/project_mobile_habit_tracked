@@ -129,18 +129,30 @@ public class Home_Activity extends AppCompatActivity {
         ibMusic = findViewById(R.id.ib_music);
         ibMusic.setOnClickListener(v -> {
             Intent i = new Intent(Home_Activity.this, SongsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
+            i.putExtra("idTaiKhoan", idUser);
+            i.putExtras(bundle);
             startActivity(i);
         });
 
         ibClock = findViewById(R.id.ib_clock);
         ibClock.setOnClickListener(v -> {
             Intent i = new Intent(Home_Activity.this, Pomorodo.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
+            i.putExtra("idTaiKhoan", idUser);
+            i.putExtras(bundle);
             startActivity(i);
         });
         
         ibSettings = findViewById(R.id.ib_settings);
         ibSettings.setOnClickListener(v -> {
             Intent i = new Intent(Home_Activity.this, Setting.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
+            i.putExtra("idTaiKhoan", idUser);
+            i.putExtras(bundle);
             startActivity(i);
         });
 

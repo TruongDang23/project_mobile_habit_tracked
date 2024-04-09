@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 
 import com.example.finalproject.R;
+import com.example.finalproject.model.Account;
 import com.example.finalproject.model.SongTestGridView;
 import com.example.finalproject.ui.SongTestAdapter;
 
@@ -18,10 +19,17 @@ public class SongsActivity extends AppCompatActivity {
     GridView gridView;
     ImageButton ibHome, ibGraph, ibMusic, ibClock, ibSetting;
 
+    private Account acc = new Account();
+    private String idUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songs);
+
+        Bundle b = getIntent().getExtras();
+        acc = (Account) b.getSerializable("user_account");
+
+        idUser = getIntent().getStringExtra("idTaiKhoan");
 
         gridView = findViewById(R.id.gridViewSong);
 
@@ -51,13 +59,21 @@ public class SongsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SongsActivity.this, Home_Activity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", acc);
+                intent.putExtra("idTaiKhoan", idUser);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
         ibGraph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SongsActivity.this, ProgressActivity.class);
+                Intent intent = new Intent(SongsActivity.this, Progress_total.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", acc);
+                intent.putExtra("idTaiKhoan", idUser);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -65,6 +81,10 @@ public class SongsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SongsActivity.this, SongsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", acc);
+                intent.putExtra("idTaiKhoan", idUser);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -72,6 +92,10 @@ public class SongsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SongsActivity.this, Pomorodo.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", acc);
+                intent.putExtra("idTaiKhoan", idUser);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -79,6 +103,10 @@ public class SongsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SongsActivity.this, Setting.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", acc);
+                intent.putExtra("idTaiKhoan", idUser);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

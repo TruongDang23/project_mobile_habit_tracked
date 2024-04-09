@@ -109,7 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     long count = dataSnapshot.getChildrenCount() + 1;
                     for (DataSnapshot taiKhoanSnapshot : dataSnapshot.getChildren()) {
-                        String currentUsername = taiKhoanSnapshot.child("TenDangNhap").getValue(String.class);
+                        String currentUsername = taiKhoanSnapshot.child("username").getValue(String.class);
                         if (desiredUsername.equals(currentUsername)) {
                             Toast.makeText(SignUpActivity.this, "Tên Đăng Nhập Đã Tồn Tại", Toast.LENGTH_SHORT).show();
                             return;

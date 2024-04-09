@@ -94,6 +94,10 @@ public class Progress_total extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Progress_total.this, SongsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", acc);
+                intent.putExtra("idTaiKhoan", idUser);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -102,6 +106,10 @@ public class Progress_total extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Progress_total.this, Pomorodo.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", acc);
+                intent.putExtra("idTaiKhoan", idUser);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -111,6 +119,10 @@ public class Progress_total extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Progress_total.this, Setting.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user_account", acc);
+                intent.putExtra("idTaiKhoan", idUser);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
