@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class ProgressActivity extends AppCompatActivity {
     private Habit habit=new Habit();
     private int[] perfectArr = new int[32];
     TextView txtDIM, txtTTD, txtVTT, txtCS;
+    ImageButton ibHome, ibMusic, ibClock, ibSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,6 @@ public class ProgressActivity extends AppCompatActivity {
         // Dung cho viec chuyen tab
         tabLayout.setupWithViewPager(viewPagerProgress);
 
-
         //Xóa thói quen
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +105,46 @@ public class ProgressActivity extends AppCompatActivity {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {editHabit(idHabit,idTaiKhoan);}
+        });
+        ibHome = findViewById(R.id.ib_home);
+        ibHome.setOnClickListener(v -> {
+            Intent i = new Intent(ProgressActivity.this, Home_Activity.class);
+            // Tạo Bundle và đặt đối tượng Account vào Bundle
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
+            i.putExtra("idTaiKhoan", idTaiKhoan);
+            i.putExtras(bundle);
+            startActivity(i);
+        });
+
+        ibMusic = findViewById(R.id.ib_music);
+        ibMusic.setOnClickListener(v -> {
+            Intent i = new Intent(ProgressActivity.this, SongsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
+            i.putExtra("idTaiKhoan", idTaiKhoan);
+            i.putExtras(bundle);
+            startActivity(i);
+        });
+
+        ibClock = findViewById(R.id.ib_clock);
+        ibClock.setOnClickListener(v -> {
+            Intent i = new Intent(ProgressActivity.this, Pomorodo.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
+            i.putExtra("idTaiKhoan", idTaiKhoan);
+            i.putExtras(bundle);
+            startActivity(i);
+        });
+
+        ibSettings = findViewById(R.id.ib_settings);
+        ibSettings.setOnClickListener(v -> {
+            Intent i = new Intent(ProgressActivity.this, Setting.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
+            i.putExtra("idTaiKhoan", idTaiKhoan);
+            i.putExtras(bundle);
+            startActivity(i);
         });
     }
 
