@@ -7,17 +7,6 @@
     android:background="#d0ebff"
     tools:context=".activities.ProgressActivity">
 
-    <ImageButton
-        android:id="@+id/imgLogin_Forgot"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@null"
-        android:scaleType="centerInside"
-        android:padding="10dp"
-        android:src="@drawable/progressback"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="193dp"
         android:layout_height="83dp"
@@ -368,7 +357,7 @@
         android:id="@+id/tvDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:text="Running"
         android:textColor="#187BCE"
