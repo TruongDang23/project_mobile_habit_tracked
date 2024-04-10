@@ -49,6 +49,7 @@ public class ProgressWeekFragment extends Fragment {
     private HabitWeek habitWeek = new HabitWeek();
     private BarChart barChart;
     private List<String> x_values = Arrays.asList("", "", "", "", "", "", "");
+    private List<String> x_values_day = Arrays.asList("", "", "", "", "", "", "");
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -164,7 +165,8 @@ public class ProgressWeekFragment extends Fragment {
                             if (x_values.get(i).equals("")) {
                                 barEntriesArrayList.add(new BarEntry(i, null));
                             } else {
-                                float percentDay = calculateIncrease(dataSnapshot.child("ThoiGianThucHien"), mucTieuNgay, i+1, donViTang);
+                                int ngay = Integer.parseInt(x_values_day.get(i));
+                                float percentDay = calculateIncrease(dataSnapshot.child("ThoiGianThucHien"), mucTieuNgay, ngay, donViTang);
                                 barEntriesArrayList.add(new BarEntry(i, percentDay));
                             }
                         }
@@ -267,19 +269,23 @@ public class ProgressWeekFragment extends Fragment {
                 if (day <= 0) {
                     day += 30;
                 }
+                x_values_day.set(6 - i, String.valueOf(day));
                 String dayMonth = day + "/" + currentMonth;
                 x_values.set(6 - i, dayMonth);
             }
         } else if (currentDay <= 7) {
             for (int i = 1; i < currentDay + 1; i++) {
+                x_values_day.set(i-1, String.valueOf(i));
                 String dayMonth = i + "/" + currentMonth;
                 x_values.set(i-1, dayMonth);
             }
             for (int i = currentDay +1; i < 8; i++) {
+                x_values_day.set(i-1, "");
                 x_values.set(i-1, "");
             }
         }
         Log.d("x_values", x_values.toString());
+        Log.d("x_values_day", x_values_day.toString());
 
     }
     public void getConnection(String idUser, String idHabit) {
