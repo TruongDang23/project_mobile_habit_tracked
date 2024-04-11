@@ -8,7 +8,7 @@
 
 #### 2.1. Sơ đồ use case:
 
-![Alt text](.\app\src\main\res\drawable\usecase_one.png?raw=true)
+![Alt text](./app/src/main/res/drawable/usecase_one.png?raw=true)
 
 #### 2.2. Cấu trúc Database:
 
@@ -523,7 +523,7 @@
 
 #### 2.3. Sơ đồ màn hình:
 
-![Alt text](.\app\src\main\res\drawable\so_do.png?raw=true)
+![Alt text](./app/src/main/res/drawable/so_do.png?raw=true)
 
 #### 2.4. Các công cụ sử dụng:
 
@@ -538,41 +538,41 @@
 
 #### 3.1. Giao diện welcome:
 
-![Alt text](.\app\src\main\res\drawable\wel.png?raw=true)
+![Alt text](./app/src/main/res/drawable/wel.png?raw=true)
 
 #### 3.2. Giao diện đăng kí:
 
-![Alt text](.\app\src\main\res\drawable\dang_ki.png?raw=true)
+![Alt text](./app/src/main/res/drawable/dang_ki.png?raw=true)
 
 #### 3.3. Giao diện quên mật khẩu:
 
-![Alt text](.\app\src\main\res\drawable\quen_pass.png?raw=true)
+![Alt text](./app/src/main/res/drawable/quen_pass.png?raw=true)
 
 #### 3.4. Giao diện Home:
 
-![Alt text](.\app\src\main\res\drawable\home.png?raw=true)
+![Alt text](./app/src/main/res/drawable/home.png?raw=true)
 
 #### 3.5. Giao diện Progress tổng quan:
 
-![Alt text](.\app\src\main\res\drawable\progress_total.png?raw=true)
+![Alt text](./app/src/main/res/drawable/progress_total.png?raw=true)
 
 #### 3.6. Giao diện Progress chi tiết:
 
-![Alt text](.\app\src\main\res\drawable\progress_1.png?raw=true)
-![Alt text](.\app\src\main\res\drawable\progress_2.png?raw=true)
-![Alt text](.\app\src\main\res\drawable\progress_3.png?raw=true)
+![Alt text](./app/src/main/res/drawable/progress_1.png?raw=true)
+![Alt text](./app/src/main/res/drawable/progress_2.png?raw=true)
+![Alt text](./app/src/main/res/drawable/progress_3.png?raw=true)
 
 #### 3.7. Giao diện Music:
 
-![Alt text](.\app\src\main\res\drawable\music.png?raw=true)
+![Alt text](./app/src/main/res/drawable/music.png?raw=true)
 
 #### 3.8. Giao diện Pomodoro:
 
-![Alt text](.\app\src\main\res\drawable\pomo.png?raw=true)
+![Alt text](./app/src/main/res/drawable/pomo.png?raw=true)
 
 #### 3.9. Giao diện Setting:
 
-![Alt text](.\app\src\main\res\drawable\set.png?raw=true)
+![Alt text](./app/src/main/res/drawable/set.png?raw=true)
 
 ### IV. Các kết quả đạt được:
 
