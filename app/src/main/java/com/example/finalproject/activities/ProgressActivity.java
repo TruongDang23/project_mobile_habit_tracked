@@ -320,6 +320,12 @@ public class ProgressActivity extends AppCompatActivity {
                         //Xóa thối quen
                         chageTrangThai(idTaiKhoan,idHabit);
                         Toast.makeText(getApplicationContext(), "Deleted successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ProgressActivity.this, Home_Activity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("user_account", acc);
+                        intent.putExtra("idTaiKhoan", idTaiKhoan);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

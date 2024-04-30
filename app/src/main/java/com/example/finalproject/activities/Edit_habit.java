@@ -175,7 +175,11 @@ public class Edit_habit extends AppCompatActivity {
             Toast.makeText(Edit_habit.this, "Bạn nên nhập mục tiêu lớn hơn để mục tiêu trong một ngày không nhỏ hơn đơn vị tăng", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (isStartDateAfterEndDate(start, end)) {
+            Toast.makeText(Edit_habit.this, "Habit term của bạn chưa hợp lệ", Toast.LENGTH_SHORT).show();
+            return; // Không thực hiện thêm thói quen mới nếu thời gian bắt đầu sau thời gian kết
+            // thúc
+        }
         ref.child("Ten").setValue(name);
         ref.child("DonVi").setValue(unit);
         ref.child("KhoangThoiGian").setValue(period);
@@ -470,5 +474,17 @@ public class Edit_habit extends AppCompatActivity {
                 }
             }
         });
+    }
+    private boolean isStartDateAfterEndDate(String startDate, String endDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        try {
+            Date dateStart = sdf.parse(startDate);
+            Date dateEnd = sdf.parse(endDate);
+            // So sánh thời gian bắt đầu và kết thúc
+            return dateStart.after(dateEnd);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false; // Trả về false nếu có lỗi xảy ra
+        }
     }
 }

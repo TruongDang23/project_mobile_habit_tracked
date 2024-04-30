@@ -110,6 +110,7 @@ public class Home_Activity extends AppCompatActivity {
             Intent intent = new Intent(Home_Activity.this, Create_habit.class);
             // Tạo Bundle và đặt đối tượng Account vào Bundle
             Bundle bundle = new Bundle();
+            bundle.putSerializable("user_account", acc);
             intent.putExtra("idTaiKhoan", idUser);
             intent.putExtras(bundle);
             startActivity(intent);
