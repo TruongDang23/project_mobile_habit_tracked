@@ -574,7 +574,11 @@
 
 ![Alt text](./app/src/main/res/drawable/set.png?raw=true)
 
-### IV. Các kết quả đạt được:
+### IV. Video demo:
+
+[![Watch the video](./app/src/main/res/drawable/nhom2.png)](https://youtu.be/zMvxbD33Nzo)
+
+### V. Các kết quả đạt được:
 
 - Tìm hiểu được hoạt động của một ứng dụng Android
 - Thiết kế giao diện và trải nghiệm người dùng
@@ -582,7 +586,7 @@
 - Quản lý thông tin thói quen
 - Thống kê các thói quen
 
-### V. Hướng phát triển:
+### VI. Hướng phát triển:
 
 - Trong tương lai project sẽ được tìm hiểu kĩ hơn, và đi sâu vào các chắc năng để nâng cấp ứng dụng.
 - Cụ thể cải thiện giao diện thân thiện với người dùng hơn, thêm các chức năng mới như kết nối giữa các người dùng, tạo sân chơi cho mọi người có thể chia sẻ các thói quen, một số chức năng cài đặt về màu sắc,…
